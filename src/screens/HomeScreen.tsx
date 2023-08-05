@@ -1,12 +1,16 @@
-import {View, Text, Button, SafeAreaView} from 'react-native';
+import {Button, SafeAreaView, View} from 'react-native';
 import React from 'react';
+import {Text} from 'react-native-svg';
 import {navigateToScreen} from '@app/navigation';
 
-const Screen1 = () => {
+const HomeScreen = () => {
   return (
-    <View>
+    <View
+      style={{
+        flex: 1,
+      }}>
       <SafeAreaView>
-        <Text>Screen1</Text>
+        <Text>HomeScreen</Text>
         <Text>Hello</Text>
         <Button
           title="Screen1"
@@ -23,7 +27,7 @@ const Screen1 = () => {
         <Button
           title="SettingsScreen"
           onPress={() => {
-            navigateToScreen('HomeScreen');
+            navigateToScreen('SettingsScreen');
           }}
         />
       </SafeAreaView>
@@ -31,4 +35,4 @@ const Screen1 = () => {
   );
 };
 
-export default Screen1;
+export default HomeScreen;

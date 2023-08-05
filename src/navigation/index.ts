@@ -7,5 +7,5 @@ export function getNavigator(): any {
 }
 
 export function navigateToScreen(screen: string, params?: object | null): void {
-  navigatorRef.current.navigate(screen, JSON.stringify(params));
+  navigatorRef.current.navigate(screen, params);
 }
