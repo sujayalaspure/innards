@@ -9,9 +9,9 @@ const Screen2 = () => {
         <Text>Screen2</Text>
         <Text>Hello</Text>
         <Button
-          title="Screen1"
+          title="HomeScreen"
           onPress={() => {
-            navigateToScreen('Screen1');
+            navigateToScreen('HomeScreen');
           }}
         />
         <Button

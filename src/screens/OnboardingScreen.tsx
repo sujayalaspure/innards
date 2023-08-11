@@ -67,6 +67,7 @@ const OnboardingScreen = () => {
       />
       <View style={styles.nextButton}>
         <CircularButton
+          iconName="chevron-right"
           onPress={() => {
             console.log('pressed');
             scrollNext();

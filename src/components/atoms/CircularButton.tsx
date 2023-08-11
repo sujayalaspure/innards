@@ -13,6 +13,9 @@ type Props = {
   onPress: () => void;
   percentage?: number;
   showProgress?: boolean;
+  iconName: string;
+  bgColor?: string;
+  iconColor?: string;
 };
 
 const size = 80;
@@ -21,7 +24,14 @@ const center = size / 2;
 const radius = size / 2 - strokeWidth / 2;
 const circumference = 2 * Math.PI * radius;
 const iconSize = 52;
-const CircularButton = ({percentage = 0, onPress, showProgress}: Props) => {
+const CircularButton = ({
+  percentage = 0,
+  onPress,
+  showProgress,
+  iconName,
+  bgColor,
+  iconColor,
+}: Props) => {
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
   const theta = useSharedValue(0);
@@ -55,14 +65,19 @@ const CircularButton = ({percentage = 0, onPress, showProgress}: Props) => {
                 strokeLinecap="round"
               />
             )}
-            <Circle fill={COLOR.white} cx={center} cy={center} r={radius} />
+            <Circle
+              fill={bgColor || COLOR.white}
+              cx={center}
+              cy={center}
+              r={radius}
+            />
           </G>
         </Svg>
         <Icon
           style={styles.icon}
-          name="chevron-right"
+          name={iconName}
           size={52}
-          color={COLOR.primary}
+          color={iconColor || COLOR.primary}
         />
       </Pressable>
     </View>

@@ -9,6 +9,8 @@ const COLOR = {
   lightGray: '#EEEEEE',
   gray: '#868686',
   blue: '#0081FB',
+  transparent: 'transparent',
+  gradientColor2: '#AEED6F',
 };
 
 export default COLOR;

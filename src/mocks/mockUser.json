@@ -1,0 +1,56 @@
+{
+  "gender": "female",
+  "name": {
+    "title": "Mrs",
+    "first": "Dilay",
+    "last": "Van Dop"
+  },
+  "location": {
+    "street": {
+      "number": 6874,
+      "name": "Dierensteinweg"
+    },
+    "city": "Nispen",
+    "state": "Zeeland",
+    "country": "Netherlands",
+    "postcode": "5730 TE",
+    "coordinates": {
+      "latitude": "35.5483",
+      "longitude": "137.2017"
+    },
+    "timezone": {
+      "offset": "-3:00",
+      "description": "Brazil, Buenos Aires, Georgetown"
+    }
+  },
+  "email": "dilay.vandop@example.com",
+  "login": {
+    "uuid": "3ca5a69e-d58f-40df-a354-7c9d534793b7",
+    "username": "crazyladybug793",
+    "password": "enrico",
+    "salt": "uG9cZ84o",
+    "md5": "5986364bc2b52a3edcdbb35b47bc59fc",
+    "sha1": "af2dc9df9fb4538f3abe06f57d8902cec5c5b7f1",
+    "sha256": "ec96f9e80918a8cbb03f773efd2c9dac637ec1bc6fe6bcc2763dbf33b8bf7a98"
+  },
+  "dob": {
+    "date": "1976-12-15T14:41:27.530Z",
+    "age": 46
+  },
+  "registered": {
+    "date": "2019-10-28T16:18:23.667Z",
+    "age": 3
+  },
+  "phone": "(013) 4527486",
+  "cell": "(06) 08418242",
+  "id": {
+    "name": "BSN",
+    "value": "67333268"
+  },
+  "picture": {
+    "large": "https://randomuser.me/api/portraits/women/32.jpg",
+    "medium": "https://randomuser.me/api/portraits/med/women/32.jpg",
+    "thumbnail": "https://randomuser.me/api/portraits/thumb/women/32.jpg"
+  },
+  "nat": "NL"
+}

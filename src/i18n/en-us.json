@@ -1,0 +1,20 @@
+{
+  "login_heading": "Welcome to Innards",
+  "login_subheading": "Enter your Phone number or Email address for sign in and make your world green",
+  "signup_heading": "Create your Innards Account",
+  "signup_subheading": "Enter your Name, Email and Password for sign up.",
+  "otp_heading": "Enter your OTP",
+  "otp_subheading": "Enter the Code sent to you in your Registered Email ID.",
+  "login": "Login",
+  "signup": "Sign Up",
+  "confirm": "Confirm",
+  "tnctext": "By Signing up you agree to our Terms Conditions & Privacy Policy.",
+  "already_have_acc": "Already have account?",
+  "dont_have_acc": "Don’t have account?",
+  "create_new_acc": "Create new account.",
+  "connect_with": "CONNECT WITH ",
+  "email": "Email Address",
+  "password": "Password",
+  "full_name": "Full Name",
+  "enter_otp": "Enter OTP"
+}

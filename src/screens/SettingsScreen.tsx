@@ -1,16 +1,19 @@
 import {View, Text, SafeAreaView, Button} from 'react-native';
 import React from 'react';
 import {getNavigator} from '@app/navigation';
+import HeaderBar from '@app/components/atoms/HeaderBar';
 
 const SettingsScreen = () => {
   return (
     <View>
+      <HeaderBar showBackButton title="SettingsScreen" />
+
       <SafeAreaView>
         <Text>SettingsScreen</Text>
         <Button
-          title="Screen1"
+          title="HomeScreen"
           onPress={() => {
-            getNavigator().navigate('Screen1');
+            getNavigator().navigate('HomeScreen');
           }}
         />
         <Button

@@ -1,0 +1,68 @@
+[
+  {
+    "id": 26,
+    "title": "Plant Hanger For Home Wall Decoration ",
+    "description": "Boho Decor Plant Hanger For Home Wall Decoration Macrame Wall Hanging Shelf",
+    "price": 41,
+    "discountPercentage": 17.86,
+    "rating": {
+      "rate": 3.4
+    },
+    "stock": 131,
+    "brand": "Boho Decor",
+    "category": "home-decoration",
+    "thumbnail": "https://i.dummyjson.com/data/products/26/thumbnail.jpg",
+    "images": [
+      "https://i.dummyjson.com/data/products/26/1.jpg",
+      "https://i.dummyjson.com/data/products/26/2.jpg",
+      "https://i.dummyjson.com/data/products/26/3.jpg",
+      "https://i.dummyjson.com/data/products/26/4.jpg",
+      "https://i.dummyjson.com/data/products/26/5.jpg",
+      "https://i.dummyjson.com/data/products/26/thumbnail.jpg"
+    ]
+  },
+  {
+    "id": 29,
+    "title": "Handcraft Chinese ",
+    "description": "Handcraft Chinese style art luxury palace hotel villa mansion home decor ceramic vase with brass fruit plate",
+    "price": 60,
+    "discountPercentage": 15.34,
+    "rating": {
+      "rate": 5,
+      "count": 12000
+    },
+    "stock": 7,
+    "brand": "luxury palace",
+    "category": "home-decoration",
+    "thumbnail": "https://i.dummyjson.com/data/products/29/thumbnail.webp",
+    "images": [
+      "https://i.dummyjson.com/data/products/29/1.jpg",
+      "https://i.dummyjson.com/data/products/29/2.jpg",
+      "https://i.dummyjson.com/data/products/29/3.webp",
+      "https://i.dummyjson.com/data/products/29/4.webp",
+      "https://i.dummyjson.com/data/products/29/thumbnail.webp"
+    ]
+  },
+  {
+    "id": 97,
+    "title": "Metal Ceramic Flower",
+    "description": "Metal Ceramic Flower Chandelier Home Lighting American Vintage Hanging Lighting Pendant Lamp",
+    "price": 35,
+    "discountPercentage": 10.94,
+    "rating": {
+      "rate": 4.5,
+      "count": 320
+    },
+    "stock": 146,
+    "brand": "Ifei Home",
+    "category": "lighting",
+    "thumbnail": "https://i.dummyjson.com/data/products/97/thumbnail.jpg",
+    "images": [
+      "https://i.dummyjson.com/data/products/97/1.jpg",
+      "https://i.dummyjson.com/data/products/97/2.jpg",
+      "https://i.dummyjson.com/data/products/97/3.jpg",
+      "https://i.dummyjson.com/data/products/97/4.webp",
+      "https://i.dummyjson.com/data/products/97/thumbnail.jpg"
+    ]
+  }
+]

@@ -1,16 +1,23 @@
-import {Text, Pressable, StyleSheet} from 'react-native';
+import {
+  Text,
+  Pressable,
+  StyleSheet,
+  ActivityIndicator,
+  PressableProps,
+} from 'react-native';
 import React, {ReactNode} from 'react';
 import {moderateScale} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
 import SIZE from '@app/theme/SIZE';
 
-type Props = {
+interface Props extends PressableProps {
   title?: string;
   onPress: () => void;
   style?: any;
   variant?: 'primary' | 'secondary';
   children?: ReactNode;
-};
+  isLoading?: boolean;
+}
 
 const Button = ({
   title,
@@ -18,27 +25,32 @@ const Button = ({
   style,
   variant = 'primary',
   children,
+  isLoading = false,
+  disabled,
+  ...props
 }: Props) => {
+  const textColor = variant === 'primary' ? COLOR.white : COLOR.primary;
+  const buttonColor = variant === 'primary' ? COLOR.primary : COLOR.white;
+  const opacity = disabled ? 0.5 : 1;
   return (
     <Pressable
       onPress={onPress}
       style={[
         styles.container,
         {
-          ...(variant === 'primary'
-            ? styles.primaryStyle
-            : styles.secondaryStyle),
+          backgroundColor: buttonColor,
+          opacity,
         },
         style,
-      ]}>
-      {title && (
+      ]}
+      {...props}>
+      {isLoading && <ActivityIndicator color={textColor} />}
+      {!isLoading && title && (
         <Text
           style={[
             styles.text,
             {
-              ...(variant === 'primary'
-                ? styles.primaryTextStyle
-                : styles.secondaryTextStyle),
+              color: textColor,
             },
           ]}>
           {title?.toUpperCase()}
