@@ -77,47 +77,48 @@ const HomeScreen = () => {
             </View>
           ))}
         </View>
-
         <AdBannerPlace />
-        <Section
-          id={'trending'}
-          scrollEnabled
-          title="Trending Today"
-          actionText="See All"
-          onActionPress={id => {
-            console.log('onActionPress', id);
+        <View style={styles.content}>
+          <Section
+            id={'trending'}
+            scrollEnabled
+            title="Trending Today"
+            actionText="See All"
+            onActionPress={id => {
+              console.log('onActionPress', id);
 
-            setIsModalVisible({
-              show: true,
-              data: id,
-            });
-          }}>
-          {products?.slice(0, 5)?.map((item, i) => (
-            <ProductCardVerticle key={i} onActionPress={() => {}} {...item} />
-          ))}
-        </Section>
-        <Section
-          id={'valueforMoney'}
-          title="Value for Money"
-          actionText="See All">
-          {products?.slice(5, 9)?.map((item, i) => (
-            <ProductCardVerticle key={i} onActionPress={() => {}} {...item} />
-          ))}
-        </Section>
-        <Section
-          id={'influencer'}
-          numColumns={1}
-          scrollEnabled
-          title="Watch Our Influencers"
-          actionText="See All">
-          {[1, 2, 3].map((item, i) => (
-            <InfluencerCard
-              onPress={() => console.log('onPress')}
-              key={i}
-              heading="House plant tips for beginners - 7 Mistakes to avoid. "
-            />
-          ))}
-        </Section>
+              setIsModalVisible({
+                show: true,
+                data: id,
+              });
+            }}>
+            {products?.slice(0, 5)?.map((item, i) => (
+              <ProductCardVerticle key={i} onActionPress={() => {}} {...item} />
+            ))}
+          </Section>
+          <Section
+            id={'valueforMoney'}
+            title="Value for Money"
+            actionText="See All">
+            {products?.slice(5, 9)?.map((item, i) => (
+              <ProductCardVerticle key={i} onActionPress={() => {}} {...item} />
+            ))}
+          </Section>
+          <Section
+            id={'influencer'}
+            numColumns={1}
+            scrollEnabled
+            title="Watch Our Influencers"
+            actionText="See All">
+            {[1, 2, 3].map((item, i) => (
+              <InfluencerCard
+                onPress={() => console.log('onPress')}
+                key={i}
+                heading="House plant tips for beginners - 7 Mistakes to avoid. "
+              />
+            ))}
+          </Section>
+        </View>
       </ScrollView>
       <Modal
         visible={isModalVisible.show}
@@ -140,7 +141,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // paddingHorizontal: moderateScale(16),
+  },
+  content: {
+    paddingHorizontal: moderateScale(16),
   },
   topBar: {
     flexDirection: 'row',

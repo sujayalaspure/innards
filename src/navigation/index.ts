@@ -1,5 +1,9 @@
 import {screenNameTypes} from '@app/navigation/Navigator';
-import {DrawerActions, NavigationProp} from '@react-navigation/native';
+import {
+  DrawerActions,
+  NavigationProp,
+  StackActions,
+} from '@react-navigation/native';
 import React, {RefObject} from 'react';
 
 export const navigatorRef: RefObject<any> = React.createRef();
@@ -10,9 +14,16 @@ export function getNavigator(): NavigationProp<any> {
 
 export function navigateToScreen(
   screen: screenNameTypes,
-  params?: object | null,
+  params?: object | undefined,
 ): void {
   navigatorRef.current.navigate(screen, params);
+}
+
+export function pushToScreen(
+  screen: screenNameTypes,
+  params?: object | undefined,
+): void {
+  navigatorRef.current.dispatch(StackActions.push(screen, params));
 }
 
 export const closeDrawer = (): void => {

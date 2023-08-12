@@ -1,8 +1,7 @@
 import {View, Text, StyleSheet, Pressable, FlatList} from 'react-native';
 import React from 'react';
-import {moderateScale, screenWidth} from '@app/utils/scaling_unit';
+import {moderateScale} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
-import Separator from '@app/components/atoms/Separator';
 
 type Props = {
   id?: string | number;
@@ -18,7 +17,7 @@ const Section = ({
   id,
   title,
   onActionPress,
-  actionText = 'View All',
+  actionText,
   children,
   scrollEnabled = false,
   numColumns = 2,
@@ -35,9 +34,11 @@ const Section = ({
     <View style={styles.container}>
       <View style={styles.headingWrapper}>
         <Text style={styles.heading}>{title}</Text>
-        <Pressable onPress={() => onActionPress && onActionPress(id)}>
-          <Text style={styles.actionText}>{actionText}</Text>
-        </Pressable>
+        {actionText && (
+          <Pressable onPress={() => onActionPress && onActionPress(id)}>
+            <Text style={styles.actionText}>{actionText}</Text>
+          </Pressable>
+        )}
       </View>
       <View style={styles.childrenWrapper}>
         {Array.isArray(children) ? (
@@ -61,7 +62,7 @@ export default Section;
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: moderateScale(16),
+    // paddingHorizontal: moderateScale(16),
     paddingVertical: moderateScale(8),
   },
   headingWrapper: {

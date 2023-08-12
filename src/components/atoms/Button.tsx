@@ -11,8 +11,8 @@ import COLOR from '@app/theme/COLOR';
 import SIZE from '@app/theme/SIZE';
 
 interface Props extends PressableProps {
-  title?: string;
-  onPress: () => void;
+  title: string;
+  onPress?: () => void;
   style?: any;
   variant?: 'primary' | 'secondary';
   children?: ReactNode;
@@ -70,11 +70,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: moderateScale(SIZE.radius),
-  },
-  primaryStyle: {
-    backgroundColor: COLOR.primary,
-  },
-  secondaryStyle: {
     borderWidth: 2,
     borderColor: COLOR.primary,
   },
@@ -82,11 +77,5 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(SIZE.font),
     color: COLOR.white,
     fontWeight: 'bold',
-  },
-  primaryTextStyle: {
-    color: COLOR.white,
-  },
-  secondaryTextStyle: {
-    color: COLOR.primary,
   },
 });

@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLOR from '@app/theme/COLOR';
 import StarRating from '@app/components/atoms/StarRating';
 import {Product} from '@app/types/product';
-import {navigateToScreen} from '@app/navigation';
+import {pushToScreen} from '@app/navigation';
 
 interface Props extends Product {
   onActionPress: (t: string | number) => void;
@@ -23,7 +23,8 @@ const ProductCardVerticle = ({
   ...props
 }: Props) => {
   const longPressHandler = (data: any) => {
-    navigateToScreen('ProductDetailsScreen', data);
+    pushToScreen('ProductDetailsScreen', data);
+
     if (onLongPress) {
       // onLongPress(data);
     }
@@ -70,7 +71,7 @@ export default ProductCardVerticle;
 
 const styles = StyleSheet.create({
   container: {
-    width: screenWidth / 2 - 32,
+    width: moderateScale(screenWidth / 2 - 32),
     margin: moderateScale(4),
     borderRadius: moderateScale(10),
     backgroundColor: COLOR.white,
