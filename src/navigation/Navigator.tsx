@@ -1,38 +1,29 @@
-import {navigatorRef} from '@app/navigation';
+import BottomBar from '@app/components/BottomBar';
 import {userSelector} from '@app/redux/reducers/userSlice';
 import {useAppSelector} from '@app/redux/reduxHook';
 import {
+  BookmarksScreen,
+  CartScreen,
+  CheckoutScreen,
+  FilterScreen,
   HomeScreen,
   LoginScreen,
   OnboardingScreen,
   ProductDetailsScreen,
+  ProductListScreen,
 } from '@app/screens';
 import AuthOverviewScreen from '@app/screens/Auth/OverviewScreen';
 import SettingsScreen from '@app/screens/SettingsScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {useEffect} from 'react';
+import React from 'react';
+import * as screens from '../screens';
 
 const Stack = createNativeStackNavigator();
 
-export type screenNameTypes =
-  | 'OnBoarding'
-  | 'HomeScreen'
-  | 'AuthOverviewScreen'
-  | 'LoginScreen'
-  | 'SettingsScreen'
-  | 'ProductDetailsScreen';
+export type screenNameTypes = keyof typeof screens;
 
 function Navigator(): JSX.Element {
-  // const stackRef = React.useRef(null);
   const {user} = useAppSelector(userSelector);
-  console.log('user123', user);
-
-  useEffect(() => {
-    const navigationState = navigatorRef.current?.getRootState();
-    console.log('navigationState', navigationState);
-    const routeNames = navigationState?.routes[0].state.routeNames;
-    console.log('routeNames', routeNames);
-  }, []);
 
   return (
     <>
@@ -53,11 +44,24 @@ function Navigator(): JSX.Element {
           initialParams={{currentScreen: 'signup'}}
         />
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+        <Stack.Screen name="FilterScreen" component={FilterScreen} />
+        <Stack.Screen name="CartScreen" component={CartScreen} />
+        <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+        <Stack.Screen name="BookmarksScreen" component={BookmarksScreen} />
+        <Stack.Screen
+          name="ProductListScreen"
+          component={ProductListScreen}
+          initialParams={{
+            title: 'Indoor Palm tree',
+            category: 'IndoorPalmtree',
+          }}
+        />
         <Stack.Screen
           name="ProductDetailsScreen"
           component={ProductDetailsScreen}
         />
       </Stack.Navigator>
+      <BottomBar />
     </>
   );
 }

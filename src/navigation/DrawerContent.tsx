@@ -11,7 +11,7 @@ import {
 } from 'react-native-safe-area-context';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {removeUser, userSelector} from '@app/redux/reducers/userSlice';
-import {getNavigator} from '@app/navigation';
+import {getNavigator, navigateToScreen} from '@app/navigation';
 import {CommonActions} from '@react-navigation/native';
 
 interface Props extends DrawerContentComponentProps {}
@@ -22,7 +22,14 @@ const DrawerContent = (props: Props) => {
   const dispatch = useAppDispatch();
 
   const content = [
-    {id: 'my_orders', title: 'My Orders', iconName: 'shopping-outline'},
+    {
+      id: 'my_orders',
+      title: 'My Orders',
+      iconName: 'shopping-outline',
+      onPress: () => {
+        navigateToScreen('CartScreen');
+      },
+    },
     {
       id: 'edit_profile',
       title: 'Edit Profile',

@@ -1,4 +1,6 @@
 import {screenNameTypes} from '@app/navigation/Navigator';
+import {setCurrentScreen, toggleBottomBar} from '@app/redux/reducers/userSlice';
+import {store} from '@app/redux/store';
 import {
   DrawerActions,
   NavigationProp,
@@ -16,6 +18,7 @@ export function navigateToScreen(
   screen: screenNameTypes,
   params?: object | undefined,
 ): void {
+  store.dispatch(setCurrentScreen(screen));
   navigatorRef.current.navigate(screen, params);
 }
 
@@ -34,5 +37,11 @@ export const openDrawer = (): void => {
 };
 
 export const goBack = (): void => {
+  // const routes = navigatorRef.current?.getState().routes[0].state.routes;
+  // console.log('routes', navigatorRef.current);
   navigatorRef.current.goBack();
+};
+
+export const setShowBottomBar = (show: boolean): void => {
+  store.dispatch(toggleBottomBar(show));
 };

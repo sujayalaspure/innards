@@ -17,7 +17,6 @@ type Props = {
 const DrawerItem = ({id, title, onPress, iconName, isLogout}: Props) => {
   const itemref = useRef(null);
   const onItemPress = () => {
-    console.log('itemref', id);
     closeDrawer();
     if (onPress) {
       onPress(id);

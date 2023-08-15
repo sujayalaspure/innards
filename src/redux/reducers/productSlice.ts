@@ -1,19 +1,25 @@
 import {RootState} from '@app/redux/store';
-import {fetchProducts} from '@app/service';
-import {Product, ProductResponse} from '@app/types/product';
+import {CartItem, Product} from '@app/types/product';
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
 import mockProducts from '@app/mocks/mockProductData.json';
 
 interface ProductSliceState {
   currentProduct: Product | null | undefined;
-  products?: Product[];
+  products: Product[];
   isLoading?: boolean;
   error?: string | null | undefined;
+  cart: CartItem[];
+  test: any[];
 }
 
 const initialState: ProductSliceState = {
   currentProduct: null,
+  products: [],
+  isLoading: false,
+  error: null,
+  cart: [],
+  test: [],
 };
 
 export const fetchAsyncProducts = createAsyncThunk(
@@ -25,7 +31,14 @@ export const fetchAsyncProducts = createAsyncThunk(
     //   throw new Error(data.message);
     // }
 
-    return mockProducts as Product[];
+    const data = mockProducts.map((product: any, i: number) => {
+      return {
+        ...product,
+        id: i,
+      };
+    });
+
+    return data as Product[];
   },
 );
 
@@ -35,6 +48,47 @@ export const productSlice = createSlice({
   reducers: {
     setCurrentProduct: (state, action: PayloadAction<Product>) => {
       state.currentProduct = action.payload;
+    },
+    addProductToCart: (state, action: PayloadAction<CartItem>) => {
+      const item = action.payload;
+      state.cart = [...state.cart] || [];
+
+      const index = state.cart.findIndex(cartItem => cartItem.id === item.id);
+      if (index === -1) {
+        state.cart.push(item);
+      } else {
+        const nextQuantity = state.cart[index].quantity + item.quantity;
+        if (nextQuantity !== 0) {
+          state.cart[index].quantity =
+            state.cart[index].quantity + item.quantity;
+        } else {
+          state.cart.splice(index, 1);
+        }
+      }
+    },
+    addQuantityToCart: (state, action: PayloadAction<CartItem>) => {
+      const item = action.payload;
+      const index = state.cart.findIndex(cartItem => cartItem.id === item.id);
+      if (index !== -1) {
+        state.cart[index].quantity += item.quantity;
+      }
+    },
+    decreaseQuantityToCart: (state, action: PayloadAction<CartItem>) => {
+      const item = action.payload;
+      const index = state.cart.findIndex(cartItem => cartItem.id === item.id);
+      if (index !== -1) {
+        state.cart[index].quantity -= item.quantity;
+      }
+    },
+    removeProductFromCart: (state, action: PayloadAction<number | string>) => {
+      const productId = action.payload;
+      const index = state.cart.findIndex(cartItem => cartItem.id === productId);
+      if (index !== -1) {
+        state.cart.splice(index, 1);
+      }
+    },
+    emptyCart: state => {
+      state.cart = [];
     },
   },
   extraReducers: builder => {
@@ -52,7 +106,14 @@ export const productSlice = createSlice({
   },
 });
 
-export const {setCurrentProduct} = productSlice.actions;
+export const {
+  setCurrentProduct,
+  addProductToCart,
+  removeProductFromCart,
+  emptyCart,
+  addQuantityToCart,
+  decreaseQuantityToCart,
+} = productSlice.actions;
 
 export const useProductSelector = (state: RootState) => state.productReducer;
 

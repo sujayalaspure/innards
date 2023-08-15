@@ -8,7 +8,7 @@ import {
   StyleProp,
   ImageStyle,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {moderateScale, screenHeight} from '@app/utils/scaling_unit';
 import {Product} from '@app/types/product';
@@ -20,16 +20,23 @@ import COLOR from '@app/theme/COLOR';
 import BottomSheet, {BottomSheetRef} from '@app/components/BottomSheet';
 import StarRating from '@app/components/atoms/StarRating';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {goBack} from '@app/navigation';
+import {goBack, navigateToScreen, setShowBottomBar} from '@app/navigation';
 import SIZE from '@app/theme/SIZE';
 import LinearGradient from 'react-native-linear-gradient';
 import FeatureCard from '@app/components/product-details/FeatureCard';
-import {useAppSelector} from '@app/redux/reduxHook';
-import {useProductSelector} from '@app/redux/reducers/productSlice';
+import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
+import {
+  addProductToCart,
+  useProductSelector,
+} from '@app/redux/reducers/productSlice';
 import Section from '@app/components/Section';
 import ProductCardVerticle from '@app/components/ProductCardVerticle';
 import Separator from '@app/components/atoms/Separator';
 import BottomActions from '@app/components/atoms/BottomActions';
+import {
+  toggleBookMark,
+  useBookmarkSelector,
+} from '@app/redux/reducers/bookmarkSlice';
 
 type ParamList = {
   Params: Product;
@@ -68,15 +75,23 @@ const productFeatures = [
 
 const ProductDetailsScreen = () => {
   const [isOnTop, setIsOnTop] = useState(false);
-  const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
-  const sheetRef = React.useRef<BottomSheetRef>(null);
-  const coverImageRef = React.useRef<CoverImagesRef>(null);
-  const thumbnailsRef = React.useRef<FlatList>(null);
   const [currentCoverImageIdx, setCurrentCoverImageIdx] = useState(0);
-  const {products} = useAppSelector(useProductSelector);
+
+  const sheetRef = useRef<BottomSheetRef>(null);
+  const coverImageRef = useRef<CoverImagesRef>(null);
+  const thumbnailsRef = useRef<FlatList>(null);
+
+  const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
+  const {products, cart} = useAppSelector(useProductSelector);
+  const {bookmarks} = useAppSelector(useBookmarkSelector);
+  const isBookmarked = bookmarks.find(item => item.id === params.id);
+  const dispatch = useAppDispatch();
+
+  const isAddedToCart = cart.find(item => item.id === params.id);
 
   useEffect(() => {
     sheetRef.current?.scrollTo(-screenHeight * 0.53);
+    setShowBottomBar(false);
   }, []);
 
   const updateShouldScroll = (position: number) => {
@@ -137,8 +152,14 @@ const ProductDetailsScreen = () => {
                 <Text style={styles.title}>{params.title}</Text>
                 <StarRating rating={params.rating} />
               </View>
-              <Pressable style={styles.bookmarkIcon}>
-                <Icon name="heart-outline" size={30} color={COLOR.gray} />
+              <Pressable
+                style={styles.bookmarkIcon}
+                onPress={() => dispatch(toggleBookMark(params))}>
+                <Icon
+                  name={isBookmarked ? 'heart' : 'heart-outline'}
+                  size={30}
+                  color={COLOR.primary}
+                />
               </Pressable>
             </View>
             <Text style={styles.description}>{params.description}</Text>
@@ -179,11 +200,7 @@ const ProductDetailsScreen = () => {
             </View>
             <Section id={'related'} title="Related Products">
               {products?.slice(0, 4)?.map((item, i) => (
-                <ProductCardVerticle
-                  key={i}
-                  onActionPress={() => {}}
-                  {...item}
-                />
+                <ProductCardVerticle key={i} product={item} />
               ))}
             </Section>
           </View>
@@ -191,9 +208,18 @@ const ProductDetailsScreen = () => {
         </ScrollView>
         <BottomActions
           primaryText="Buy Now"
-          secondaryText="Add to Cart"
-          onSecondaryPress={() => {}}
-          onPrimaryPress={() => {}}
+          onPrimaryPress={async () => {
+            await dispatch(addProductToCart({...params, quantity: 1}));
+            navigateToScreen('CartScreen');
+          }}
+          secondaryText={
+            isAddedToCart
+              ? `Added ${isAddedToCart.quantity} items`
+              : 'Add to Cart'
+          }
+          onSecondaryPress={() => {
+            dispatch(addProductToCart({...params, quantity: 1}));
+          }}
         />
       </BottomSheet>
     </View>

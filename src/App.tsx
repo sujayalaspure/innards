@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import {StatusBar, useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme, LogBox} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {PersistGate} from 'redux-persist/integration/react';
 
@@ -17,12 +17,20 @@ import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import {persistor, store} from '@app/redux/store';
 
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
+
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const handleNavigationReady = () => {
     console.log('Navigation is ready!');
     SplashScreen.hide();
+    navigatorRef.current?.addListener('beforeRemove', e => {
+      if (e.data.action.type === 'GO_BACK') {
+        e.preventDefault();
+      }
+    });
   };
 
   return (

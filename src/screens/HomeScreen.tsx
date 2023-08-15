@@ -15,6 +15,11 @@ import {
   useProductSelector,
 } from '@app/redux/reducers/productSlice';
 import InfluencerCard from '@app/components/atoms/InfluencerCard';
+import {navigateToScreen, openDrawer, setShowBottomBar} from '@app/navigation';
+import {Image} from 'react-native';
+import {setCurrentScreen, userSelector} from '@app/redux/reducers/userSlice';
+import {useIsFocused} from '@react-navigation/native';
+import DeliveryCard from '@app/components/atoms/DeliveryCard';
 
 const topBar = [
   {id: '1', title: 'Seeds', iconName: 'flower-tulip'},
@@ -24,16 +29,25 @@ const topBar = [
 ];
 
 const HomeScreen = () => {
+  const {user} = useAppSelector(userSelector);
+
   const [showAd, setShowAd] = useState(false);
   const dispatch = useAppDispatch();
-  const {error, products, isLoading} = useAppSelector(useProductSelector);
-
-  console.log('products', error, products?.length, isLoading);
+  const {products} = useAppSelector(useProductSelector);
+  const isFocus = useIsFocused();
 
   const [isModalVisible, setIsModalVisible] = useState({
     show: false,
     data: {} as any,
   });
+
+  useEffect(() => {
+    if (isFocus) {
+      setShowBottomBar(true);
+      dispatch(setCurrentScreen('HomeScreen'));
+    }
+  }, [isFocus]);
+
   useEffect(() => {
     dispatch(fetchAsyncProducts());
     // let timeout: any;
@@ -43,20 +57,34 @@ const HomeScreen = () => {
     // }, 1000);
     // timeout2 = setTimeout(() => {
     //   setShowAd(false);
-    // }, 5000);
+    // }, 6000);
     // return () => {
     //   clearTimeout(timeout);
     //   clearTimeout(timeout2);
     // };
   }, []);
+
   return (
     <>
       <HeaderBar
         showSearch
-        showProfile
+        RightSideElement={
+          <View style={styles.profile}>
+            <Image
+              source={{uri: user?.picture?.thumbnail}}
+              style={styles.image}
+            />
+          </View>
+        }
+        onRightElementPressed={openDrawer}
         title="HomeScreen"
         showAdBanner={showAd}
-        AdBanner={<AdBannerPlace dotColor={COLOR.white} />}
+        AdBanner={
+          <DeliveryCard
+            title={products[0].title}
+            image={products[0].thumbnail}
+          />
+        }
       />
 
       <ScrollView style={styles.container}>
@@ -66,7 +94,6 @@ const HomeScreen = () => {
             <View style={styles.topBarButton} key={item.id}>
               <CircularButton
                 onPress={() => {
-                  console.log('onPress', item);
                   setShowAd(!showAd);
                 }}
                 {...item}
@@ -84,16 +111,11 @@ const HomeScreen = () => {
             scrollEnabled
             title="Trending Today"
             actionText="See All"
-            onActionPress={id => {
-              console.log('onActionPress', id);
-
-              setIsModalVisible({
-                show: true,
-                data: id,
-              });
+            onActionPress={() => {
+              navigateToScreen('ProductListScreen', {title: 'Trending Today'});
             }}>
             {products?.slice(0, 5)?.map((item, i) => (
-              <ProductCardVerticle key={i} onActionPress={() => {}} {...item} />
+              <ProductCardVerticle key={i} product={item} />
             ))}
           </Section>
           <Section
@@ -101,7 +123,7 @@ const HomeScreen = () => {
             title="Value for Money"
             actionText="See All">
             {products?.slice(5, 9)?.map((item, i) => (
-              <ProductCardVerticle key={i} onActionPress={() => {}} {...item} />
+              <ProductCardVerticle key={i} product={item} />
             ))}
           </Section>
           <Section
@@ -110,7 +132,7 @@ const HomeScreen = () => {
             scrollEnabled
             title="Watch Our Influencers"
             actionText="See All">
-            {[1, 2, 3].map((item, i) => (
+            {[1, 2, 3].map((_, i) => (
               <InfluencerCard
                 onPress={() => console.log('onPress')}
                 key={i}
@@ -119,6 +141,7 @@ const HomeScreen = () => {
             ))}
           </Section>
         </View>
+        <Separator height={80} />
       </ScrollView>
       <Modal
         visible={isModalVisible.show}
@@ -155,5 +178,12 @@ const styles = StyleSheet.create({
   topBarIconText: {
     fontSize: moderateScale(14),
     fontWeight: '500',
+  },
+  image: {width: 30, height: 30, borderRadius: 15},
+  profile: {
+    backgroundColor: COLOR.white,
+    borderRadius: moderateScale(25),
+    padding: moderateScale(5),
+    marginLeft: moderateScale(10),
   },
 });

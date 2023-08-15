@@ -6,6 +6,8 @@ import googleLogo from './google.png';
 import metaLogo from './meta.png';
 import adCardimage from './ad-card-image.png';
 import influencer from './image_293.png';
+import emptyCartImage from './empty-cart-1.png';
+import mapImage from './image_314.png';
 
 const productimages = [
   'https://images.unsplash.com/photo-1615213612138-4d1195b1c0e7',
@@ -26,4 +28,6 @@ export {
   adCardimage,
   productimages,
   influencer,
+  emptyCartImage,
+  mapImage,
 };

@@ -1,21 +1,12 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  LayoutAnimation,
-  Image,
-} from 'react-native';
+import {View, Text, StyleSheet, Pressable, LayoutAnimation} from 'react-native';
 import React, {ReactNode, useEffect, useState} from 'react';
 import COLOR from '@app/theme/COLOR';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {moderateScale} from '@app/utils/scaling_unit';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {getNavigator, openDrawer} from '@app/navigation';
+import {goBack} from '@app/navigation';
 import SIZE from '@app/theme/SIZE';
 import SearchBar from '@app/components/SearchBar';
-import {useAppSelector} from '@app/redux/reduxHook';
-import {userSelector} from '@app/redux/reducers/userSlice';
 type Props = {
   title?: string;
   onBackPress?: () => void;
@@ -26,6 +17,8 @@ type Props = {
   onSearch?: () => void;
   AdBanner?: ReactNode;
   showAdBanner?: boolean;
+  RightSideElement?: ReactNode;
+  onRightElementPressed?: () => void;
 };
 
 const HeaderBar = ({
@@ -34,16 +27,16 @@ const HeaderBar = ({
   showBackButton,
   hideHeader = false,
   showSearch,
-  showProfile = false,
   onSearch,
   AdBanner,
   showAdBanner = false,
+  RightSideElement,
+  onRightElementPressed,
 }: Props) => {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const {user} = useAppSelector(userSelector);
   const [showInfos, setShowInfos] = useState({
     showBackButton: showBackButton,
-    showProfile: showProfile,
+    showRightElement: !!RightSideElement,
   });
   const insets = useSafeAreaInsets();
   const statusBarHeight = insets.top;
@@ -52,13 +45,16 @@ const HeaderBar = ({
     if (onBackPress) {
       onBackPress();
     }
-    getNavigator().goBack();
+    goBack();
   };
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowInfos({showBackButton: showBackButton, showProfile: showProfile});
-  }, [showBackButton, showProfile]);
+    setShowInfos({
+      showBackButton: showBackButton,
+      showRightElement: !!RightSideElement,
+    });
+  }, [showBackButton, RightSideElement]);
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -67,9 +63,12 @@ const HeaderBar = ({
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     if (isSearchExpanded) {
-      setShowInfos({showBackButton: false, showProfile: false});
+      setShowInfos({showBackButton: false, showRightElement: false});
     } else {
-      setShowInfos({showBackButton: showBackButton, showProfile: showProfile});
+      setShowInfos({
+        showBackButton: showBackButton,
+        showRightElement: !!RightSideElement,
+      });
     }
   }, [isSearchExpanded]);
   return (
@@ -93,14 +92,13 @@ const HeaderBar = ({
               </View>
             )}
             {!showInfos.showBackButton &&
-              showInfos.showProfile &&
+              showInfos.showRightElement &&
               !showSearch && <View style={styles.dummy} />}
             {!showSearch && <Text style={styles.title}>{title}</Text>}
             {showSearch && (
               <SearchBar
                 isFocused={isSearchExpanded}
                 onFocus={() => {
-                  console.log('onFocus');
                   setIsSearchExpanded(true);
                 }}
                 showMic
@@ -115,16 +113,13 @@ const HeaderBar = ({
                 }}
               />
             )}
-            {showInfos.showProfile && (
-              <Pressable onPress={openDrawer} style={styles.profile}>
-                <Image
-                  source={{uri: user?.picture?.thumbnail}}
-                  style={styles.image}
-                />
+            {showInfos.showRightElement && (
+              <Pressable onPress={onRightElementPressed}>
+                {RightSideElement}
               </Pressable>
             )}
             {showInfos.showBackButton &&
-              !showInfos.showProfile &&
+              !showInfos.showRightElement &&
               !showSearch && <View style={styles.dummy} />}
           </View>
           {showAdBanner && React.isValidElement(AdBanner) && AdBanner}

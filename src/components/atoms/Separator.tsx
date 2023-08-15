@@ -6,10 +6,16 @@ type Props = {
   height?: number | string;
   width?: number | string;
   isBar?: boolean;
+  bgColor?: string;
 };
 const barHeight = 1;
 
-const Separator = ({height = '100%', width = '100%', isBar}: Props) => {
+const Separator = ({
+  height = '100%',
+  width = '100%',
+  isBar,
+  bgColor = COLOR.transparent,
+}: Props) => {
   return (
     <View
       style={[
@@ -17,12 +23,16 @@ const Separator = ({height = '100%', width = '100%', isBar}: Props) => {
         {
           width,
           height: isBar ? barHeight : height,
-          backgroundColor: isBar ? COLOR.lightGray : COLOR.transparent,
+          backgroundColor: isBar ? COLOR.lightGray : bgColor,
         },
       ]}
     />
   );
 };
+
+export const SpacerW6 = () => <Separator width={6} />;
+export const SpacerH70 = () => <Separator height={70} />;
+export const SpacerH20 = () => <Separator height={20} />;
 
 export default React.memo(Separator);
 

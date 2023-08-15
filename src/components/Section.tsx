@@ -29,7 +29,6 @@ const Section = ({
       numColumns,
     }),
   };
-  console.log('flatlistProps', Array.isArray(children));
   return (
     <View style={styles.container}>
       <View style={styles.headingWrapper}>

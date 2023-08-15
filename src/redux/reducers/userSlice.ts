@@ -1,3 +1,4 @@
+import {screenNameTypes} from '@app/navigation/Navigator';
 import {RootState} from '@app/redux/store';
 import {UserInerface} from '@app/types/user';
 import {sleep} from '@app/utils/commonFunctions';
@@ -7,12 +8,16 @@ interface UserState {
   user: UserInerface | null | undefined;
   isLoading: boolean;
   error: string | null | undefined;
+  showBottomBar?: boolean;
+  currentScreen?: screenNameTypes;
 }
 
 const initialState: UserState = {
   isLoading: false,
   user: null,
   error: null,
+  showBottomBar: true,
+  currentScreen: 'HomeScreen',
 };
 export const fetchUser = createAsyncThunk('asyncThunk/fetchUser', async () => {
   const res = await fetch('https://randomuser.me/api/');
@@ -32,6 +37,12 @@ const userSlice = createSlice({
     removeUser: state => {
       state.user = null;
     },
+    toggleBottomBar: (state, action) => {
+      state.showBottomBar = action.payload;
+    },
+    setCurrentScreen: (state, action) => {
+      state.currentScreen = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchUser.pending, state => {
@@ -48,9 +59,14 @@ const userSlice = createSlice({
   },
 });
 
-export const {addUser, removeUser} = userSlice.actions;
+export const {addUser, removeUser, toggleBottomBar, setCurrentScreen} =
+  userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const userSelector = (state: RootState) => state.userReducer;
+export const isShowBottomBar = (state: RootState) =>
+  state.userReducer.showBottomBar;
+export const currentScreen = (state: RootState) =>
+  state.userReducer.currentScreen;
 
 export default userSlice.reducer;

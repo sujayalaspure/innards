@@ -69,7 +69,6 @@ const OnboardingScreen = () => {
         <CircularButton
           iconName="chevron-right"
           onPress={() => {
-            console.log('pressed');
             scrollNext();
           }}
         />

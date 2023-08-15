@@ -28,7 +28,7 @@ import Button from '@app/components/atoms/Button';
 import LinkText from '@app/components/atoms/LinkText';
 import {StackActions, useRoute} from '@react-navigation/native';
 import {RootRouteProps} from '@app/utils/types';
-import {getNavigator, navigateToScreen} from '@app/navigation';
+import {getNavigator, setShowBottomBar} from '@app/navigation';
 import {translate} from '@app/i18n/translate';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {fetchUser, userSelector} from '@app/redux/reducers/userSlice';
@@ -64,6 +64,7 @@ const LoginScreen = () => {
   useEffect(() => {
     imagePosition.value = 0;
     setCurrentScene(params.currentScreen);
+    setShowBottomBar(false);
   }, []);
 
   const handleLogin = async () => {
@@ -96,8 +97,6 @@ const LoginScreen = () => {
     subHeadingText = translate('otp_subheading');
     CTAButtonText = translate('confirm');
   }
-
-  console.log('LoginScreen', currentScene);
 
   return (
     <>

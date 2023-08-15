@@ -5,43 +5,21 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLOR from '@app/theme/COLOR';
 import StarRating from '@app/components/atoms/StarRating';
 import {Product} from '@app/types/product';
-import {pushToScreen} from '@app/navigation';
+import CountButton from '@app/components/atoms/CountButton';
+import useProduct from '@app/hooks/useProduct';
 
-interface Props extends Product {
-  onActionPress: (t: string | number) => void;
-  onLongPress?: (data: any) => void;
+interface Props {
+  product: Product;
 }
 
-const ProductCardVerticle = ({
-  id,
-  title,
-  price,
-  rating,
-  onActionPress,
-  thumbnail,
-  onLongPress,
-  ...props
-}: Props) => {
-  const longPressHandler = (data: any) => {
-    pushToScreen('ProductDetailsScreen', data);
+const ProductCardVerticle = ({product}: Props) => {
+  const {title, price, rating, thumbnail} = product;
 
-    if (onLongPress) {
-      // onLongPress(data);
-    }
-  };
+  const {isAddedToCart, onChangeQuantity, navigateToDetails} =
+    useProduct(product);
+
   return (
-    <Pressable
-      onLongPress={() =>
-        longPressHandler({
-          title,
-          price,
-          rating,
-          thumbnail,
-          id,
-          ...props,
-        })
-      }
-      style={styles.container}>
+    <Pressable onPress={navigateToDetails} style={styles.container}>
       <View style={styles.thumbnail}>
         <Image
           resizeMode="cover"
@@ -55,12 +33,23 @@ const ProductCardVerticle = ({
         </Text>
         <StarRating rating={rating} />
         <View style={styles.actionsWrapper}>
-          <Text style={styles.price}>₹ {parseInt(price.toString(), 10)}</Text>
-          <Pressable
-            style={styles.actionButton}
-            onPress={() => onActionPress(id)}>
-            <Icon name="plus" size={20} color={COLOR.white} />
-          </Pressable>
+          <Text style={styles.price}>
+            ₹ {parseInt(price.toString().replace(/,/g, ''), 10)}
+          </Text>
+          {!isAddedToCart ? (
+            <Pressable
+              style={styles.actionButton}
+              onPress={() => onChangeQuantity(1)}>
+              <Icon name="plus" size={20} color={COLOR.white} />
+            </Pressable>
+          ) : (
+            <CountButton
+              count={isAddedToCart.quantity}
+              onChange={count => {
+                onChangeQuantity(count - isAddedToCart.quantity);
+              }}
+            />
+          )}
         </View>
       </View>
     </Pressable>
