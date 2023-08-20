@@ -9,7 +9,7 @@ import {
   ImageStyle,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {RouteProp, useIsFocused, useRoute} from '@react-navigation/native';
 import {moderateScale, screenHeight} from '@app/utils/scaling_unit';
 import {Product} from '@app/types/product';
 import CoverImages, {
@@ -86,13 +86,16 @@ const ProductDetailsScreen = () => {
   const {bookmarks} = useAppSelector(useBookmarkSelector);
   const isBookmarked = bookmarks.find(item => item.id === params.id);
   const dispatch = useAppDispatch();
+  const isFocus = useIsFocused();
 
   const isAddedToCart = cart.find(item => item.id === params.id);
 
   useEffect(() => {
-    sheetRef.current?.scrollTo(-screenHeight * 0.53);
-    setShowBottomBar(false);
-  }, []);
+    sheetRef.current?.scrollTo(screenHeight * 0.53);
+    if (isFocus) {
+      setShowBottomBar(false);
+    }
+  }, [isFocus]);
 
   const updateShouldScroll = (position: number) => {
     if (position === 0) {
@@ -131,14 +134,15 @@ const ProductDetailsScreen = () => {
       />
 
       <BottomSheet
+        canClose={false}
         ref={sheetRef}
         onTopReached={value => {
           if (value !== isOnTop) {
             setIsOnTop(value);
           }
         }}
-        maxTopPosition={-screenHeight * 0.8}
-        maxBottomPosition={-screenHeight * 0.53}>
+        maxTopPosition={screenHeight * 0.8}
+        maxBottomPosition={screenHeight * 0.53}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           scrollEnabled={isOnTop}
@@ -209,7 +213,7 @@ const ProductDetailsScreen = () => {
         <BottomActions
           primaryText="Buy Now"
           onPrimaryPress={async () => {
-            await dispatch(addProductToCart({...params, quantity: 1}));
+            dispatch(addProductToCart({...params, quantity: 1}));
             navigateToScreen('CartScreen');
           }}
           secondaryText={
@@ -294,6 +298,7 @@ const styles = StyleSheet.create({
   },
   bookmarkIcon: {
     padding: moderateScale(8),
+    paddingTop: moderateScale(0),
   },
   featureWrapper: {
     marginTop: moderateScale(10),

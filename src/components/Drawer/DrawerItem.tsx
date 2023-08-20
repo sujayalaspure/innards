@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.primary,
     borderRadius: moderateScale(SIZE.radius),
+    borderStyle: 'dashed',
   },
 });

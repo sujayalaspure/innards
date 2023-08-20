@@ -16,8 +16,6 @@ const ProductCard = (Component: FC<any>) => {
   }, [id]);
 
   const cardPressHandler = (data: Product) => {
-    console.log('cardPressHandler');
-
     pushToScreen('ProductDetailsScreen', data);
   };
   return (props: any) => {

@@ -1,8 +1,8 @@
-import {screenNameTypes} from '@app/navigation/Navigator';
+import {screenNameTypes} from '@app/navigation';
 import {RootState} from '@app/redux/store';
 import {UserInerface} from '@app/types/user';
 import {sleep} from '@app/utils/commonFunctions';
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 interface UserState {
   user: UserInerface | null | undefined;
@@ -40,7 +40,7 @@ const userSlice = createSlice({
     toggleBottomBar: (state, action) => {
       state.showBottomBar = action.payload;
     },
-    setCurrentScreen: (state, action) => {
+    setCurrentScreen: (state, action: PayloadAction<screenNameTypes>) => {
       state.currentScreen = action.payload;
     },
   },

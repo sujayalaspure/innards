@@ -12,6 +12,7 @@ import CircularButton from '@app/components/atoms/CircularButton';
 import {moderateScale} from '@app/utils/scaling_unit';
 import {getNavigator} from '@app/navigation';
 import {StackActions} from '@react-navigation/native';
+import COLOR from '@app/theme/COLOR';
 
 const {width, height} = Dimensions.get('window');
 
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: moderateScale(20),
     fontWeight: 'bold',
-    color: 'white',
+    color: COLOR.black,
     textAlign: 'center',
   },
   nextButton: {

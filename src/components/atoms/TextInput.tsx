@@ -24,7 +24,6 @@ const TextInput = ({
 }: Props) => {
   const [isSecureEntry, setIsSecureEntry] = useState(secureTextEntry);
   const handleChangeText = debounce((text: string) => {
-    console.log('text', text);
     if (onChangeText) {
       onChangeText(text);
     }

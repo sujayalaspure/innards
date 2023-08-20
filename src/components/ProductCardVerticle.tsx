@@ -1,5 +1,5 @@
 import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {moderateScale, screenWidth} from '@app/utils/scaling_unit';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLOR from '@app/theme/COLOR';
@@ -14,6 +14,7 @@ interface Props {
 
 const ProductCardVerticle = ({product}: Props) => {
   const {title, price, rating, thumbnail} = product;
+  const [thumbImage, setThumbImage] = useState(thumbnail);
 
   const {isAddedToCart, onChangeQuantity, navigateToDetails} =
     useProduct(product);
@@ -24,7 +25,12 @@ const ProductCardVerticle = ({product}: Props) => {
         <Image
           resizeMode="cover"
           style={styles.image}
-          source={{uri: thumbnail}}
+          onError={() => {
+            setThumbImage(
+              'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
+            );
+          }}
+          source={{uri: thumbImage}}
         />
       </View>
       <View style={styles.content}>
@@ -94,6 +100,7 @@ const styles = StyleSheet.create({
   heading: {
     fontWeight: '500',
     flex: 1,
+    color: COLOR.black,
   },
   review: {
     flexDirection: 'row',
@@ -108,6 +115,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: moderateScale(16),
     fontWeight: '600',
+    color: COLOR.black,
   },
   actionButton: {
     backgroundColor: COLOR.primary,

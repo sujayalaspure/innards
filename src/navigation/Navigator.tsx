@@ -9,18 +9,18 @@ import {
   HomeScreen,
   LoginScreen,
   OnboardingScreen,
+  OrderSummaryScreen,
+  OrdersScreen,
   ProductDetailsScreen,
   ProductListScreen,
+  TrackOrderScreen,
 } from '@app/screens';
 import AuthOverviewScreen from '@app/screens/Auth/OverviewScreen';
 import SettingsScreen from '@app/screens/SettingsScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import * as screens from '../screens';
 
 const Stack = createNativeStackNavigator();
-
-export type screenNameTypes = keyof typeof screens;
 
 function Navigator(): JSX.Element {
   const {user} = useAppSelector(userSelector);
@@ -48,6 +48,12 @@ function Navigator(): JSX.Element {
         <Stack.Screen name="CartScreen" component={CartScreen} />
         <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
         <Stack.Screen name="BookmarksScreen" component={BookmarksScreen} />
+        <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
+        <Stack.Screen name="TrackOrderScreen" component={TrackOrderScreen} />
+        <Stack.Screen
+          name="OrderSummaryScreen"
+          component={OrderSummaryScreen}
+        />
         <Stack.Screen
           name="ProductListScreen"
           component={ProductListScreen}

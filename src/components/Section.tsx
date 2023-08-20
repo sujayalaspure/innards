@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: moderateScale(22),
     fontWeight: '500',
+    color: COLOR.black,
   },
   actionText: {
     fontSize: moderateScale(14),

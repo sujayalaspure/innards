@@ -13,12 +13,14 @@ type Props = {
   showBackButton?: boolean;
   hideHeader?: boolean;
   showSearch?: boolean;
-  showProfile?: boolean;
-  onSearch?: () => void;
+  onSearch?: (text: string) => void;
+  onSearchEnd?: () => void;
   AdBanner?: ReactNode;
   showAdBanner?: boolean;
   RightSideElement?: ReactNode;
   onRightElementPressed?: () => void;
+  autoFocusSearch?: boolean;
+  searchPlaceholder?: string;
 };
 
 const HeaderBar = ({
@@ -32,6 +34,9 @@ const HeaderBar = ({
   showAdBanner = false,
   RightSideElement,
   onRightElementPressed,
+  onSearchEnd,
+  autoFocusSearch = false,
+  searchPlaceholder,
 }: Props) => {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [showInfos, setShowInfos] = useState({
@@ -50,10 +55,12 @@ const HeaderBar = ({
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setShowInfos({
-      showBackButton: showBackButton,
-      showRightElement: !!RightSideElement,
-    });
+    if (!isSearchExpanded) {
+      setShowInfos({
+        showBackButton: showBackButton,
+        showRightElement: !!RightSideElement,
+      });
+    }
   }, [showBackButton, RightSideElement]);
 
   useEffect(() => {
@@ -97,19 +104,24 @@ const HeaderBar = ({
             {!showSearch && <Text style={styles.title}>{title}</Text>}
             {showSearch && (
               <SearchBar
-                isFocused={isSearchExpanded}
+                placeholder={searchPlaceholder}
+                isFocused={autoFocusSearch || isSearchExpanded}
                 onFocus={() => {
                   setIsSearchExpanded(true);
                 }}
                 showMic
                 onSearch={onSearch}
                 onMicPress={() => {
-                  if (!isSearchExpanded) {
-                    console.log('onMicPress');
-                  } else {
-                    console.log('onClear');
-                  }
+                  const isExp = !isSearchExpanded;
                   setIsSearchExpanded(false);
+                  setTimeout(() => {
+                    if (isExp) {
+                      console.log('onMicPress');
+                    } else {
+                      console.log('onClear');
+                      onSearchEnd && onSearchEnd();
+                    }
+                  }, 200);
                 }}
               />
             )}

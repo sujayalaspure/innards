@@ -7,7 +7,12 @@ import {StyleSheet} from 'react-native';
 import COLOR from '@app/theme/COLOR';
 import {moderateScale} from '@app/utils/scaling_unit';
 import Chip from '@app/components/atoms/Chip';
-import {SpacerH20, SpacerH70, SpacerW6} from '@app/components/atoms/Separator';
+import {
+  SpacerH20,
+  SpacerH70,
+  SpacerW6,
+  SpacerW70,
+} from '@app/components/atoms/Separator';
 import Animated, {
   Easing,
   SlideInRight,
@@ -83,7 +88,7 @@ const ProductListScreen = () => {
       return (
         <FlatList
           ListHeaderComponent={SpacerH70}
-          data={products?.slice(0, 10)}
+          data={products}
           showsVerticalScrollIndicator={false}
           horizontal={false}
           numColumns={2}
@@ -99,7 +104,7 @@ const ProductListScreen = () => {
           ListHeaderComponent={SpacerH70}
           ListFooterComponent={SpacerH70}
           ItemSeparatorComponent={SpacerH20}
-          data={products?.slice(0, 10)}
+          data={products}
           showsVerticalScrollIndicator={false}
           horizontal={false}
           renderItem={renderItems}
@@ -143,7 +148,7 @@ const ProductListScreen = () => {
               horizontal
               showsHorizontalScrollIndicator={false}
               ItemSeparatorComponent={SpacerW6}
-              ListFooterComponent={SpacerH70}
+              ListFooterComponent={SpacerW70}
               renderItem={({item, index}) => (
                 <Chip
                   index={index}

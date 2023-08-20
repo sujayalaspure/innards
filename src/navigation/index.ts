@@ -1,4 +1,3 @@
-import {screenNameTypes} from '@app/navigation/Navigator';
 import {setCurrentScreen, toggleBottomBar} from '@app/redux/reducers/userSlice';
 import {store} from '@app/redux/store';
 import {
@@ -7,7 +6,9 @@ import {
   StackActions,
 } from '@react-navigation/native';
 import React, {RefObject} from 'react';
+import * as screens from '../screens';
 
+export type screenNameTypes = keyof typeof screens;
 export const navigatorRef: RefObject<any> = React.createRef();
 
 export function getNavigator(): NavigationProp<any> {
@@ -42,6 +43,12 @@ export const goBack = (): void => {
   navigatorRef.current.goBack();
 };
 
-export const setShowBottomBar = (show: boolean): void => {
+export const setShowBottomBar = (
+  show: boolean,
+  screen?: screenNameTypes,
+): void => {
   store.dispatch(toggleBottomBar(show));
+  if (screen) {
+    store.dispatch(setCurrentScreen(screen));
+  }
 };

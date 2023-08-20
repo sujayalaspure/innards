@@ -27,7 +27,7 @@ const DrawerContent = (props: Props) => {
       title: 'My Orders',
       iconName: 'shopping-outline',
       onPress: () => {
-        navigateToScreen('CartScreen');
+        navigateToScreen('OrdersScreen');
       },
     },
     {

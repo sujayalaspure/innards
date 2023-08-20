@@ -25,6 +25,7 @@ const useProduct = (product: Product) => {
       addProductToCart({
         ...product,
         quantity: value,
+        price: num,
       }),
     );
   };

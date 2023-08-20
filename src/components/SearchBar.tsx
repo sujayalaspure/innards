@@ -9,6 +9,7 @@ import React, {useRef} from 'react';
 import COLOR from '@app/theme/COLOR';
 import {moderateScale} from '@app/utils/scaling_unit';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {debounce} from 'lodash';
 
 interface Props extends TextInputProps {
   onSearch?: (t: string) => void;
@@ -24,6 +25,7 @@ const SearchBar = ({
   onMicPress,
   onFocus,
   isFocused,
+  placeholder,
   ...props
 }: Props) => {
   const inputRef = useRef<TextInput>(null);
@@ -35,19 +37,27 @@ const SearchBar = ({
 
   const onMicPressHandler = () => {
     inputRef.current?.blur();
+    inputRef.current?.clear();
     if (onMicPress) {
       onMicPress();
     }
   };
 
+  const handleChangeText = debounce((text: string) => {
+    if (onSearch) {
+      onSearch(text);
+    }
+  }, 500);
+
   return (
     <View style={styles.container}>
       <Icon name="magnify" size={25} color={COLOR.gray} />
       <TextInput
+        autoFocus={isFocused}
         ref={inputRef}
         style={styles.input}
-        placeholder="Search"
-        onChangeText={onSearch}
+        placeholder={placeholder || 'Search'}
+        onChangeText={handleChangeText}
         onFocus={onInputFocus}
         {...props}
       />

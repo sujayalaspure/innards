@@ -17,9 +17,8 @@ import {
 import InfluencerCard from '@app/components/atoms/InfluencerCard';
 import {navigateToScreen, openDrawer, setShowBottomBar} from '@app/navigation';
 import {Image} from 'react-native';
-import {setCurrentScreen, userSelector} from '@app/redux/reducers/userSlice';
+import {userSelector} from '@app/redux/reducers/userSlice';
 import {useIsFocused} from '@react-navigation/native';
-import DeliveryCard from '@app/components/atoms/DeliveryCard';
 
 const topBar = [
   {id: '1', title: 'Seeds', iconName: 'flower-tulip'},
@@ -43,8 +42,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     if (isFocus) {
-      setShowBottomBar(true);
-      dispatch(setCurrentScreen('HomeScreen'));
+      setShowBottomBar(true, 'HomeScreen');
     }
   }, [isFocus]);
 
@@ -79,12 +77,12 @@ const HomeScreen = () => {
         onRightElementPressed={openDrawer}
         title="HomeScreen"
         showAdBanner={showAd}
-        AdBanner={
-          <DeliveryCard
-            title={products[0].title}
-            image={products[0].thumbnail}
-          />
-        }
+        // AdBanner={
+        //   <DeliveryCard
+        //     title={products[0].title}
+        //     image={products[0].thumbnail}
+        //   />
+        // }
       />
 
       <ScrollView style={styles.container}>
@@ -164,6 +162,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLOR.white,
   },
   content: {
     paddingHorizontal: moderateScale(16),
@@ -178,6 +177,7 @@ const styles = StyleSheet.create({
   topBarIconText: {
     fontSize: moderateScale(14),
     fontWeight: '500',
+    color: COLOR.black,
   },
   image: {width: 30, height: 30, borderRadius: 15},
   profile: {

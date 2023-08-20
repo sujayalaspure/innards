@@ -68,13 +68,16 @@ const LoginScreen = () => {
   }, []);
 
   const handleLogin = async () => {
+    if (Platform.OS === 'ios') {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    }
     if (currentScene === 'otp') {
       await dispatch(fetchUser());
       getNavigator()?.dispatch(StackActions.replace('HomeScreen'));
       // navigateToScreen('HomeScreen');
       return;
     }
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
     setCurrentScene('otp');
   };
 

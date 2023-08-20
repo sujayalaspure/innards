@@ -5,8 +5,8 @@ import COLOR from '@app/theme/COLOR';
 
 type Props = {
   text?: string;
-  iconName: string;
-  onPress: () => void;
+  iconName?: string;
+  onPress?: () => void;
   color?: string;
 };
 
@@ -15,7 +15,7 @@ const LinkNIcon = ({text, iconName, onPress, color = COLOR.black}: Props) => {
     <Pressable
       style={[styles.container, !text && styles.iconWrapper]}
       onPress={onPress}>
-      <Icon name={iconName} size={20} color={color} />
+      {iconName && <Icon name={iconName} size={20} color={color} />}
       {text && <Text style={{color}}>{text}</Text>}
     </Pressable>
   );
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     padding: 4,
   },
   iconWrapper: {

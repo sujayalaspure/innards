@@ -84,13 +84,13 @@ const BottomBar = () => {
     if (index === -1) {
       return;
     }
-    activeBar.value = 10 + ((screenWidth - 20) / 5) * index;
+    activeBar.value = (screenWidth / 5) * index;
 
     console.log('currentScreenName', currentScreenName, index);
   }, [currentScreenName]);
 
   const onPressHandler = (id: string) => {
-    activeBar.value = 10 + ((screenWidth - 20) / 5) * (Number(id) - 1);
+    activeBar.value = (screenWidth / 5) * (Number(id) - 1);
 
     switch (id) {
       case '1':
@@ -108,7 +108,8 @@ const BottomBar = () => {
   };
 
   return (
-    <Animated.View style={[styles.container, bottombarAnimatedStyle]}>
+    <Animated.View
+      style={[styles.container, styles.shadow, bottombarAnimatedStyle]}>
       <Animated.View style={[styles.active, activeBarStyle]} />
       <BlurView
         style={styles.absolute}
@@ -116,19 +117,21 @@ const BottomBar = () => {
         blurAmount={50}
         reducedTransparencyFallbackColor={COLOR.white}
       />
-      {bottomBarItems.map(item => (
-        <Pressable onPress={() => onPressHandler(item.id)}>
-          <View style={[styles.item]}>
-            <Icon
-              style={styles.icon}
-              name={item.iconName}
-              size={24}
-              color={COLOR.gray}
-            />
-            <Text style={styles.title}>{item.title}</Text>
-          </View>
-        </Pressable>
-      ))}
+      <View style={styles.optionsWrapper}>
+        {bottomBarItems.map(item => (
+          <Pressable onPress={() => onPressHandler(item.id)}>
+            <View style={[styles.item]}>
+              <Icon
+                style={styles.icon}
+                name={item.iconName}
+                size={24}
+                color={COLOR.gray}
+              />
+              <Text style={styles.title}>{item.title}</Text>
+            </View>
+          </Pressable>
+        ))}
+      </View>
     </Animated.View>
   );
 };
@@ -136,16 +139,29 @@ const BottomBar = () => {
 export default BottomBar;
 
 const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5.62,
+    elevation: 6,
+  },
   container: {
-    // backgroundColor: COLOR.white,
     height: 34 * 2,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
+
     paddingBottom: 16,
     position: 'absolute',
     bottom: 0,
+    width: screenWidth,
+  },
+  optionsWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   item: {
     flex: 1,
@@ -164,7 +180,7 @@ const styles = StyleSheet.create({
     borderTopColor: COLOR.primary,
     position: 'absolute',
     top: 0,
-    width: (screenWidth - 20) / 5,
+    width: screenWidth / 5,
     zIndex: 10,
   },
   absolute: {

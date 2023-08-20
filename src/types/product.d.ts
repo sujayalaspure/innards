@@ -23,4 +23,5 @@ export interface Rating {
 
 export interface CartItem extends Product {
   quantity: number;
+  finalPrice: number;
 }

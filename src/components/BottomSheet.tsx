@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {screenHeight} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
+import {BlurView} from '@react-native-community/blur';
 
 // const maxTopPosition = -screenHeight * 0.8;
 
@@ -21,10 +22,13 @@ type BottomSheetProps = {
   showBackdrop?: boolean;
   maxBottomPosition?: number;
   maxTopPosition?: number;
+  canClose?: boolean;
 };
 export type BottomSheetRef = {
   scrollTo: (y: number) => void;
   isActive: () => boolean;
+  open: () => void;
+  close: () => void;
 };
 
 const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
@@ -33,8 +37,9 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       children,
       onTopReached,
       showBackdrop = false,
-      maxBottomPosition = 0,
-      maxTopPosition = -screenHeight + 50,
+      maxBottomPosition = 1,
+      maxTopPosition = screenHeight + 50,
+      canClose = true,
     },
     ref,
   ) => {
@@ -42,9 +47,15 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const context = useSharedValue({y: 0});
     const isSheetVisible = useSharedValue(false);
 
+    maxTopPosition = maxTopPosition * -1;
+    maxBottomPosition = maxBottomPosition * -1;
+
+    /**
+     * @param y - y position to scroll to from bottom (positive value)
+     */
     const scrollTo = useCallback((y: number) => {
       'worklet';
-
+      y = y < 0 ? y : y * -1;
       isSheetVisible.value = y !== 0;
       translateY.value = withSpring(y, {damping: 15});
     }, []);
@@ -52,15 +63,19 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const isActive = useCallback(() => isSheetVisible.value, []);
     const isAtTop = useCallback(() => translateY.value === maxTopPosition, []);
 
-    useImperativeHandle(ref, () => ({scrollTo, isActive, isAtTop}), [
-      scrollTo,
-      isActive,
-      isAtTop,
-    ]);
+    const open = useCallback(() => {
+      scrollTo(screenHeight / 2);
+    }, []);
+    const close = useCallback(() => {}, []);
+
+    useImperativeHandle(
+      ref,
+      () => ({scrollTo, isActive, isAtTop, open, close}),
+      [scrollTo, isActive, isAtTop, open, close],
+    );
 
     const gesture = Gesture.Pan()
       .onStart(() => {
-        console.log('start');
         context.value = {y: translateY.value};
       })
       .onUpdate(({translationY}: any) => {
@@ -71,10 +86,16 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         }
       })
       .onEnd(() => {
-        if (translateY.value > maxBottomPosition) {
-          scrollTo(maxBottomPosition);
-        } else if (translateY.value < maxTopPosition * 0.9) {
-          scrollTo(maxTopPosition);
+        if (Math.abs(translateY.value) > Math.abs(maxTopPosition * 0.8)) {
+          scrollTo(-maxTopPosition);
+        } else if (canClose) {
+          if (Math.abs(translateY.value) < screenHeight * 0.2) {
+            scrollTo(0);
+          }
+        } else {
+          if (Math.abs(translateY.value) < Math.abs(maxBottomPosition)) {
+            scrollTo(-maxBottomPosition);
+          }
         }
       });
 
@@ -101,7 +122,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
 
     const rBackDropStyle = useAnimatedStyle(() => ({
       opacity: isSheetVisible.value ? 1 : 0,
-      backgroundColor: 'rgba(0,0,0,0.5)',
+      // backgroundColor: 'rgba(0,0,0,0.5)',
     }));
     const rBackdropProps = useAnimatedProps(
       () => ({pointerEvents: isSheetVisible.value ? 'auto' : 'none'} as any),
@@ -115,8 +136,14 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
               scrollTo(0);
             }}
             animatedProps={rBackdropProps}
-            style={[StyleSheet.absoluteFillObject, rBackDropStyle]}
-          />
+            style={[StyleSheet.absoluteFillObject, rBackDropStyle]}>
+            <BlurView
+              style={styles.absolute}
+              blurType="dark"
+              blurAmount={5}
+              reducedTransparencyFallbackColor="rgba(0,0,0,0.5)"
+            />
+          </Animated.View>
         )}
         <GestureDetector gesture={gesture}>
           <Animated.View style={[styles.container, rBottomSheetStyle]}>
@@ -153,5 +180,12 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  absolute: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });

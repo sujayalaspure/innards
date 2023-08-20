@@ -49,13 +49,20 @@ export const productSlice = createSlice({
     setCurrentProduct: (state, action: PayloadAction<Product>) => {
       state.currentProduct = action.payload;
     },
-    addProductToCart: (state, action: PayloadAction<CartItem>) => {
+    addProductToCart: (
+      state,
+      action: PayloadAction<Omit<CartItem, 'finalPrice'>>,
+    ) => {
       const item = action.payload;
       state.cart = [...state.cart] || [];
+      const num = parseFloat(item?.price?.toString().replace(/,/g, ''));
+      const discountedPrice =
+        num -
+        (num * parseFloat(item?.discountPercentage?.toString() || '0')) / 100;
 
       const index = state.cart.findIndex(cartItem => cartItem.id === item.id);
       if (index === -1) {
-        state.cart.push(item);
+        state.cart.push({...item, finalPrice: discountedPrice});
       } else {
         const nextQuantity = state.cart[index].quantity + item.quantity;
         if (nextQuantity !== 0) {

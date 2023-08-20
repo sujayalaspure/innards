@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: moderateScale(14),
     fontWeight: '600',
+    color: COLOR.black,
   },
   subHeading: {
     fontSize: moderateScale(10),

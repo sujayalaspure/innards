@@ -19,6 +19,7 @@ type Props = {
 
 const ProductCardHorizontal = ({product, inView = 'cartScreen'}: Props) => {
   const [contentHeight, setContentHeight] = useState(150);
+  const [thumbImage, setThumbImage] = useState(product?.thumbnail);
 
   const dispatch = useAppDispatch();
 
@@ -36,7 +37,12 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen'}: Props) => {
       style={[styles.container, styles.shadow]}>
       <View style={styles.thumbnailWrapper}>
         <Image
-          source={{uri: product.thumbnail}}
+          onError={() => {
+            setThumbImage(
+              'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
+            );
+          }}
+          source={{uri: thumbImage}}
           style={[styles.image, {height: contentHeight}]}
           resizeMode="cover"
         />
@@ -50,12 +56,15 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen'}: Props) => {
           {product.title}
         </Text>
         <Text style={styles.subHeading}>{product.brand}</Text>
-        <View style={styles.row}>
-          <Text style={styles.strikedPrice}>₹ {product.price}</Text>
-          <Text style={styles.savings}>
-            You save ₹{differenceAmount.toFixed(2)}
-          </Text>
-        </View>
+        {differenceAmount > 0 && (
+          <View style={styles.row}>
+            <Text style={styles.strikedPrice}>₹ {product.price}</Text>
+            <Text style={styles.savings}>
+              You save ₹
+              {(differenceAmount * isAddedToCart?.quantity || 1).toFixed(2)}
+            </Text>
+          </View>
+        )}
         <View style={styles.row}>
           <Text style={styles.price}>₹ {discountedPrice}</Text>
           <Text style={styles.subHeading}>Deliver in 10 Days</Text>
@@ -130,6 +139,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: moderateScale(14),
     fontWeight: '500',
+    color: COLOR.black,
   },
   strikedPrice: {
     textDecorationLine: 'line-through',

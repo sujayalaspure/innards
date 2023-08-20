@@ -4,19 +4,23 @@ import {
   StyleSheet,
   ActivityIndicator,
   PressableProps,
+  View,
 } from 'react-native';
 import React, {ReactNode} from 'react';
 import {moderateScale} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
 import SIZE from '@app/theme/SIZE';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {SpacerW6} from '@app/components/atoms/Separator';
 
 interface Props extends PressableProps {
-  title: string;
+  title?: string;
   onPress?: () => void;
   style?: any;
   variant?: 'primary' | 'secondary';
   children?: ReactNode;
   isLoading?: boolean;
+  iconName?: string;
 }
 
 const Button = ({
@@ -27,6 +31,7 @@ const Button = ({
   children,
   isLoading = false,
   disabled,
+  iconName,
   ...props
 }: Props) => {
   const textColor = variant === 'primary' ? COLOR.white : COLOR.primary;
@@ -45,17 +50,25 @@ const Button = ({
       ]}
       {...props}>
       {isLoading && <ActivityIndicator color={textColor} />}
-      {!isLoading && title && (
-        <Text
-          style={[
-            styles.text,
-            {
-              color: textColor,
-            },
-          ]}>
-          {title?.toUpperCase()}
-        </Text>
-      )}
+      <View style={styles.content}>
+        {!isLoading && iconName && (
+          <>
+            <Icon name={iconName} size={30} color={textColor} />
+            <SpacerW6 />
+          </>
+        )}
+        {!isLoading && title && (
+          <Text
+            style={[
+              styles.text,
+              {
+                color: textColor,
+              },
+            ]}>
+            {title?.toUpperCase()}
+          </Text>
+        )}
+      </View>
       {children}
     </Pressable>
   );
@@ -74,8 +87,13 @@ const styles = StyleSheet.create({
     borderColor: COLOR.primary,
   },
   text: {
-    fontSize: moderateScale(SIZE.font),
+    fontSize: moderateScale(16),
     color: COLOR.white,
     fontWeight: 'bold',
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
   },
 });

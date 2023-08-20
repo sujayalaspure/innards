@@ -32,6 +32,8 @@ const Separator = ({
 
 export const SpacerW6 = () => <Separator width={6} />;
 export const SpacerH70 = () => <Separator height={70} />;
+export const SpacerH140 = () => <Separator height={140} />;
+export const SpacerW70 = () => <Separator width={70} />;
 export const SpacerH20 = () => <Separator height={20} />;
 
 export default React.memo(Separator);

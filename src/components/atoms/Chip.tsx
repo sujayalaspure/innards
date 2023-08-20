@@ -8,9 +8,11 @@ type Props = {
   onPress?: (i?: number | string) => void;
   isSelected?: boolean;
   index?: number | string;
+  style?: any;
+  textStyle?: any;
 };
 
-const Chip = ({title, onPress, isSelected, index}: Props) => {
+const Chip = ({title, onPress, isSelected, index, style, textStyle}: Props) => {
   const backgroundColor = isSelected ? COLOR.primary : COLOR.white;
   const textColor = isSelected ? COLOR.white : COLOR.black;
   const onPressHandler = () => {
@@ -20,9 +22,9 @@ const Chip = ({title, onPress, isSelected, index}: Props) => {
   };
   return (
     <Pressable
-      style={[styles.container, {backgroundColor}]}
+      style={[styles.container, {backgroundColor}, style]}
       onPress={onPressHandler}>
-      <Text style={[styles.text, {color: textColor}]}>{title}</Text>
+      <Text style={[styles.text, {color: textColor}, textStyle]}>{title}</Text>
     </Pressable>
   );
 };
@@ -37,5 +39,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.primary,
   },
-  text: {},
+  text: {
+    fontSize: moderateScale(12),
+    fontWeight: '600',
+  },
 });
