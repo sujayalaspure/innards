@@ -1,19 +1,13 @@
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import React, {useState} from 'react';
-import HeaderBar from '@app/components/atoms/HeaderBar';
-import Chip from '@app/components/atoms/Chip';
 import {moderateScale} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
-import Separator from '@app/components/atoms/Separator';
+import {Chip, HeaderBar, Separator} from '@app/components/atoms';
 import ChartNSlider from '@app/components/molecules/ChartNSlider';
+import useBottomBar from '@app/hooks/useBottomBar';
+import {translate} from '@app/i18n/translate';
 
-const categoryTags = [
-  'Live Plants',
-  'Pots & Planters',
-  'Seeds',
-  'Fertiilers & Soils',
-  'Equipments',
-];
+const categoryTags = ['Live Plants', 'Pots & Planters', 'Seeds', 'Fertiilers & Soils', 'Equipments'];
 
 const envTag = ['Indoor', 'Outdoor', 'Indoor & Outdoor'];
 
@@ -36,13 +30,15 @@ const FilterScreen = () => {
     livePlants: 0,
   });
 
+  useBottomBar(false);
+
   return (
     <>
       <HeaderBar showBackButton title={'Filter'} />
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Category</Text>
+            <Text style={styles.sectionHeaderText}>{translate('category')}</Text>
             <View style={styles.line} />
           </View>
           <View style={styles.tagListWrapper}>
@@ -64,7 +60,7 @@ const FilterScreen = () => {
           {/*  */}
           <Separator height={20} />
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Price Range</Text>
+            <Text style={styles.sectionHeaderText}>{translate('price_range')}</Text>
             <View style={styles.line} />
           </View>
           <ChartNSlider />
@@ -72,7 +68,7 @@ const FilterScreen = () => {
           {/*  */}
           <Separator height={20} />
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Environment</Text>
+            <Text style={styles.sectionHeaderText}>{translate('environment')}</Text>
             <View style={styles.line} />
           </View>
           <View style={styles.tagListWrapper}>
@@ -94,7 +90,7 @@ const FilterScreen = () => {
           {/*  */}
           <Separator height={20} />
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionHeaderText}>Live Plants</Text>
+            <Text style={styles.sectionHeaderText}>{translate('live_plants')}</Text>
             <View style={styles.line} />
           </View>
           <View style={styles.tagListWrapper}>

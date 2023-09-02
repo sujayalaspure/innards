@@ -12,16 +12,8 @@ import {
 import React, {useEffect, useState} from 'react';
 import COLOR from '@app/theme/COLOR';
 import SIZE from '@app/theme/SIZE';
-import {
-  screenWidth,
-  moderateScale,
-  screenHeight,
-} from '@app/utils/scaling_unit';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import {screenWidth, moderateScale, screenHeight} from '@app/utils/scaling_unit';
+import Animated, {useAnimatedStyle, useSharedValue, withSpring} from 'react-native-reanimated';
 import {googleLogo, image1, metaLogo} from '@app/assets/images';
 import TextInput from '@app/components/atoms/TextInput';
 import Button from '@app/components/atoms/Button';
@@ -111,9 +103,7 @@ const LoginScreen = () => {
           <Image source={image1} style={styles.image} />
         </Animated.View>
         <View style={styles.content}>
-          <ScrollView
-            keyboardShouldPersistTaps="always"
-            keyboardDismissMode="on-drag">
+          <ScrollView keyboardShouldPersistTaps="always" keyboardDismissMode="on-drag">
             <Text style={styles.headingText}>{headingText}</Text>
             <Text style={styles.subHeadingText}>
               {subHeadingText}{' '}
@@ -122,9 +112,7 @@ const LoginScreen = () => {
                   textStyle={styles.linkText}
                   title={translate('already_have_acc')}
                   onPress={() => {
-                    LayoutAnimation.configureNext(
-                      LayoutAnimation.Presets.easeInEaseOut,
-                    );
+                    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                     setCurrentScene('login');
                   }}
                 />
@@ -132,27 +120,19 @@ const LoginScreen = () => {
             </Text>
 
             <View style={styles.formWrapper}>
-              {currentScene === 'signup' && (
-                <TextInput placeholder={translate('full_name')} />
-              )}
+              {currentScene === 'signup' && <TextInput testID="full_name" placeholder={translate('full_name')} />}
               {currentScene !== 'otp' && (
                 <>
-                  <TextInput placeholder={translate('email')} />
-                  <TextInput
-                    placeholder={translate('password')}
-                    secureTextEntry
-                  />
+                  <TextInput testID="email" placeholder={translate('email')} />
+                  <TextInput testID="password" placeholder={translate('password')} secureTextEntry />
                 </>
               )}
               {currentScene === 'otp' && (
-                <TextInput
-                  keyboardType="number-pad"
-                  placeholder={translate('enter_otp')}
-                  autoFocus
-                />
+                <TextInput testID="otp" keyboardType="number-pad" placeholder={translate('enter_otp')} autoFocus />
               )}
 
               <Button
+                testID="cta_button"
                 title={CTAButtonText}
                 variant="primary"
                 onPress={handleLogin}
@@ -160,9 +140,7 @@ const LoginScreen = () => {
                 disabled={isLoading}
               />
               {currentScene === 'signup' && (
-                <Text style={[styles.subHeadingText, styles.textCenter]}>
-                  {translate('tnctext')}
-                </Text>
+                <Text style={[styles.subHeadingText, styles.textCenter]}>{translate('tnctext')}</Text>
               )}
               {currentScene === 'login' && (
                 <>
@@ -171,30 +149,18 @@ const LoginScreen = () => {
                     <LinkText
                       title={translate('create_new_acc')}
                       onPress={() => {
-                        LayoutAnimation.configureNext(
-                          LayoutAnimation.Presets.easeInEaseOut,
-                        );
+                        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
                         setCurrentScene('signup');
                       }}
                     />{' '}
                   </Text>
-                  <Button
-                    onPress={() => {}}
-                    variant="secondary"
-                    style={styles.metaBtn}>
+                  <Button onPress={() => {}} variant="secondary" style={styles.metaBtn}>
                     <Image source={metaLogo} style={styles.icon} />
-                    <Text style={styles.metaBtnText}>
-                      {translate('connect_with')} META
-                    </Text>
+                    <Text style={styles.metaBtnText}>{translate('connect_with')} META</Text>
                   </Button>
-                  <Button
-                    onPress={() => {}}
-                    variant="secondary"
-                    style={styles.googleBtn}>
+                  <Button onPress={() => {}} variant="secondary" style={styles.googleBtn}>
                     <Image source={googleLogo} style={styles.icon} />
-                    <Text style={styles.googleBtnText}>
-                      {translate('connect_with')} GOOGLE
-                    </Text>
+                    <Text style={styles.googleBtnText}>{translate('connect_with')} GOOGLE</Text>
                   </Button>
                 </>
               )}

@@ -13,17 +13,14 @@ import Button from '@app/components/atoms/Button';
 import {navigateToScreen, setShowBottomBar} from '@app/navigation';
 import {addProductToCart} from '@app/redux/reducers/productSlice';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
-import {
-  formatDate,
-  getDifferenceInDays,
-  toTitleCase,
-} from '@app/utils/commonFunctions';
+import {formatDate, getDifferenceInDays, toTitleCase} from '@app/utils/commonFunctions';
 import {updateOrder, useOrderSelector} from '@app/redux/reducers/orderSlice';
 import BottomSheet, {BottomSheetRef} from '@app/components/BottomSheet';
 import {screenHeight} from '@app/utils/scaling_unit';
 import HelpSheet from '@app/components/order/HelpSheet';
 import InfoText from '@app/components/order/InfoText';
 import BillingDetails from '@app/components/order/BillingDetails';
+import {translate} from '@app/i18n/translate';
 
 type ParamList = {
   Params: Order;
@@ -47,53 +44,32 @@ const OrderSummaryScreen = () => {
 
   useEffect(() => {
     if (order) {
-      const timeDiff = getDifferenceInDays(
-        order.createdAt,
-        new Date().getTime(),
-      );
+      const timeDiff = getDifferenceInDays(order.createdAt, new Date().getTime());
       if (timeDiff > 0.5) {
-        dispatch(
-          updateOrder({
-            id: params.id,
-            status: 'in-transit',
-          }),
-        );
+        dispatch(updateOrder({id: params.id, status: 'in-transit'}));
       } else if (timeDiff > 1) {
-        dispatch(
-          updateOrder({
-            id: params.id,
-            status: 'out-for-delivery',
-          }),
-        );
+        dispatch(updateOrder({id: params.id, status: 'out-for-delivery'}));
       }
     }
   }, []);
 
   const updateRating = (rating: number) => {
-    dispatch(
-      updateOrder({
-        id: params.id,
-        rating,
-      }),
-    );
+    dispatch(updateOrder({id: params.id, rating}));
   };
 
   const billing = order?.payment?.billingDetails;
 
   return (
     <>
-      <HeaderBar showBackButton title="Order Summary" />
+      <HeaderBar showBackButton title={translate('order_summary')} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Card isShadow>
-            <Text style={styles.sectionTitle}>Items Summary</Text>
+            <Text style={styles.sectionTitle}>{translate('items_summary')}</Text>
 
             {order?.products.map(product => (
-              <View style={styles.productItem}>
-                <Image
-                  style={styles.productimage}
-                  source={{uri: product.thumbnail}}
-                />
+              <View style={styles.productItem} key={product.id}>
+                <Image style={styles.productimage} source={{uri: product.thumbnail}} />
                 <View style={styles.productContent}>
                   <Text style={styles.productTitle} numberOfLines={2}>
                     {product.title}
@@ -110,21 +86,17 @@ const OrderSummaryScreen = () => {
           </Card>
           <SpacerH20 />
           <Card>
-            <Text style={styles.sectionTitle}>Rate The Product</Text>
+            <Text style={styles.sectionTitle}>{translate('rate_product')}</Text>
             <View style={styles.starsWrapper}>
               {[1, 2, 3, 4, 5].map(item => (
                 <Pressable key={item} onPress={() => updateRating(item)}>
-                  <Icon
-                    name={item > (order?.rating || 0) ? 'star-outline' : 'star'}
-                    size={30}
-                    color={COLOR.yellow}
-                  />
+                  <Icon name={item > (order?.rating || 0) ? 'star-outline' : 'star'} size={30} color={COLOR.yellow} />
                 </Pressable>
               ))}
             </View>
             <View style={styles.starsWrapper}>
               <Button
-                title="Buy Again"
+                title={translate('buy_again')}
                 onPress={() => {
                   order?.products.forEach(product => {
                     dispatch(addProductToCart(product));
@@ -135,9 +107,9 @@ const OrderSummaryScreen = () => {
               <Separator width={20} />
               <Button
                 variant="secondary"
-                title="help ?"
+                title={translate('help')}
                 onPress={() => {
-                  sheetRef.current?.scrollTo(screenHeight * 0.4);
+                  sheetRef.current?.open();
                 }}
               />
             </View>
@@ -161,18 +133,18 @@ const OrderSummaryScreen = () => {
             <InfoText title="Order ID" value={order?.id} />
             <InfoText title="Order Date" value={formatDate(order?.createdAt)} />
             <InfoText title="Order Status" value={toTitleCase(order?.status)} />
-            <InfoText
-              title="Payment"
-              value={toTitleCase(order?.payment?.paymentMethod)}
-            />
-            <InfoText
-              title="Deliver To"
-              value={<RenderAddress address={order?.address} />}
-            />
+            <InfoText title="Payment" value={toTitleCase(order?.payment?.paymentMethod)} />
+            <InfoText title="Deliver To" value={<RenderAddress address={order?.address} />} />
           </Card>
         </View>
       </ScrollView>
-      <BottomSheet ref={sheetRef} showBackdrop maxTopPosition={screenHeight}>
+      <BottomSheet
+        ref={sheetRef}
+        showBackdrop
+        sheetHeight={screenHeight * 0.4}
+        snapPoints={{
+          top: screenHeight * 0.4,
+        }}>
         <HelpSheet />
       </BottomSheet>
     </>

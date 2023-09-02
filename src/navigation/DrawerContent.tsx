@@ -5,10 +5,7 @@ import {FlatList, StyleSheet, View} from 'react-native';
 import Separator from '@app/components/atoms/Separator';
 import ProfileCard from '@app/components/ProfileCard';
 import COLOR from '@app/theme/COLOR';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import {SafeAreaProvider, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {removeUser, userSelector} from '@app/redux/reducers/userSlice';
 import {getNavigator, navigateToScreen} from '@app/navigation';
@@ -57,12 +54,13 @@ const DrawerContent = (props: Props) => {
           />
           <FlatList
             data={content}
-            renderItem={({item}) => <DrawerItem {...item} />}
+            renderItem={({item}) => <DrawerItem testID={item.id} {...item} />}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={SeparatorBar}
             ListFooterComponent={SeparatorBar}
           />
           <DrawerItem
+            testID="logout"
             onPress={() => {
               getNavigator().dispatch(
                 CommonActions.reset({

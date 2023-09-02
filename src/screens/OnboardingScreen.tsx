@@ -1,11 +1,4 @@
-import {
-  View,
-  Image,
-  FlatList,
-  Dimensions,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {View, Image, FlatList, Dimensions, Text, StyleSheet} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {image2, image3, image4} from '@app/assets/images';
 import CircularButton from '@app/components/atoms/CircularButton';

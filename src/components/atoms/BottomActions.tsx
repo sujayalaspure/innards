@@ -1,26 +1,36 @@
-import {View, StyleSheet} from 'react-native';
-import React from 'react';
+import {StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
 import {BlurView} from '@react-native-community/blur';
 import Button from '@app/components/atoms/Button';
 import Separator from '@app/components/atoms/Separator';
 import SIZE from '@app/theme/SIZE';
 import COLOR from '@app/theme/COLOR';
+import Animated, {useAnimatedStyle, useSharedValue, withDelay, withSpring} from 'react-native-reanimated';
 
 type Props = {
   onPrimaryPress?: () => void;
   primaryText: string;
   onSecondaryPress?: () => void;
   secondaryText: string;
+  testID?: {
+    primaryButton?: string;
+    secondaryButton?: string;
+  };
 };
 
-const BottomActions = ({
-  onPrimaryPress,
-  onSecondaryPress,
-  primaryText,
-  secondaryText,
-}: Props) => {
+const BottomActions = ({onPrimaryPress, onSecondaryPress, primaryText, secondaryText, testID}: Props) => {
+  const theta = useSharedValue(100);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{translateY: withDelay(500, withSpring(theta.value))}],
+  }));
+
+  useEffect(() => {
+    theta.value = 0;
+  }, []);
+
   return (
-    <View style={styles.bottomAction}>
+    <Animated.View style={[styles.bottomAction, animatedStyle]}>
       <BlurView
         style={styles.absolute}
         blurType={COLOR.light === 'light' ? 'light' : 'dark'}
@@ -30,6 +40,7 @@ const BottomActions = ({
       {onSecondaryPress && secondaryText && (
         <>
           <Button
+            testID={`button_${testID?.secondaryButton}`}
             onPress={onSecondaryPress}
             variant="secondary"
             title={secondaryText}
@@ -37,8 +48,8 @@ const BottomActions = ({
           <Separator width={20} />
         </>
       )}
-      <Button onPress={onPrimaryPress} title={primaryText} />
-    </View>
+      <Button testID={`button_${testID?.primaryButton}`} onPress={onPrimaryPress} title={primaryText} />
+    </Animated.View>
   );
 };
 

@@ -13,15 +13,7 @@ type Props = {
   numColumns?: number;
 };
 
-const Section = ({
-  id,
-  title,
-  onActionPress,
-  actionText,
-  children,
-  scrollEnabled = false,
-  numColumns = 2,
-}: Props) => {
+const Section = ({id, title, onActionPress, actionText, children, scrollEnabled = false, numColumns = 2}: Props) => {
   const flatlistProps = {
     ...(scrollEnabled && {horizontal: true}),
     scrollEnabled,
@@ -34,7 +26,7 @@ const Section = ({
       <View style={styles.headingWrapper}>
         <Text style={styles.heading}>{title}</Text>
         {actionText && (
-          <Pressable onPress={() => onActionPress && onActionPress(id)}>
+          <Pressable testID="section_action" onPress={() => onActionPress && onActionPress(id)}>
             <Text style={styles.actionText}>{actionText}</Text>
           </Pressable>
         )}

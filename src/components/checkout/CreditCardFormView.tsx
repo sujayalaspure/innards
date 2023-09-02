@@ -8,11 +8,11 @@ const CreditCardFormView = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.captionText}>
-        You may be directed to your bank’s 3D secure process to authenticate
-        your information.
+        You may be directed to your bank’s 3D secure process to authenticate your information.
       </Text>
       <Separator height={10} />
       <TextInput
+        placeholderTextColor={COLOR.gray + '99'}
         placeholder="Card Number *"
         style={styles.input}
         keyboardType="number-pad"
@@ -21,19 +21,9 @@ const CreditCardFormView = () => {
       <TextInput placeholder="Name on Card *" style={styles.input} />
       <Separator height={10} />
       <View style={styles.row}>
-        <TextInput
-          placeholder="YY/MM *"
-          style={styles.input}
-          maxLength={4}
-          keyboardType="number-pad"
-        />
+        <TextInput placeholder="YY/MM *" style={styles.input} maxLength={4} keyboardType="number-pad" />
         <Separator width={20} />
-        <TextInput
-          placeholder="CVV *"
-          style={styles.input}
-          maxLength={3}
-          keyboardType="number-pad"
-        />
+        <TextInput placeholder="CVV *" style={styles.input} maxLength={3} keyboardType="number-pad" />
       </View>
       <Text style={styles.captionText}>Card expiry date</Text>
     </View>

@@ -103,13 +103,7 @@ type PaymentMethodProps = {
   onChange?: (payment: Partial<Payment>) => void;
 };
 
-const PaymentMethod = ({
-  id,
-  title,
-  isSelected,
-  onSelect,
-  type,
-}: PaymentMethodProps) => {
+const PaymentMethod = ({id, title, isSelected, onSelect, type}: PaymentMethodProps) => {
   const onSelected = () => {
     LayoutAnimation.configureNext(layoutConfig);
     onSelect?.(id);
@@ -119,11 +113,7 @@ const PaymentMethod = ({
       <Card>
         <View style={styles.paymentMethodWrapper}>
           <Pressable onPress={onSelected}>
-            <Icon
-              name={isSelected ? 'radiobox-marked' : 'radiobox-blank'}
-              size={30}
-              color={COLOR.primary}
-            />
+            <Icon name={isSelected ? 'radiobox-marked' : 'radiobox-blank'} size={30} color={COLOR.primary} />
           </Pressable>
           <Text style={styles.paymentMethodHeading}>{title}</Text>
         </View>

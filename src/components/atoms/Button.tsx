@@ -1,11 +1,4 @@
-import {
-  Text,
-  Pressable,
-  StyleSheet,
-  ActivityIndicator,
-  PressableProps,
-  View,
-} from 'react-native';
+import {Text, Pressable, StyleSheet, ActivityIndicator, PressableProps, View} from 'react-native';
 import React, {ReactNode} from 'react';
 import {moderateScale} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
@@ -21,6 +14,7 @@ interface Props extends PressableProps {
   children?: ReactNode;
   isLoading?: boolean;
   iconName?: string;
+  testID?: string;
 }
 
 const Button = ({
@@ -32,6 +26,7 @@ const Button = ({
   isLoading = false,
   disabled,
   iconName,
+  testID,
   ...props
 }: Props) => {
   const textColor = variant === 'primary' ? COLOR.white : COLOR.primary;
@@ -39,6 +34,7 @@ const Button = ({
   const opacity = disabled ? 0.5 : 1;
   return (
     <Pressable
+      testID={`pressable_${testID}`}
       onPress={onPress}
       style={[
         styles.container,
@@ -59,6 +55,7 @@ const Button = ({
         )}
         {!isLoading && title && (
           <Text
+            testID={`text_${testID}`}
             style={[
               styles.text,
               {

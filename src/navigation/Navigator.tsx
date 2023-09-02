@@ -34,15 +34,8 @@ function Navigator(): JSX.Element {
         initialRouteName={!user ? 'LoginScreen' : 'HomeScreen'}>
         <Stack.Screen name="OnBoarding" component={OnboardingScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen
-          name="AuthOverviewScreen"
-          component={AuthOverviewScreen}
-        />
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          initialParams={{currentScreen: 'signup'}}
-        />
+        <Stack.Screen name="AuthOverviewScreen" component={AuthOverviewScreen} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} initialParams={{currentScreen: 'signup'}} />
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
         <Stack.Screen name="FilterScreen" component={FilterScreen} />
         <Stack.Screen name="CartScreen" component={CartScreen} />
@@ -50,10 +43,7 @@ function Navigator(): JSX.Element {
         <Stack.Screen name="BookmarksScreen" component={BookmarksScreen} />
         <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
         <Stack.Screen name="TrackOrderScreen" component={TrackOrderScreen} />
-        <Stack.Screen
-          name="OrderSummaryScreen"
-          component={OrderSummaryScreen}
-        />
+        <Stack.Screen name="OrderSummaryScreen" component={OrderSummaryScreen} />
         <Stack.Screen
           name="ProductListScreen"
           component={ProductListScreen}
@@ -62,10 +52,7 @@ function Navigator(): JSX.Element {
             category: 'IndoorPalmtree',
           }}
         />
-        <Stack.Screen
-          name="ProductDetailsScreen"
-          component={ProductDetailsScreen}
-        />
+        <Stack.Screen name="ProductDetailsScreen" component={ProductDetailsScreen} />
       </Stack.Navigator>
       <BottomBar />
     </>

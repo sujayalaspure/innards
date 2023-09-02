@@ -14,8 +14,6 @@ import {screenHeight} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
 import {BlurView} from '@react-native-community/blur';
 
-// const maxTopPosition = -screenHeight * 0.8;
-
 type BottomSheetProps = {
   onTopReached?: (value: boolean) => void;
   children: React.ReactNode;
@@ -23,6 +21,12 @@ type BottomSheetProps = {
   maxBottomPosition?: number;
   maxTopPosition?: number;
   canClose?: boolean;
+  sheetHeight?: number;
+  snapPoints?: {
+    top?: number;
+    bottom?: number;
+  };
+  onClosed?: () => void;
 };
 export type BottomSheetRef = {
   scrollTo: (y: number) => void;
@@ -40,6 +44,12 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       maxBottomPosition = 1,
       maxTopPosition = screenHeight + 50,
       canClose = true,
+      sheetHeight = screenHeight * 0.8,
+      snapPoints = {
+        top: screenHeight + 50,
+        bottom: 1,
+      },
+      onClosed,
     },
     ref,
   ) => {
@@ -47,8 +57,9 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const context = useSharedValue({y: 0});
     const isSheetVisible = useSharedValue(false);
 
-    maxTopPosition = maxTopPosition * -1;
-    maxBottomPosition = maxBottomPosition * -1;
+    maxTopPosition = -1 * (snapPoints?.top ?? screenHeight + 50);
+    maxBottomPosition = -1 * (snapPoints.bottom ?? 1);
+    sheetHeight = sheetHeight * -1;
 
     /**
      * @param y - y position to scroll to from bottom (positive value)
@@ -56,6 +67,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const scrollTo = useCallback((y: number) => {
       'worklet';
       y = y < 0 ? y : y * -1;
+      // y = Math.max(sheetHeight, y);
       isSheetVisible.value = y !== 0;
       translateY.value = withSpring(y, {damping: 15});
     }, []);
@@ -64,15 +76,17 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const isAtTop = useCallback(() => translateY.value === maxTopPosition, []);
 
     const open = useCallback(() => {
-      scrollTo(screenHeight / 2);
+      scrollTo(sheetHeight || screenHeight / 2);
     }, []);
     const close = useCallback(() => {}, []);
 
-    useImperativeHandle(
-      ref,
-      () => ({scrollTo, isActive, isAtTop, open, close}),
-      [scrollTo, isActive, isAtTop, open, close],
-    );
+    useImperativeHandle(ref, () => ({scrollTo, isActive, isAtTop, open, close}), [
+      scrollTo,
+      isActive,
+      isAtTop,
+      open,
+      close,
+    ]);
 
     const gesture = Gesture.Pan()
       .onStart(() => {
@@ -91,6 +105,9 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         } else if (canClose) {
           if (Math.abs(translateY.value) < screenHeight * 0.2) {
             scrollTo(0);
+            if (onClosed) {
+              runOnJS(onClosed)();
+            }
           }
         } else {
           if (Math.abs(translateY.value) < Math.abs(maxBottomPosition)) {
@@ -106,12 +123,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
         [25, 5],
         Extrapolate.CLAMP,
       );
-      const height = interpolate(
-        translateY.value,
-        [0, maxTopPosition],
-        [0, -maxTopPosition],
-        Extrapolate.CLAMP,
-      );
+      const height = interpolate(translateY.value, [0, maxTopPosition], [0, -maxTopPosition], Extrapolate.CLAMP);
       return {
         transform: [{translateY: translateY.value}],
         borderTopLeftRadius: borderRadius,
@@ -124,9 +136,7 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       opacity: isSheetVisible.value ? 1 : 0,
       // backgroundColor: 'rgba(0,0,0,0.5)',
     }));
-    const rBackdropProps = useAnimatedProps(
-      () => ({pointerEvents: isSheetVisible.value ? 'auto' : 'none'} as any),
-    );
+    const rBackdropProps = useAnimatedProps(() => ({pointerEvents: isSheetVisible.value ? 'auto' : 'none'} as any));
 
     return (
       <>
@@ -167,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.white,
     position: 'absolute',
     top: screenHeight,
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
   line: {
     height: 5,

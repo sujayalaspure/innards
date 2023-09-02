@@ -14,14 +14,7 @@ interface Props extends Order {
   onPress?: () => void;
 }
 
-const OrderCard = ({
-  products,
-  status,
-  total,
-  createdAt,
-  onPress,
-  rating,
-}: Props) => {
+const OrderCard = ({products, status, total, createdAt, onPress, rating}: Props) => {
   const dispatch = useAppDispatch();
   return (
     <Pressable style={styles.container} onPress={onPress}>
@@ -32,8 +25,7 @@ const OrderCard = ({
           </View>
           <View style={styles.flex1}>
             <Text>
-              Status:{' '}
-              <Text style={styles.textBold}>{status?.toUpperCase()}</Text>
+              Status: <Text style={styles.textBold}>{status?.toUpperCase()}</Text>
             </Text>
             <Text>
               {total.toFixed(2)} • {new Date(createdAt).toLocaleString()}
@@ -44,14 +36,14 @@ const OrderCard = ({
         <View style={styles.productThumbnailWrapper}>
           {products.slice(0, 5).map(product => (
             <Image
+              key={product.id}
               source={{uri: product.thumbnail}}
               style={styles.productThumbnail}
               resizeMode="cover"
             />
           ))}
           {products.length > 5 && (
-            <View
-              style={[styles.productThumbnail, styles.extraProductPlaceholder]}>
+            <View style={[styles.productThumbnail, styles.extraProductPlaceholder]}>
               <Text style={styles.textBold}>+{products.length - 5}</Text>
             </View>
           )}

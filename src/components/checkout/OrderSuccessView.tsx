@@ -1,5 +1,6 @@
+import React, {useEffect} from 'react';
 import {View, StyleSheet, ScrollView, Image} from 'react-native';
-import React from 'react';
+import Animated, {FadeIn, useAnimatedStyle, useSharedValue, withDelay, withSpring} from 'react-native-reanimated';
 import COLOR from '@app/theme/COLOR';
 import {moderateScale, screenWidth} from '@app/utils/scaling_unit';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
@@ -9,22 +10,42 @@ import ProductCardVerticle from '@app/components/ProductCardVerticle';
 import {launchSpace} from '@app/assets/images';
 import Button from '@app/components/atoms/Button';
 import {navigateToScreen} from '@app/navigation';
-import Animated, {FadeIn} from 'react-native-reanimated';
 import {clearCurrentOrder} from '@app/redux/reducers/orderSlice';
 
-const OrderSuccessView = () => {
+type Props = {
+  isFocused: boolean;
+};
+
+const OrderSuccessView = ({isFocused}: Props) => {
   const {products} = useAppSelector(useProductSelector);
   const dispatch = useAppDispatch();
+  const theta = useSharedValue(0.1);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{scale: withDelay(200, withSpring(theta.value))}],
+  }));
+
+  useEffect(() => {
+    console.log('isFocused', isFocused);
+    if (isFocused) {
+      theta.value = 1;
+    } else {
+      theta.value = 0.1;
+    }
+  }, [isFocused]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.successWrapper}>
+        <Animated.View style={[styles.successWrapper, animatedStyle]}>
           <Animated.Text style={styles.successText} entering={FadeIn}>
             Your Order Placed Successfully!
           </Animated.Text>
-          <Image style={styles.image} source={launchSpace} />
+          <Animated.View style={animatedStyle}>
+            <Image style={styles.image} source={launchSpace} />
+          </Animated.View>
           <Button
+            testID="continue_shopping"
             onPress={() => {
               dispatch(clearCurrentOrder());
               navigateToScreen('HomeScreen');
@@ -32,7 +53,7 @@ const OrderSuccessView = () => {
             style={styles.button}
             title="Continue Shopping"
           />
-        </View>
+        </Animated.View>
         <View style={styles.myOrders}>
           <Section
             id={'my-orders'}

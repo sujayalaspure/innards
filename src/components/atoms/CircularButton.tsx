@@ -1,11 +1,7 @@
 import COLOR from '@app/theme/COLOR';
 import React, {useEffect} from 'react';
 import {StyleSheet, Pressable, View} from 'react-native';
-import Animated, {
-  useAnimatedProps,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {useAnimatedProps, useSharedValue, withTiming} from 'react-native-reanimated';
 import {Circle, G, Svg} from 'react-native-svg';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -24,14 +20,7 @@ const center = size / 2;
 const radius = size / 2 - strokeWidth / 2;
 const circumference = 2 * Math.PI * radius;
 const iconSize = 52;
-const CircularButton = ({
-  percentage = 0,
-  onPress,
-  showProgress,
-  iconName,
-  bgColor,
-  iconColor,
-}: Props) => {
+const CircularButton = ({percentage = 0, onPress, showProgress, iconName, bgColor, iconColor}: Props) => {
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
   const theta = useSharedValue(0);
@@ -65,20 +54,10 @@ const CircularButton = ({
                 strokeLinecap="round"
               />
             )}
-            <Circle
-              fill={bgColor || COLOR.white}
-              cx={center}
-              cy={center}
-              r={radius}
-            />
+            <Circle fill={bgColor || COLOR.white} cx={center} cy={center} r={radius} />
           </G>
         </Svg>
-        <Icon
-          style={styles.icon}
-          name={iconName}
-          size={52}
-          color={iconColor || COLOR.primary}
-        />
+        <Icon style={styles.icon} name={iconName} size={52} color={iconColor || COLOR.primary} />
       </Pressable>
     </View>
   );

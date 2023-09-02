@@ -3,11 +3,7 @@ import React, {forwardRef, useImperativeHandle, useRef, useState} from 'react';
 import Animated from 'react-native-reanimated';
 
 import {Image} from 'react-native';
-import {
-  moderateScale,
-  screenHeight,
-  screenWidth,
-} from '@app/utils/scaling_unit';
+import {moderateScale, screenHeight, screenWidth} from '@app/utils/scaling_unit';
 import {productimages} from '@app/assets/images';
 import COLOR from '@app/theme/COLOR';
 
@@ -21,64 +17,50 @@ export type CoverImagesRef = {
   currentIndex: number;
 };
 
-const CoverImages = forwardRef<CoverImagesRef, Props>(
-  ({images, onScroll}, ref) => {
-    const [currentIndex, setCurrentIndex] = useState(0);
+const CoverImages = forwardRef<CoverImagesRef, Props>(({images, onScroll}, ref) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-    const slideRef = useRef<FlatList>(null);
+  const slideRef = useRef<FlatList>(null);
 
-    const data = images || productimages;
+  const data = images || productimages;
 
-    const viewableItemsChanged = useRef(({viewableItems}: any) => {
-      setCurrentIndex(viewableItems[0].index);
-      if (onScroll) {
-        onScroll(viewableItems[0].index);
-      }
-    }).current;
+  const viewableItemsChanged = useRef(({viewableItems}: any) => {
+    setCurrentIndex(viewableItems[0].index);
+    if (onScroll) {
+      onScroll(viewableItems[0].index);
+    }
+  }).current;
 
-    const scrollTo = (index: number) => {
-      slideRef.current?.scrollToIndex({index});
-    };
+  const scrollTo = (index: number) => {
+    slideRef.current?.scrollToIndex({index});
+  };
 
-    useImperativeHandle(ref, () => ({scrollTo, currentIndex}), [
-      scrollTo,
-      currentIndex,
-    ]);
+  useImperativeHandle(ref, () => ({scrollTo, currentIndex}), [scrollTo, currentIndex]);
 
-    return (
-      <View>
-        <Animated.View>
-          <FlatList
-            ref={slideRef}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            bounces={false}
-            onViewableItemsChanged={viewableItemsChanged}
-            scrollEventThrottle={32}
-            data={data}
-            renderItem={({item}) => (
-              <Image
-                source={{uri: item}}
-                style={styles.coverImage}
-                resizeMode="cover"
-              />
-            )}
-            keyExtractor={item => item}
-          />
-        </Animated.View>
-        <View style={styles.dotWrapper}>
-          {data.map((_, i) => (
-            <View
-              key={i}
-              style={[styles.dot, i === currentIndex && styles.currentDot]}
-            />
-          ))}
-        </View>
+  return (
+    <View>
+      <Animated.View>
+        <FlatList
+          ref={slideRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled
+          bounces={false}
+          onViewableItemsChanged={viewableItemsChanged}
+          scrollEventThrottle={32}
+          data={data}
+          renderItem={({item}) => <Image source={{uri: item}} style={styles.coverImage} resizeMode="cover" />}
+          keyExtractor={item => item}
+        />
+      </Animated.View>
+      <View style={styles.dotWrapper}>
+        {data.map((_, i) => (
+          <View key={i} style={[styles.dot, i === currentIndex && styles.currentDot]} />
+        ))}
       </View>
-    );
-  },
-);
+    </View>
+  );
+});
 
 export default CoverImages;
 

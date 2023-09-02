@@ -1,27 +1,20 @@
 import {FlatList, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import HeaderBar from '@app/components/atoms/HeaderBar';
+import {HeaderBar, Separator} from '@app/components/atoms';
 import {StyleSheet} from 'react-native';
 import BottomActions from '@app/components/cart/BottomActions';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {setShowBottomBar} from '@app/navigation';
-import StepsHorizontal from '@app/components/checkout/StepsHorizontal';
-import AddressView from '@app/components/checkout/AddressView';
-import Separator from '@app/components/atoms/Separator';
-import PaymentView from '@app/components/checkout/PaymentView';
-import OrderSuccessView from '@app/components/checkout/OrderSuccessView';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
-import {
-  addOrUpdateCurrentOrder,
-  addOrder,
-  useOrderSelector,
-} from '@app/redux/reducers/orderSlice';
+import {addOrUpdateCurrentOrder, addOrder, useOrderSelector} from '@app/redux/reducers/orderSlice';
 import {userSelector} from '@app/redux/reducers/userSlice';
 import {BillDetails, PaymentMethod} from '@app/types/order';
 import {emptyCart} from '@app/redux/reducers/productSlice';
 import BottomSheet, {BottomSheetRef} from '@app/components/BottomSheet';
 import BillingDetails from '@app/components/order/BillingDetails';
 import {screenHeight} from '@app/utils/scaling_unit';
+import {AddressView, OrderSuccessView, PaymentView, StepsHorizontal} from '@app/components/checkout';
+import {translate} from '@app/i18n/translate';
 
 type ParamList = {
   Params: {
@@ -48,25 +41,21 @@ const CheckoutScreen = () => {
   const stepsView = [
     {
       id: '1',
-      title: 'Address',
+      title: translate('address'),
       icon: 'map-marker',
       component: <AddressView />,
     },
     {
       id: '2',
-      title: 'Payment',
+      title: translate('payment'),
       icon: 'credit-card',
-      component: (
-        <PaymentView
-          onUpdatePayment={value => setPayment(value.paymentMethod)}
-        />
-      ),
+      component: <PaymentView onUpdatePayment={value => setPayment(value.paymentMethod ?? 'card')} />,
     },
     {
       id: '3',
-      title: 'Order',
+      title: translate('order'),
       icon: 'check-circle',
-      component: <OrderSuccessView />,
+      component: <OrderSuccessView isFocused={currentActiveStep === '3'} />,
     },
   ];
 
@@ -76,6 +65,7 @@ const CheckoutScreen = () => {
       addOrder({
         ...currentOrder,
         status: 'pending',
+        // @ts-ignore
         payment: {
           ...currentOrder?.payment,
           status: 'paid',
@@ -114,13 +104,10 @@ const CheckoutScreen = () => {
       default:
         break;
     }
-    setCurrentActiveStep(prev =>
-      Math.min(stepsView.length, Number(prev) + 1).toString(),
-    );
+    setCurrentActiveStep(prev => Math.min(stepsView.length, Number(prev) + 1).toString());
   };
 
   useEffect(() => {
-    console.log('currentActiveStep', currentOrder);
     slideRef.current?.scrollToIndex({index: Number(currentActiveStep) - 1});
     if (currentActiveStep === '3') {
       onSuccessOrder();
@@ -128,11 +115,12 @@ const CheckoutScreen = () => {
   }, [currentActiveStep]);
 
   const billing = params?.billing;
+  // @ts-ignore
   const totalPrice = billing?.total + billing?.tax + billing?.shipping || 0;
 
   return (
     <>
-      <HeaderBar showBackButton title={'Checkout'} />
+      <HeaderBar showBackButton title={translate('checkout')} />
       <View style={styles.container}>
         <StepsHorizontal
           steps={stepsView}
@@ -164,7 +152,8 @@ const CheckoutScreen = () => {
       </BottomSheet>
       {currentActiveStep !== '3' && (
         <BottomActions
-          buttonText={currentActiveStep === '2' ? 'Pay' : 'Proceed'}
+          testID="checkout_bottom_actions"
+          buttonText={currentActiveStep === '2' ? translate('pay') : translate('proceed')}
           price={totalPrice || 0}
           onPlaceOrder={onProceed}
           onDetailsPressed={() => {

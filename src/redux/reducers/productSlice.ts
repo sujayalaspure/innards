@@ -22,25 +22,22 @@ const initialState: ProductSliceState = {
   test: [],
 };
 
-export const fetchAsyncProducts = createAsyncThunk(
-  'asyncThunk/fetchProducts',
-  async () => {
-    // const data = await fetchProducts<ProductResponse>('womens-dresses', {});
-    // console.log('Producst   ', data);
-    // if (data.status !== 200) {
-    //   throw new Error(data.message);
-    // }
+export const fetchAsyncProducts = createAsyncThunk('asyncThunk/fetchProducts', async () => {
+  // const data = await fetchProducts<ProductResponse>('womens-dresses', {});
+  // console.log('Producst   ', data);
+  // if (data.status !== 200) {
+  //   throw new Error(data.message);
+  // }
 
-    const data = mockProducts.map((product: any, i: number) => {
-      return {
-        ...product,
-        id: i,
-      };
-    });
+  const data = mockProducts.map((product: any, i: number) => {
+    return {
+      ...product,
+      id: i,
+    };
+  });
 
-    return data as Product[];
-  },
-);
+  return data as Product[];
+});
 
 export const productSlice = createSlice({
   name: 'productSlice',
@@ -49,16 +46,11 @@ export const productSlice = createSlice({
     setCurrentProduct: (state, action: PayloadAction<Product>) => {
       state.currentProduct = action.payload;
     },
-    addProductToCart: (
-      state,
-      action: PayloadAction<Omit<CartItem, 'finalPrice'>>,
-    ) => {
+    addProductToCart: (state, action: PayloadAction<Omit<CartItem, 'finalPrice'>>) => {
       const item = action.payload;
       state.cart = [...state.cart] || [];
       const num = parseFloat(item?.price?.toString().replace(/,/g, ''));
-      const discountedPrice =
-        num -
-        (num * parseFloat(item?.discountPercentage?.toString() || '0')) / 100;
+      const discountedPrice = num - (num * parseFloat(item?.discountPercentage?.toString() || '0')) / 100;
 
       const index = state.cart.findIndex(cartItem => cartItem.id === item.id);
       if (index === -1) {
@@ -66,8 +58,7 @@ export const productSlice = createSlice({
       } else {
         const nextQuantity = state.cart[index].quantity + item.quantity;
         if (nextQuantity !== 0) {
-          state.cart[index].quantity =
-            state.cart[index].quantity + item.quantity;
+          state.cart[index].quantity = state.cart[index].quantity + item.quantity;
         } else {
           state.cart.splice(index, 1);
         }

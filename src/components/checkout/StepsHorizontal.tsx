@@ -2,12 +2,7 @@ import {View, Text, StyleSheet, Pressable} from 'react-native';
 import React from 'react';
 import COLOR from '@app/theme/COLOR';
 import {screenWidth} from '@app/utils/scaling_unit';
-import Animated, {
-  interpolateColor,
-  useAnimatedStyle,
-  useDerivedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {interpolateColor, useAnimatedStyle, useDerivedValue, withTiming} from 'react-native-reanimated';
 
 export type Step = {
   id: string;
@@ -43,31 +38,17 @@ const StepsHorizontal = ({steps, activeStep, onPress}: Props) => {
 
 const StepMarker = ({id, title, index, size, onPress, activeIndex}: any) => {
   const lineWidth = (screenWidth - size * 26) / size;
-  const isActive = useDerivedValue(() =>
-    withTiming(Number(activeIndex >= index)),
-  );
+  const isActive = useDerivedValue(() => withTiming(Number(activeIndex >= index)));
 
   const animatedLineStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: interpolateColor(
-        isActive.value,
-        [0, 1],
-        [COLOR.gray, COLOR.primary],
-      ),
+      backgroundColor: interpolateColor(isActive.value, [0, 1], [COLOR.gray, COLOR.primary]),
     };
   });
   const animatedDotStyle = useAnimatedStyle(() => {
     return {
-      backgroundColor: interpolateColor(
-        isActive.value,
-        [0, 1],
-        [COLOR.white, COLOR.primary],
-      ),
-      borderColor: interpolateColor(
-        isActive.value,
-        [0, 1],
-        [COLOR.gray, COLOR.primary],
-      ),
+      backgroundColor: interpolateColor(isActive.value, [0, 1], [COLOR.white, COLOR.primary]),
+      borderColor: interpolateColor(isActive.value, [0, 1], [COLOR.gray, COLOR.primary]),
     };
   });
 
@@ -86,13 +67,7 @@ const StepMarker = ({id, title, index, size, onPress, activeIndex}: any) => {
       )}
       <Pressable style={styles.stepMarker} onPress={onPress}>
         <Animated.View style={[styles.markerDot, animatedDotStyle]}>
-          <Text
-            style={[
-              styles.stepId,
-              activeIndex >= index && styles.activeStepId,
-            ]}>
-            {id}
-          </Text>
+          <Text style={[styles.stepId, activeIndex >= index && styles.activeStepId]}>{id}</Text>
         </Animated.View>
         <Text style={styles.stepTitle}>{title}</Text>
       </Pressable>

@@ -12,15 +12,11 @@ type Props = {
   onPlaceOrder: () => void;
   buttonText?: string;
   onDetailsPressed: () => void;
+  testID?: string;
 };
 
-const BottomActions = ({
-  price,
-  onPlaceOrder,
-  onDetailsPressed,
-  buttonText = 'Place Order',
-}: Props) => {
-  const floatAmount = parseFloat(price.toString()).toFixed(2);
+const BottomActions = ({price, onPlaceOrder, onDetailsPressed, buttonText = 'Place Order', testID}: Props) => {
+  const floatAmount = parseFloat(price?.toString()).toFixed(2);
   const wholeAmount = floatAmount.split('.')[0];
   const decimalAmount = floatAmount.split('.')[1];
   const shouldShowBottomBar = useAppSelector(isShowBottomBar);
@@ -28,19 +24,15 @@ const BottomActions = ({
 
   return (
     <>
-      <View style={[styles.container, {bottom}]}>
+      <View style={[styles.container, styles.shadow, {bottom}]}>
         <View style={styles.orderDetails}>
-          <Text style={styles.price}>
+          <Text testID={`amount_${testID}`} style={styles.price}>
             ₹ {wholeAmount}.<Text style={styles.decimal}>{decimalAmount}</Text>
           </Text>
 
-          <LinkNIcon
-            color={COLOR.blue}
-            text="View Price Details"
-            onPress={onDetailsPressed}
-          />
+          <LinkNIcon color={COLOR.blue} text="View Price Details" onPress={onDetailsPressed} />
         </View>
-        <Button onPress={onPlaceOrder} title={buttonText} />
+        <Button testID={`button_${testID}`} onPress={onPlaceOrder} title={buttonText} />
       </View>
     </>
   );
@@ -49,6 +41,16 @@ const BottomActions = ({
 export default BottomActions;
 
 const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5.62,
+    elevation: 6,
+  },
   container: {
     position: 'absolute',
     bottom: 60,

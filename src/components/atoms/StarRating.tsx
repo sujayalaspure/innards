@@ -33,29 +33,13 @@ const StarRating = ({rating}: Props) => {
       {Array(iWholeStars)
         .fill(0)
         .map((item, i) => (
-          <Icon
-            key={i}
-            name="star"
-            size={moderateScale(15)}
-            color={COLOR.yellow}
-          />
+          <Icon key={i} name="star" size={moderateScale(15)} color={COLOR.yellow} />
         ))}
-      {blnHalfStar && (
-        <Icon
-          name="star-half-full"
-          size={moderateScale(15)}
-          color={COLOR.yellow}
-        />
-      )}
+      {blnHalfStar && <Icon name="star-half-full" size={moderateScale(15)} color={COLOR.yellow} />}
       {Array(iEmptyStars)
         .fill(0)
         .map((item, i) => (
-          <Icon
-            key={i}
-            name="star-outline"
-            size={moderateScale(15)}
-            color={COLOR.yellow}
-          />
+          <Icon key={i} name="star-outline" size={moderateScale(15)} color={COLOR.yellow} />
         ))}
       {count !== 0 && (
         <Text ellipsizeMode="tail" style={styles.text}>

@@ -33,12 +33,7 @@ const AdBannerPlace = ({dotColor = COLOR.primary}: Props) => {
         data={banners}
         renderItem={_ => (
           <View style={styles.card}>
-            <AdCard
-              heading="20% OFF"
-              subHeading="Make your first Purchase"
-              actionText="GET NOW"
-              promoCode="FIRST20"
-            />
+            <AdCard heading="20% OFF" subHeading="Make your first Purchase" actionText="GET NOW" promoCode="FIRST20" />
           </View>
         )}
         keyExtractor={item => item.toString()}
@@ -51,13 +46,7 @@ const AdBannerPlace = ({dotColor = COLOR.primary}: Props) => {
       <View style={styles.dotWrapper}>
         {banners.map((_, i) => (
           <Pressable key={i} onPress={() => scrollTo(i)}>
-            <View
-              style={[
-                styles.dot,
-                i === currentIndex && styles.currentDot,
-                {backgroundColor: dotColor},
-              ]}
-            />
+            <View style={[styles.dot, i === currentIndex && styles.currentDot, {backgroundColor: dotColor}]} />
           </Pressable>
         ))}
       </View>
@@ -68,10 +57,7 @@ const AdBannerPlace = ({dotColor = COLOR.primary}: Props) => {
 export default AdBannerPlace;
 
 const styles = StyleSheet.create({
-  container: {
-    // paddingVertical: 16,
-    // backgroundColor: 'red',
-  },
+  container: {},
   flatlist: {
     flexGrow: 0,
   },
@@ -80,8 +66,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: moderateScale(10),
-    // backgroundColor: 'yellow',
-    // marginHorizontal: moderateScale(8),
   },
   dotWrapper: {
     flexDirection: 'row',

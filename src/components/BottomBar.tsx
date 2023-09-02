@@ -5,11 +5,7 @@ import {currentScreen, isShowBottomBar} from '@app/redux/reducers/userSlice';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLOR from '@app/theme/COLOR';
 import {navigateToScreen} from '@app/navigation';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import {screenWidth} from '@app/utils/scaling_unit';
 import {BlurView} from '@react-native-community/blur';
 
@@ -78,9 +74,7 @@ const BottomBar = () => {
   });
 
   useEffect(() => {
-    const index = bottomBarItems.findIndex(
-      item => item.screenName === currentScreenName,
-    );
+    const index = bottomBarItems.findIndex(item => item.screenName === currentScreenName);
     if (index === -1) {
       return;
     }
@@ -108,8 +102,7 @@ const BottomBar = () => {
   };
 
   return (
-    <Animated.View
-      style={[styles.container, styles.shadow, bottombarAnimatedStyle]}>
+    <Animated.View style={[styles.container, styles.shadow, bottombarAnimatedStyle]}>
       <Animated.View style={[styles.active, activeBarStyle]} />
       <BlurView
         style={styles.absolute}
@@ -119,14 +112,9 @@ const BottomBar = () => {
       />
       <View style={styles.optionsWrapper}>
         {bottomBarItems.map(item => (
-          <Pressable onPress={() => onPressHandler(item.id)}>
+          <Pressable testID={`pressable_${item.screenName}`} onPress={() => onPressHandler(item.id)} key={item.id}>
             <View style={[styles.item]}>
-              <Icon
-                style={styles.icon}
-                name={item.iconName}
-                size={24}
-                color={COLOR.gray}
-              />
+              <Icon style={styles.icon} name={item.iconName} size={24} color={COLOR.gray} />
               <Text style={styles.title}>{item.title}</Text>
             </View>
           </Pressable>

@@ -22,9 +22,7 @@ const BookmarksScreen = () => {
   const isFocus = useIsFocused();
 
   const onSearch = (text: string) => {
-    const filtered = bookmarks.filter(item =>
-      item.title.toLowerCase().includes(text.toLowerCase()),
-    );
+    const filtered = bookmarks.filter(item => item.title.toLowerCase().includes(text.toLowerCase()));
     setFilteredBookmarks(filtered);
   };
 
@@ -57,13 +55,7 @@ const BookmarksScreen = () => {
           data={filteredBookmarks}
           showsVerticalScrollIndicator={false}
           horizontal={false}
-          renderItem={({item, index}) => (
-            <ProductCardHorizontal
-              inView="listScreen"
-              key={index}
-              product={item}
-            />
-          )}
+          renderItem={({item, index}) => <ProductCardHorizontal inView="listScreen" key={index} product={item} />}
         />
       </View>
     </>

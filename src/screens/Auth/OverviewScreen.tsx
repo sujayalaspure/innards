@@ -1,20 +1,13 @@
 import {View, Text, Image, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {image1} from '@app/assets/images';
-import {
-  moderateScale,
-  screenHeight,
-  screenWidth,
-} from '@app/utils/scaling_unit';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import {moderateScale, screenHeight, screenWidth} from '@app/utils/scaling_unit';
+import Animated, {useAnimatedStyle, useSharedValue, withSpring} from 'react-native-reanimated';
 import Button from '@app/components/atoms/Button';
 import SIZE from '@app/theme/SIZE';
 import COLOR from '@app/theme/COLOR';
 import {navigateToScreen} from '@app/navigation';
+import {translate} from '@app/i18n/translate';
 
 const AuthOverviewScreen = () => {
   const imagePosition = useSharedValue(-screenHeight);
@@ -44,17 +37,12 @@ const AuthOverviewScreen = () => {
       </Animated.View>
       <View style={styles.content}>
         <View>
-          <Text style={styles.headingText}>
-            Create a Green town in your house with Innards
-          </Text>
-          <Text style={styles.subHeadingText}>
-            Make your home more temperate with greenary that will give the
-            appearance of more subdued
-          </Text>
+          <Text style={styles.headingText}>{translate('overview_heading')}</Text>
+          <Text style={styles.subHeadingText}>{translate('overview_subheading')}</Text>
         </View>
         <View style={styles.buttonWrapper}>
           <Button
-            title="REGISTER"
+            title={translate('register')}
             variant="secondary"
             onPress={() => {
               navigateToScreen('LoginScreen', {
@@ -63,7 +51,7 @@ const AuthOverviewScreen = () => {
             }}
           />
           <Button
-            title="SIGN IN"
+            title={translate('login')}
             variant="primary"
             onPress={() => {
               navigateToScreen('LoginScreen', {

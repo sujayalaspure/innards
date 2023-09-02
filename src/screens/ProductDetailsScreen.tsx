@@ -1,42 +1,26 @@
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Pressable,
-  Image,
-  FlatList,
-  StyleProp,
-  ImageStyle,
-} from 'react-native';
+/* eslint-disable max-lines */
 import React, {useEffect, useRef, useState} from 'react';
-import {RouteProp, useIsFocused, useRoute} from '@react-navigation/native';
+import {Text, View, StyleSheet, ScrollView, Pressable, Image, FlatList, StyleProp, ImageStyle} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import {moderateScale, screenHeight} from '@app/utils/scaling_unit';
 import {Product} from '@app/types/product';
-import CoverImages, {
-  CoverImagesRef,
-} from '@app/components/product-details/CoverImages';
-import {Text} from 'react-native';
+import CoverImages, {CoverImagesRef} from '@app/components/product-details/CoverImages';
 import COLOR from '@app/theme/COLOR';
 import BottomSheet, {BottomSheetRef} from '@app/components/BottomSheet';
-import StarRating from '@app/components/atoms/StarRating';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {goBack, navigateToScreen, setShowBottomBar} from '@app/navigation';
+import {goBack, navigateToScreen} from '@app/navigation';
 import SIZE from '@app/theme/SIZE';
-import LinearGradient from 'react-native-linear-gradient';
 import FeatureCard from '@app/components/product-details/FeatureCard';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
-import {
-  addProductToCart,
-  useProductSelector,
-} from '@app/redux/reducers/productSlice';
-import Section from '@app/components/Section';
-import ProductCardVerticle from '@app/components/ProductCardVerticle';
-import Separator from '@app/components/atoms/Separator';
-import BottomActions from '@app/components/atoms/BottomActions';
-import {
-  toggleBookMark,
-  useBookmarkSelector,
-} from '@app/redux/reducers/bookmarkSlice';
+import {addProductToCart, useProductSelector} from '@app/redux/reducers/productSlice';
+import {Section, ProductCardVerticle} from '@app/components';
+import {toggleBookMark, useBookmarkSelector} from '@app/redux/reducers/bookmarkSlice';
+import {productFeatures} from '@app/utils/constants';
+import {StarRating, Separator, BottomActions} from '@app/components/atoms';
+import FavButton from '@app/components/product-details/FavButton';
+import useBottomBar from '@app/hooks/useBottomBar';
+import Animated, {AnimatedRef, useAnimatedStyle, useSharedValue, withDelay, withTiming} from 'react-native-reanimated';
 
 type ParamList = {
   Params: Product;
@@ -46,56 +30,39 @@ export interface IImageSlider {
   ImageStyle?: StyleProp<ImageStyle>;
 }
 
-const productFeatures = [
-  {
-    id: '1',
-    heading: 'Lighting',
-    subHeading: 'Bright Indirect Light',
-    icon: 'white-balance-sunny',
-  },
-  {
-    id: '2',
-    heading: 'Water',
-    subHeading: 'Water once a week',
-    icon: 'water',
-  },
-  {
-    id: '3',
-    heading: 'Temperature',
-    subHeading: 'Room temperature',
-    icon: 'thermometer-low',
-  },
-  {
-    id: '4',
-    heading: 'Special feature',
-    subHeading: 'Air purifying',
-    icon: 'air-filter',
-  },
-];
-
 const ProductDetailsScreen = () => {
   const [isOnTop, setIsOnTop] = useState(false);
   const [currentCoverImageIdx, setCurrentCoverImageIdx] = useState(0);
 
   const sheetRef = useRef<BottomSheetRef>(null);
   const coverImageRef = useRef<CoverImagesRef>(null);
-  const thumbnailsRef = useRef<FlatList>(null);
+  // @ts-ignore
+  const thumbnailsRef = useRef<AnimatedRef>(null);
+
+  const opacityHeading = useSharedValue(0);
+  const opacityDescription = useSharedValue(0);
+  const opacityThumbnailImages = useSharedValue(0);
 
   const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
   const {products, cart} = useAppSelector(useProductSelector);
   const {bookmarks} = useAppSelector(useBookmarkSelector);
-  const isBookmarked = bookmarks.find(item => item.id === params.id);
   const dispatch = useAppDispatch();
-  const isFocus = useIsFocused();
+  useBottomBar(false);
+
+  const isBookmarked = bookmarks.some(item => item.id === params.id);
 
   const isAddedToCart = cart.find(item => item.id === params.id);
 
+  const animatedHeadingStyle = useAnimatedStyle(() => ({opacity: opacityHeading.value}));
+  const animatedDescriptionStyle = useAnimatedStyle(() => ({opacity: opacityDescription.value}));
+  const animatedImagesStyle = useAnimatedStyle(() => ({opacity: opacityThumbnailImages.value}));
+
   useEffect(() => {
     sheetRef.current?.scrollTo(screenHeight * 0.53);
-    if (isFocus) {
-      setShowBottomBar(false);
-    }
-  }, [isFocus]);
+    opacityHeading.value = withDelay(200, withTiming(1, {duration: 500}));
+    opacityDescription.value = withDelay(450, withTiming(1, {duration: 500}));
+    opacityThumbnailImages.value = withDelay(700, withTiming(1, {duration: 500}));
+  }, []);
 
   const updateShouldScroll = (position: number) => {
     if (position === 0) {
@@ -110,6 +77,7 @@ const ProductDetailsScreen = () => {
   return (
     <View>
       <Pressable
+        testID="back_button"
         style={styles.backButton}
         onPress={() => {
           goBack();
@@ -128,10 +96,7 @@ const ProductDetailsScreen = () => {
         ref={coverImageRef}
         images={params.images}
       />
-      <LinearGradient
-        style={styles.backdropGradient}
-        colors={[COLOR.gradientColor2 + '00', COLOR.primary]}
-      />
+      <LinearGradient style={styles.backdropGradient} colors={[COLOR.gradientColor2 + '00', COLOR.primary]} />
 
       <BottomSheet
         canClose={false}
@@ -141,8 +106,12 @@ const ProductDetailsScreen = () => {
             setIsOnTop(value);
           }
         }}
-        maxTopPosition={screenHeight * 0.8}
-        maxBottomPosition={screenHeight * 0.53}>
+        sheetHeight={screenHeight * 0.8}
+        snapPoints={{
+          top: screenHeight * 0.8,
+          bottom: screenHeight * 0.53,
+        }}>
+        <FavButton testID="fav_button" onPress={() => dispatch(toggleBookMark(params))} isBookmarked={isBookmarked} />
         <ScrollView
           showsVerticalScrollIndicator={false}
           scrollEnabled={isOnTop}
@@ -151,24 +120,16 @@ const ProductDetailsScreen = () => {
             updateShouldScroll(e.nativeEvent.contentOffset.y);
           }}>
           <View style={styles.contentWrapper}>
-            <View style={styles.headingWrapper}>
-              <View style={styles.flex}>
-                <Text style={styles.title}>{params.title}</Text>
-                <StarRating rating={params.rating} />
-              </View>
-              <Pressable
-                style={styles.bookmarkIcon}
-                onPress={() => dispatch(toggleBookMark(params))}>
-                <Icon
-                  name={isBookmarked ? 'heart' : 'heart-outline'}
-                  size={30}
-                  color={COLOR.primary}
-                />
-              </Pressable>
-            </View>
-            <Text style={styles.description}>{params.description}</Text>
+            <Animated.View style={[styles.headingWrapper, animatedHeadingStyle]}>
+              <Text testID="product_title" style={styles.title}>
+                {params.title}
+              </Text>
+              <StarRating rating={params.rating} />
+            </Animated.View>
+            <Animated.Text style={[styles.description, animatedDescriptionStyle]}>{params.description}</Animated.Text>
             {params.images && (
-              <FlatList
+              <Animated.FlatList
+                style={animatedImagesStyle}
                 ref={thumbnailsRef}
                 data={params.images}
                 horizontal
@@ -176,16 +137,9 @@ const ProductDetailsScreen = () => {
                 renderItem={({item, index}) => (
                   <Pressable
                     key={index}
-                    style={[
-                      styles.thumbnail,
-                      index === currentCoverImageIdx && styles.activeThumbnail,
-                    ]}
+                    style={[styles.thumbnail, index === currentCoverImageIdx && styles.activeThumbnail]}
                     onPress={() => onThumbnailPress(index)}>
-                    <Image
-                      style={styles.thumbnailImage as ImageStyle}
-                      resizeMode="cover"
-                      source={{uri: item}}
-                    />
+                    <Image style={styles.thumbnailImage as ImageStyle} resizeMode="cover" source={{uri: item}} />
                   </Pressable>
                 )}
               />
@@ -211,16 +165,16 @@ const ProductDetailsScreen = () => {
           <Separator height={80} />
         </ScrollView>
         <BottomActions
-          primaryText="Buy Now"
+          testID={{
+            primaryButton: 'buy_now',
+            secondaryButton: 'add_to_cart',
+          }}
+          primaryText={isAddedToCart ? 'Go to Cart' : 'Buy Now'}
           onPrimaryPress={async () => {
-            dispatch(addProductToCart({...params, quantity: 1}));
+            dispatch(addProductToCart({...params, quantity: Number(!isAddedToCart)}));
             navigateToScreen('CartScreen');
           }}
-          secondaryText={
-            isAddedToCart
-              ? `Added ${isAddedToCart.quantity} items`
-              : 'Add to Cart'
-          }
+          secondaryText={isAddedToCart ? `Added ${isAddedToCart.quantity} items` : 'Add to Cart'}
           onSecondaryPress={() => {
             dispatch(addProductToCart({...params, quantity: 1}));
           }}
@@ -245,6 +199,7 @@ const styles = StyleSheet.create({
     borderColor: COLOR.primary,
     borderWidth: 1,
   },
+  // @ts-ignore
   gap: {gap: 10},
   flex: {flex: 1},
   backdropGradient: {
@@ -273,16 +228,14 @@ const styles = StyleSheet.create({
     top: moderateScale(54),
     left: 16,
     zIndex: 1,
-    backgroundColor: COLOR.white,
+    backgroundColor: COLOR.white + '77',
     borderRadius: 10,
     padding: 8,
     borderWidth: 1,
     borderColor: COLOR.gray,
   },
   headingWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    flex: 1,
     marginBottom: moderateScale(10),
   },
   title: {
@@ -296,10 +249,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
     marginBottom: moderateScale(10),
   },
-  bookmarkIcon: {
-    padding: moderateScale(8),
-    paddingTop: moderateScale(0),
-  },
+
   featureWrapper: {
     marginTop: moderateScale(10),
   },

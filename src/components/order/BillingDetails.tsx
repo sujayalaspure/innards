@@ -20,33 +20,16 @@ const BillingDetails = ({billing}: Props) => {
     <>
       <View style={styles.billingDetails}>
         <Text style={styles.sectionTitle}>Bill Details</Text>
-        <InfoText
-          justifyContent="space-between"
-          title="MRP"
-          value={`₹ ${billing?.mrp}`}
-        />
+        <InfoText justifyContent="space-between" title="MRP" value={`₹ ${billing?.mrp}`} />
         <InfoText
           justifyContent="space-between"
           title="Discount"
           value={`₹ -${billing?.discount}`}
           color={COLOR.primaryDark}
         />
-        <InfoText
-          justifyContent="space-between"
-          title="Tax"
-          value={`₹ ${billing?.tax}`}
-        />
-        <InfoText
-          justifyContent="space-between"
-          title="Shipping"
-          value={`₹ ${billing?.shipping}`}
-        />
-        <InfoText
-          justifyContent="space-between"
-          title="Total Amount"
-          value={`₹ ${totalPrice}`}
-          fontWeight="bold"
-        />
+        <InfoText justifyContent="space-between" title="Tax" value={`₹ ${billing?.tax}`} />
+        <InfoText justifyContent="space-between" title="Shipping" value={`₹ ${billing?.shipping}`} />
+        <InfoText justifyContent="space-between" title="Total Amount" value={`₹ ${totalPrice}`} fontWeight="bold" />
       </View>
     </>
   );

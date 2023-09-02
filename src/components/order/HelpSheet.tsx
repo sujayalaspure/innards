@@ -31,12 +31,13 @@ const HelpSheet = () => {
       <View style={styles.optionWrapper}>
         {helpItems.map(item => (
           <Pressable
+            key={item.id}
             style={styles.optionItem}
             onPress={() => setSelectedOption(prev => (prev === item.id ? '' : item.id))}>
+            <Text style={styles.optionText}>{item.title}</Text>
             <View style={styles.icon}>
               {selectedOption === item.id && <Icon name="check" size={20} color={COLOR.accent} />}
             </View>
-            <Text style={styles.optionText}>{item.title}</Text>
           </Pressable>
         ))}
       </View>

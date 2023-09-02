@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Product} from '@app/types/product';
 import {moderateScale} from '@app/utils/scaling_unit';
 import CountButton from '@app/components/atoms/CountButton';
@@ -11,79 +11,96 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {removeProductFromCart} from '@app/redux/reducers/productSlice';
 import useProduct from '@app/hooks/useProduct';
+import Animated, {useAnimatedStyle, useSharedValue, withDelay, withTiming} from 'react-native-reanimated';
 
 type Props = {
   product: Product;
   inView?: 'listScreen' | 'cartScreen';
+  index?: number;
 };
 
-const ProductCardHorizontal = ({product, inView = 'cartScreen'}: Props) => {
+const ProductCardHorizontal = ({product, inView = 'cartScreen', index = 1}: Props) => {
   const [contentHeight, setContentHeight] = useState(150);
   const [thumbImage, setThumbImage] = useState(product?.thumbnail);
+
+  const translateTheta = useSharedValue(50);
+  const opacityTheta = useSharedValue(0);
 
   const dispatch = useAppDispatch();
 
   const {isAddedToCart, discountedPrice, differenceAmount, onChangeQuantity, navigateToDetails} = useProduct(product);
 
+  useEffect(() => {
+    translateTheta.value = withDelay(index * 100, withTiming(0, {duration: 500}));
+    opacityTheta.value = withDelay(index * 100, withTiming(1, {duration: 500}));
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacityTheta.value,
+    transform: [{translateY: translateTheta.value}],
+  }));
+
   return (
-    <Pressable onPress={navigateToDetails} style={[styles.container, styles.shadow]}>
-      <View style={styles.thumbnailWrapper}>
-        <Image
-          onError={() => {
-            setThumbImage('https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg');
-          }}
-          source={{uri: thumbImage}}
-          style={[styles.image, {height: contentHeight}]}
-          resizeMode="cover"
-        />
-      </View>
-      <View
-        style={styles.contentWrapper}
-        onLayout={event => {
-          setContentHeight(event.nativeEvent.layout.height);
-        }}>
-        <Text style={styles.title} numberOfLines={2}>
-          {product.title}
-        </Text>
-        <Text style={styles.subHeading}>{product.brand}</Text>
-        {differenceAmount > 0 && (
+    <Animated.View testID="product_horizontal_card" style={animatedStyle}>
+      <Pressable onPress={navigateToDetails} style={[styles.container, styles.shadow]}>
+        <View style={styles.thumbnailWrapper}>
+          <Image
+            onError={() => {
+              setThumbImage('https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg');
+            }}
+            source={{uri: thumbImage}}
+            style={[styles.image, {height: contentHeight}]}
+            resizeMode="cover"
+          />
+        </View>
+        <View
+          style={styles.contentWrapper}
+          onLayout={event => {
+            setContentHeight(event.nativeEvent.layout.height);
+          }}>
+          <Text style={styles.title} numberOfLines={2}>
+            {product.title}
+          </Text>
+          <Text style={styles.subHeading}>{product.brand}</Text>
+          {differenceAmount > 0 && (
+            <View style={styles.row}>
+              <Text style={styles.strikedPrice}>₹ {product.price}</Text>
+              <Text style={styles.savings}>
+                You save ₹{(differenceAmount * (isAddedToCart?.quantity ?? 1)).toFixed(2)}
+              </Text>
+            </View>
+          )}
           <View style={styles.row}>
-            <Text style={styles.strikedPrice}>₹ {product.price}</Text>
-            <Text style={styles.savings}>
-              You save ₹{(differenceAmount * (isAddedToCart?.quantity ?? 1)).toFixed(2)}
-            </Text>
+            <Text style={styles.price}>₹ {discountedPrice}</Text>
+            <Text style={styles.subHeading}>Deliver in 10 Days</Text>
           </View>
-        )}
-        <View style={styles.row}>
-          <Text style={styles.price}>₹ {discountedPrice}</Text>
-          <Text style={styles.subHeading}>Deliver in 10 Days</Text>
+          <View style={styles.buttonWrapper}>
+            {isAddedToCart ? (
+              <CountButton
+                count={isAddedToCart.quantity}
+                onChange={count => {
+                  onChangeQuantity(count - isAddedToCart.quantity);
+                }}
+              />
+            ) : (
+              <Pressable style={styles.actionButton} onPress={() => onChangeQuantity(1)}>
+                <Icon name="plus" size={20} color={COLOR.white} />
+              </Pressable>
+            )}
+            {inView === 'cartScreen' && (
+              <LinkNIcon
+                text="Remove"
+                iconName="trash-can"
+                onPress={() => {
+                  dispatch(removeProductFromCart(product.id));
+                }}
+                color={COLOR.accent}
+              />
+            )}
+          </View>
         </View>
-        <View style={styles.buttonWrapper}>
-          {isAddedToCart ? (
-            <CountButton
-              count={isAddedToCart.quantity}
-              onChange={count => {
-                onChangeQuantity(count - isAddedToCart.quantity);
-              }}
-            />
-          ) : (
-            <Pressable style={styles.actionButton} onPress={() => onChangeQuantity(1)}>
-              <Icon name="plus" size={20} color={COLOR.white} />
-            </Pressable>
-          )}
-          {inView === 'cartScreen' && (
-            <LinkNIcon
-              text="Remove"
-              iconName="trash-can"
-              onPress={() => {
-                dispatch(removeProductFromCart(product.id));
-              }}
-              color={COLOR.accent}
-            />
-          )}
-        </View>
-      </View>
-    </Pressable>
+      </Pressable>
+    </Animated.View>
   );
 };
 

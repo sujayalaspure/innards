@@ -41,13 +41,7 @@ export const orderSlice = createSlice({
   },
 });
 
-export const {
-  addOrUpdateCurrentOrder,
-  clearCurrentOrder,
-  addOrder,
-  clearOrders,
-  updateOrder,
-} = orderSlice.actions;
+export const {addOrUpdateCurrentOrder, clearCurrentOrder, addOrder, clearOrders, updateOrder} = orderSlice.actions;
 
 export const useOrderSelector = (state: RootState) => state.orderReducer;
 

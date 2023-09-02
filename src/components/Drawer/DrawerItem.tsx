@@ -12,9 +12,10 @@ type Props = {
   onPress?: (t: String) => void;
   iconName: string;
   isLogout?: boolean;
+  testID?: string;
 };
 
-const DrawerItem = ({id, title, onPress, iconName, isLogout}: Props) => {
+const DrawerItem = ({id, title, onPress, iconName, isLogout, testID}: Props) => {
   const itemref = useRef(null);
   const onItemPress = () => {
     closeDrawer();
@@ -23,18 +24,16 @@ const DrawerItem = ({id, title, onPress, iconName, isLogout}: Props) => {
     }
   };
   return (
-    <Pressable onPress={onItemPress}>
-      <View
-        ref={itemref}
-        style={[styles.container, isLogout && styles.logoutStyle]}>
+    <Pressable testID={`pressable_${testID}`} onPress={onItemPress}>
+      <View ref={itemref} style={[styles.container, isLogout && styles.logoutStyle]}>
         <View style={styles.icon}>
           <Icon color={COLOR.white} name={iconName} size={30} />
         </View>
-        <Text style={styles.title}>{title}</Text>
+        <Text testID={`text_${testID}`} style={styles.title}>
+          {title}
+        </Text>
 
-        {!isLogout && (
-          <Icon name={'chevron-right'} size={30} color={COLOR.gray} />
-        )}
+        {!isLogout && <Icon name={'chevron-right'} size={30} color={COLOR.gray} />}
       </View>
     </Pressable>
   );

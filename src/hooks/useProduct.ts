@@ -1,10 +1,8 @@
 import {pushToScreen} from '@app/navigation';
-import {
-  addProductToCart,
-  useProductSelector,
-} from '@app/redux/reducers/productSlice';
+import {addProductToCart, useProductSelector} from '@app/redux/reducers/productSlice';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {Product} from '@app/types/product';
+import {debounce} from 'lodash';
 
 const useProduct = (product: Product) => {
   const {cart} = useAppSelector(useProductSelector);
@@ -15,8 +13,7 @@ const useProduct = (product: Product) => {
   const isInCart = cart.find(item => item.id === id);
 
   const num = parseFloat(price?.toString().replace(/,/g, ''));
-  const discountedPrice =
-    num - (num * parseFloat(discountPercentage?.toString() || '0')) / 100;
+  const discountedPrice = num - (num * parseFloat(discountPercentage?.toString() || '0')) / 100;
 
   const differenceAmount = num - discountedPrice;
 
@@ -30,8 +27,20 @@ const useProduct = (product: Product) => {
     );
   };
 
+  const deboucedFunc = debounce(
+    () => {
+      console.log('deboucedFunc');
+      pushToScreen('ProductDetailsScreen', product);
+    },
+    1000,
+    {
+      leading: true,
+      trailing: false,
+    },
+  );
+
   const navigateToDetails = () => {
-    pushToScreen('ProductDetailsScreen', product);
+    deboucedFunc();
   };
 
   return {

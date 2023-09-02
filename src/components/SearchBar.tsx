@@ -1,10 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  Pressable,
-  TextInputProps,
-} from 'react-native';
+import {View, StyleSheet, TextInput, Pressable, TextInputProps} from 'react-native';
 import React, {useRef} from 'react';
 import COLOR from '@app/theme/COLOR';
 import {moderateScale} from '@app/utils/scaling_unit';
@@ -19,15 +13,7 @@ interface Props extends TextInputProps {
   isFocused?: boolean;
 }
 
-const SearchBar = ({
-  onSearch,
-  showMic,
-  onMicPress,
-  onFocus,
-  isFocused,
-  placeholder,
-  ...props
-}: Props) => {
+const SearchBar = ({onSearch, showMic, onMicPress, onFocus, isFocused, placeholder, ...props}: Props) => {
   const inputRef = useRef<TextInput>(null);
   const onInputFocus = (e: any) => {
     if (onFocus) {
@@ -63,11 +49,7 @@ const SearchBar = ({
       />
       {showMic && (
         <Pressable onPress={onMicPressHandler} style={styles.micIcon}>
-          <Icon
-            name={isFocused ? 'close' : 'microphone'}
-            size={20}
-            color={COLOR.gray}
-          />
+          <Icon name={isFocused ? 'close' : 'microphone'} size={20} color={COLOR.gray} />
         </Pressable>
       )}
     </View>

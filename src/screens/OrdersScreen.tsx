@@ -9,6 +9,7 @@ import {navigateToScreen, setShowBottomBar} from '@app/navigation';
 import {Order} from '@app/types/order';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLOR from '@app/theme/COLOR';
+import {translate} from '@app/i18n/translate';
 
 const OrdersScreen = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -33,9 +34,9 @@ const OrdersScreen = () => {
     <>
       <HeaderBar
         autoFocusSearch
-        searchPlaceholder="Search by product name"
+        searchPlaceholder={translate('search_by_product')}
         showBackButton
-        title="My Orders"
+        title={translate('my_orders')}
         showSearch={showSearch}
         onSearchEnd={() => {
           setFilteredOrders(orders);

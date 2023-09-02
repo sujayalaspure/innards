@@ -10,15 +10,14 @@ import AdBannerPlace from '@app/components/AdBannerPlace';
 import ProductCardVerticle from '@app/components/ProductCardVerticle';
 import Section from '@app/components/Section';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
-import {
-  fetchAsyncProducts,
-  useProductSelector,
-} from '@app/redux/reducers/productSlice';
+import {fetchAsyncProducts, useProductSelector} from '@app/redux/reducers/productSlice';
 import InfluencerCard from '@app/components/atoms/InfluencerCard';
 import {navigateToScreen, openDrawer, setShowBottomBar} from '@app/navigation';
 import {Image} from 'react-native';
 import {userSelector} from '@app/redux/reducers/userSlice';
 import {useIsFocused} from '@react-navigation/native';
+import {influencerVideos} from '@app/utils/constants';
+import {translate} from '@app/i18n/translate';
 
 const topBar = [
   {id: '1', title: 'Seeds', iconName: 'flower-tulip'},
@@ -68,14 +67,11 @@ const HomeScreen = () => {
         showSearch
         RightSideElement={
           <View style={styles.profile}>
-            <Image
-              source={{uri: user?.picture?.thumbnail}}
-              style={styles.image}
-            />
+            <Image source={{uri: user?.picture?.thumbnail}} style={styles.image} />
           </View>
         }
         onRightElementPressed={openDrawer}
-        title="HomeScreen"
+        title={translate('homescreen')}
         showAdBanner={showAd}
         // AdBanner={
         //   <DeliveryCard
@@ -107,35 +103,23 @@ const HomeScreen = () => {
           <Section
             id={'trending'}
             scrollEnabled
-            title="Trending Today"
-            actionText="See All"
+            title={translate('tranding_today')}
+            actionText={translate('see_all')}
             onActionPress={() => {
-              navigateToScreen('ProductListScreen', {title: 'Trending Today'});
+              navigateToScreen('ProductListScreen', {title: translate('tranding_today')});
             }}>
             {products?.slice(0, 5)?.map((item, i) => (
               <ProductCardVerticle key={i} product={item} />
             ))}
           </Section>
-          <Section
-            id={'valueforMoney'}
-            title="Value for Money"
-            actionText="See All">
+          <Section id={'valueforMoney'} title={translate('value_for_money')} actionText={translate('see_all')}>
             {products?.slice(5, 9)?.map((item, i) => (
               <ProductCardVerticle key={i} product={item} />
             ))}
           </Section>
-          <Section
-            id={'influencer'}
-            numColumns={1}
-            scrollEnabled
-            title="Watch Our Influencers"
-            actionText="See All">
-            {[1, 2, 3].map((_, i) => (
-              <InfluencerCard
-                onPress={() => console.log('onPress')}
-                key={i}
-                heading="House plant tips for beginners - 7 Mistakes to avoid. "
-              />
+          <Section id={'influencer'} numColumns={1} scrollEnabled title={translate('watch_our_influencer')}>
+            {influencerVideos.map((item, i) => (
+              <InfluencerCard onPress={() => console.log('onPress')} key={i} {...item} />
             ))}
           </Section>
         </View>

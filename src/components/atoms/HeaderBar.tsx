@@ -93,17 +93,16 @@ const HeaderBar = ({
           <View style={[styles.content]}>
             {showInfos.showBackButton && (
               <View style={styles.icon}>
-                <Pressable onPress={onBackPressHandler}>
+                <Pressable testID="back_button" onPress={onBackPressHandler}>
                   <Icon name="arrow-left" size={25} color={COLOR.white} />
                 </Pressable>
               </View>
             )}
-            {!showInfos.showBackButton &&
-              showInfos.showRightElement &&
-              !showSearch && <View style={styles.dummy} />}
+            {!showInfos.showBackButton && showInfos.showRightElement && !showSearch && <View style={styles.dummy} />}
             {!showSearch && <Text style={styles.title}>{title}</Text>}
             {showSearch && (
               <SearchBar
+                testID="header_search_bar"
                 placeholder={searchPlaceholder}
                 isFocused={autoFocusSearch || isSearchExpanded}
                 onFocus={() => {
@@ -126,13 +125,11 @@ const HeaderBar = ({
               />
             )}
             {showInfos.showRightElement && (
-              <Pressable onPress={onRightElementPressed}>
+              <Pressable testID="header_right" onPress={onRightElementPressed}>
                 {RightSideElement}
               </Pressable>
             )}
-            {showInfos.showBackButton &&
-              !showInfos.showRightElement &&
-              !showSearch && <View style={styles.dummy} />}
+            {showInfos.showBackButton && !showInfos.showRightElement && !showSearch && <View style={styles.dummy} />}
           </View>
           {showAdBanner && React.isValidElement(AdBanner) && AdBanner}
         </View>

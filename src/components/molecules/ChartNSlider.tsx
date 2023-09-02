@@ -4,9 +4,9 @@ import PriceChart from '@app/assets/svg/PriceChart';
 import Slider from '@app/components/atoms/Slider';
 
 type Props = {
-  onRangeChnage: (min: number, max: number) => void;
-  min: number;
-  max: number;
+  onRangeChnage?: (min: number, max: number) => void;
+  min?: number;
+  max?: number;
   unit?: string;
 };
 
@@ -17,12 +17,7 @@ const ChartNSlider = ({min = 0, max = 100, unit = '₹'}: Props) => {
   return (
     <View style={styles.container}>
       <PriceChart />
-      <Slider
-        onRangeChnage={handleRangeChange}
-        min={min}
-        max={max}
-        unit={unit}
-      />
+      <Slider onRangeChnage={handleRangeChange} min={min} max={max} unit={unit} />
     </View>
   );
 };

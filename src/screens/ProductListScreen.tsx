@@ -1,38 +1,25 @@
-import {View, FlatList, Pressable} from 'react-native';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import HeaderBar from '@app/components/atoms/HeaderBar';
-import {RouteProp, useIsFocused, useRoute} from '@react-navigation/native';
+import {StyleSheet, View, FlatList, Pressable} from 'react-native';
+import React, {useCallback, useRef, useState} from 'react';
+import Animated, {SlideInRight, useAnimatedStyle, withSpring} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {StyleSheet} from 'react-native';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {BlurView} from '@react-native-community/blur';
+
+import {HeaderBar, Chip} from '@app/components/atoms';
 import COLOR from '@app/theme/COLOR';
 import {moderateScale} from '@app/utils/scaling_unit';
-import Chip from '@app/components/atoms/Chip';
-import {
-  SpacerH20,
-  SpacerH70,
-  SpacerW6,
-  SpacerW70,
-} from '@app/components/atoms/Separator';
-import Animated, {
-  Easing,
-  SlideInRight,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
+import {SpacerH20, SpacerH70, SpacerW6, SpacerW70} from '@app/components/atoms/Separator';
 import {useAppSelector} from '@app/redux/reduxHook';
 import {useProductSelector} from '@app/redux/reducers/productSlice';
-import ProductCardVerticle from '@app/components/ProductCardVerticle';
-import {BlurView} from '@react-native-community/blur';
-import {navigateToScreen, setShowBottomBar} from '@app/navigation';
-import ProductCardHorizontal from '@app/components/ProductCardHorizontal';
-type Props = {
-  title: string;
-  category: string;
-};
+import {ProductCardVerticle, ProductCardHorizontal} from '@app/components';
+import {navigateToScreen} from '@app/navigation';
+import {Product} from '@app/types/product';
+import useBottomBar from '@app/hooks/useBottomBar';
+type Props = {title: string; category: string};
 
-type ParamList = {
-  Params: Props;
-};
+type ParamList = {Params: Props};
+
+type activeViewType = 'horizontal' | 'vertical';
 
 const categoryTags = ['All', 'Seeds', 'Equipments', 'Plant Food', 'Seasonal'];
 
@@ -40,16 +27,10 @@ const ProductListScreen = () => {
   const {params} = useRoute<RouteProp<ParamList, 'Params'>>();
   const [selectedTagIndex, setSelectedTagIndex] = useState(0);
   const tagsListRef = useRef<FlatList>(null);
-  const [activeView, setActiveView] = useState(0);
+  const [activeView, setActiveView] = useState<activeViewType>('vertical');
 
   const {products} = useAppSelector(useProductSelector);
-  const isFocus = useIsFocused();
-
-  useEffect(() => {
-    if (isFocus) {
-      setShowBottomBar(true);
-    }
-  }, [isFocus]);
+  useBottomBar(true);
 
   const onTagSelect = (index: number) => {
     setSelectedTagIndex(index);
@@ -60,54 +41,44 @@ const ProductListScreen = () => {
     });
   };
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: withTiming(activeView === 0 ? 1 : 31, {
-            duration: 200,
-            easing: Easing.bezier(0.25, 0.1, 0.25, 1),
-          }),
-        },
-      ],
-    };
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: withSpring(activeView === 'vertical' ? 1 : 31, {
+          damping: 14,
+          stiffness: 90,
+        }),
+      },
+    ],
+  }));
 
-  const renderItems = ({item, index}: {item: any; index: number}) => {
-    if (activeView === 0) {
-      return <ProductCardVerticle key={index} product={item} />;
+  const renderItems = ({item, index}: {item: Product; index: number}) => {
+    if (activeView === 'vertical') {
+      return <ProductCardVerticle key={index} product={item} index={index} />;
     } else {
-      return (
-        <ProductCardHorizontal inView="listScreen" key={index} product={item} />
-      );
+      return <ProductCardHorizontal inView="listScreen" key={index} product={item} index={index} />;
     }
   };
 
   const RenderProduct = useCallback(() => {
-    if (activeView === 0) {
-      return (
-        <FlatList
-          ListHeaderComponent={SpacerH70}
-          data={products}
-          showsVerticalScrollIndicator={false}
-          horizontal={false}
-          numColumns={2}
-          renderItem={renderItems}
-          ListFooterComponent={SpacerH70}
-        />
-      );
+    const flatlistProps = {
+      ListHeaderComponent: SpacerH70,
+      data: products,
+      showsVerticalScrollIndicator: false,
+      horizontal: false,
+      renderItem: renderItems,
+      ListFooterComponent: SpacerH70,
+    };
+
+    if (activeView === 'vertical') {
+      return <FlatList {...flatlistProps} numColumns={2} />;
     } else {
       return (
         <FlatList
+          {...flatlistProps}
           contentContainerStyle={styles.flatlistContent}
           style={styles.flatlist}
-          ListHeaderComponent={SpacerH70}
-          ListFooterComponent={SpacerH70}
           ItemSeparatorComponent={SpacerH20}
-          data={products}
-          showsVerticalScrollIndicator={false}
-          horizontal={false}
-          renderItem={renderItems}
         />
       );
     }
@@ -139,9 +110,7 @@ const ProductListScreen = () => {
             blurAmount={70}
             reducedTransparencyFallbackColor={COLOR.white}
           />
-          <Animated.View
-            entering={SlideInRight.delay(100).springify().damping(14)}
-            style={styles.tagsWrapper}>
+          <Animated.View entering={SlideInRight.delay(100).springify().damping(14)} style={styles.tagsWrapper}>
             <FlatList
               ref={tagsListRef}
               data={categoryTags}
@@ -162,22 +131,14 @@ const ProductListScreen = () => {
           </Animated.View>
           <View style={styles.viewChanger}>
             <Animated.View style={[styles.activeViewIconBG, animatedStyle]} />
-            <Pressable
-              onPress={() => setActiveView(0)}
-              style={[styles.viewIcon]}>
-              <Icon
-                name="view-grid"
-                size={25}
-                color={activeView === 0 ? COLOR.white : COLOR.primary}
-              />
+            <Pressable onPress={() => setActiveView('vertical')} style={[styles.viewIcon]}>
+              <Icon name="view-grid" size={25} color={activeView === 'vertical' ? COLOR.white : COLOR.primary} />
             </Pressable>
-            <Pressable
-              onPress={() => setActiveView(1)}
-              style={[styles.viewIcon]}>
+            <Pressable onPress={() => setActiveView('horizontal')} style={[styles.viewIcon]}>
               <Icon
                 name="format-list-bulleted-square"
                 size={25}
-                color={activeView === 1 ? COLOR.white : COLOR.primary}
+                color={activeView === 'horizontal' ? COLOR.white : COLOR.primary}
               />
             </Pressable>
           </View>
@@ -201,10 +162,8 @@ const styles = StyleSheet.create({
   tagNViewWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    // backgroundColor: COLOR.lightGray,
     position: 'absolute',
     top: 0,
-    // zIndex: 1,
   },
   tagsWrapper: {
     paddingVertical: moderateScale(10),
@@ -214,14 +173,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     position: 'absolute',
     alignItems: 'center',
-
     right: 10,
     padding: moderateScale(1),
     borderRadius: moderateScale(8),
     borderWidth: 1,
     borderColor: COLOR.primary,
     backgroundColor: COLOR.white,
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
   viewIcon: {
     padding: moderateScale(3),

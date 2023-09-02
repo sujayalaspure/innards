@@ -34,9 +34,7 @@ const CartScreen = () => {
   };
 
   billing = cart.reduce((acc, item) => {
-    const disc =
-      acc.discount +
-      (parseInt(item.price.toString(), 10) - item.finalPrice) * item.quantity;
+    const disc = acc.discount + (parseInt(item.price.toString(), 10) - item.finalPrice) * item.quantity;
     return {
       ...acc,
       mrp: formatNumber(acc.mrp + Number(item.price) * item.quantity),
@@ -88,6 +86,7 @@ const CartScreen = () => {
             showsVerticalScrollIndicator={false}
           />
           <BottomActions
+            testID="cart_bottom_actions"
             price={billing.total + billing.tax + billing.shipping}
             onPlaceOrder={onPlaceOrder}
             onDetailsPressed={() => {
