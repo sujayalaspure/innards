@@ -209,10 +209,12 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     paddingHorizontal: 10,
     flex: 1,
+    height: '100%',
   },
   productTitle: {
     fontSize: 12,
     color: COLOR.black,
+    fontWeight: '600',
   },
   productSubTitle: {
     color: COLOR.black,

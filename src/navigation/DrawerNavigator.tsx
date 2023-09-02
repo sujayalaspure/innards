@@ -1,13 +1,22 @@
 import DrawerContent from '@app/navigation/DrawerContent';
 import Navigator from '@app/navigation/Navigator';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {
+  DrawerContentComponentProps,
+  createDrawerNavigator,
+} from '@react-navigation/drawer';
+import {useCallback} from 'react';
 
 const DrawerStack = createDrawerNavigator();
 
 function DrawerNavigator(): JSX.Element {
+  const RenderDrawerContent = useCallback(
+    (props: DrawerContentComponentProps) => <DrawerContent {...props} />,
+    [],
+  );
+
   return (
     <DrawerStack.Navigator
-      drawerContent={props => <DrawerContent {...props} />}
+      drawerContent={RenderDrawerContent}
       screenOptions={{
         headerShown: false,
         drawerType: 'front',

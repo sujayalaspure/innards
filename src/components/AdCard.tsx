@@ -36,7 +36,7 @@ const AdCard = ({heading, subHeading, promoCode = '', actionText}: Props) => {
       </View>
       <View style={styles.image}>
         <Image
-          style={{height: '100%', flex: 1}}
+          style={styles.adCardImage}
           resizeMode="stretch"
           source={adCardimage}
         />
@@ -113,4 +113,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: moderateScale(8),
   },
+  adCardImage: {height: '100%', flex: 1},
 });

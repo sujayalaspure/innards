@@ -16,7 +16,7 @@ type Props = {
   unit?: string;
 };
 
-const Slider = ({onRangeChnage, min = 0, max = 100, unit}: Props) => {
+const Slider = ({min = 0, max = 100}: Props) => {
   const [currentRange, setCurrentRange] = useState({
     min: 10,
     max: 90,

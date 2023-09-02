@@ -5,8 +5,6 @@ import Separator from '@app/components/atoms/Separator';
 import COLOR from '@app/theme/COLOR';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type Props = {};
-
 const helpItems = [
   {
     id: '1',
@@ -26,7 +24,7 @@ const helpItems = [
   },
 ];
 
-const HelpSheet = (props: Props) => {
+const HelpSheet = () => {
   const [selectedOption, setSelectedOption] = useState('');
   return (
     <View style={styles.container}>
@@ -34,13 +32,9 @@ const HelpSheet = (props: Props) => {
         {helpItems.map(item => (
           <Pressable
             style={styles.optionItem}
-            onPress={() =>
-              setSelectedOption(prev => (prev === item.id ? '' : item.id))
-            }>
+            onPress={() => setSelectedOption(prev => (prev === item.id ? '' : item.id))}>
             <View style={styles.icon}>
-              {selectedOption === item.id && (
-                <Icon name="check" size={20} color={COLOR.accent} />
-              )}
+              {selectedOption === item.id && <Icon name="check" size={20} color={COLOR.accent} />}
             </View>
             <Text style={styles.optionText}>{item.title}</Text>
           </Pressable>
@@ -49,11 +43,7 @@ const HelpSheet = (props: Props) => {
       <View style={styles.buttonWrapper}>
         <Button iconName="phone" title="Talk to Us" />
         <Separator width={20} />
-        <Button
-          style={styles.messageButton}
-          iconName="chat-processing"
-          title="Message Us"
-        />
+        <Button style={styles.messageButton} iconName="chat-processing" title="Message Us" />
       </View>
     </View>
   );

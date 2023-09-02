@@ -10,17 +10,12 @@ type Props = {
   unit?: string;
 };
 
-const ChartNSlider = ({
-  onRangeChnage,
-  min = 0,
-  max = 100,
-  unit = '₹',
-}: Props) => {
+const ChartNSlider = ({min = 0, max = 100, unit = '₹'}: Props) => {
   const handleRangeChange = (min: number, max: number) => {
     console.log(min, max);
   };
   return (
-    <View>
+    <View style={styles.container}>
       <PriceChart />
       <Slider
         onRangeChnage={handleRangeChange}

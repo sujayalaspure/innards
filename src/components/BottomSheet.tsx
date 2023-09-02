@@ -18,7 +18,7 @@ import {BlurView} from '@react-native-community/blur';
 
 type BottomSheetProps = {
   onTopReached?: (value: boolean) => void;
-  children: any;
+  children: React.ReactNode;
   showBackdrop?: boolean;
   maxBottomPosition?: number;
   maxTopPosition?: number;

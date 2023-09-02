@@ -23,24 +23,14 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen'}: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const {
-    isAddedToCart,
-    discountedPrice,
-    differenceAmount,
-    onChangeQuantity,
-    navigateToDetails,
-  } = useProduct(product);
+  const {isAddedToCart, discountedPrice, differenceAmount, onChangeQuantity, navigateToDetails} = useProduct(product);
 
   return (
-    <Pressable
-      onPress={navigateToDetails}
-      style={[styles.container, styles.shadow]}>
+    <Pressable onPress={navigateToDetails} style={[styles.container, styles.shadow]}>
       <View style={styles.thumbnailWrapper}>
         <Image
           onError={() => {
-            setThumbImage(
-              'https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg',
-            );
+            setThumbImage('https://www.thermaxglobal.com/wp-content/uploads/2020/05/image-not-found.jpg');
           }}
           source={{uri: thumbImage}}
           style={[styles.image, {height: contentHeight}]}
@@ -60,8 +50,7 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen'}: Props) => {
           <View style={styles.row}>
             <Text style={styles.strikedPrice}>₹ {product.price}</Text>
             <Text style={styles.savings}>
-              You save ₹
-              {(differenceAmount * isAddedToCart?.quantity || 1).toFixed(2)}
+              You save ₹{(differenceAmount * (isAddedToCart?.quantity ?? 1)).toFixed(2)}
             </Text>
           </View>
         )}
@@ -78,9 +67,7 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen'}: Props) => {
               }}
             />
           ) : (
-            <Pressable
-              style={styles.actionButton}
-              onPress={() => onChangeQuantity(1)}>
+            <Pressable style={styles.actionButton} onPress={() => onChangeQuantity(1)}>
               <Icon name="plus" size={20} color={COLOR.white} />
             </Pressable>
           )}

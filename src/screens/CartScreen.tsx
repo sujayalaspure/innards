@@ -1,4 +1,4 @@
-import {View, StyleSheet, FlatList, Text} from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 
 import HeaderBar from '@app/components/atoms/HeaderBar';
@@ -14,7 +14,6 @@ import {useIsFocused} from '@react-navigation/native';
 import {addOrUpdateCurrentOrder} from '@app/redux/reducers/orderSlice';
 import {formatNumber, generateUUID} from '@app/utils/commonFunctions';
 import BottomSheet, {BottomSheetRef} from '@app/components/BottomSheet';
-import InfoText from '@app/components/order/InfoText';
 import COLOR from '@app/theme/COLOR';
 import BillingDetails from '@app/components/order/BillingDetails';
 

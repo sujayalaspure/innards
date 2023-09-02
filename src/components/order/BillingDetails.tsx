@@ -5,13 +5,17 @@ import COLOR from '@app/theme/COLOR';
 import {Text} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {View} from 'react-native';
+import {formatNumber} from '@app/utils/commonFunctions';
 
 type Props = {
   billing: BillDetails;
 };
 
 const BillingDetails = ({billing}: Props) => {
-  const totalPrice = billing?.total + billing?.tax + billing?.shipping || 0;
+  const totalPrice = formatNumber(
+    // @ts-ignore
+    billing?.total + billing?.tax + billing?.shipping || 0,
+  );
   return (
     <>
       <View style={styles.billingDetails}>

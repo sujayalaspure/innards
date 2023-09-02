@@ -30,7 +30,7 @@ const OrderCard = ({
           <View style={styles.statusIcon}>
             <Icon name="check" size={30} color={COLOR.primary} />
           </View>
-          <View style={{flex: 1}}>
+          <View style={styles.flex1}>
             <Text>
               Status:{' '}
               <Text style={styles.textBold}>{status?.toUpperCase()}</Text>
@@ -125,5 +125,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderTopColor: COLOR.lightGray,
     borderTopWidth: 1,
+  },
+  flex1: {
+    flex: 1,
   },
 });

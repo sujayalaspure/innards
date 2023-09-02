@@ -12,7 +12,7 @@ type Props = {
 
 const profileImageHeight = moderateScale(45);
 
-const ProfileCard = ({name, image, email, onPress}: Props) => {
+const ProfileCard = ({name, image, email}: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.profileImage}>
