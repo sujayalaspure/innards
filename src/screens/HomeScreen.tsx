@@ -12,13 +12,13 @@ import Section from '@app/components/Section';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {fetchAsyncProducts, useProductSelector} from '@app/redux/reducers/productSlice';
 import InfluencerCard from '@app/components/atoms/InfluencerCard';
-import {navigateToScreen, openDrawer, setShowBottomBar} from '@app/navigation';
+import {navigateToScreen, openDrawer} from '@app/navigation';
 import {Image} from 'react-native';
 import {userSelector} from '@app/redux/reducers/userSlice';
-import {useIsFocused} from '@react-navigation/native';
 import {influencerVideos} from '@app/utils/constants';
 import {translate} from '@app/i18n/translate';
 import {isDarkMode} from '@app/theme';
+import useBottomBar from '@app/hooks/useBottomBar';
 
 const topBar = [
   {id: '1', title: 'Seeds', iconName: 'flower-tulip'},
@@ -33,18 +33,13 @@ const HomeScreen = () => {
   const [showAd, setShowAd] = useState(false);
   const dispatch = useAppDispatch();
   const {products} = useAppSelector(useProductSelector);
-  const isFocus = useIsFocused();
 
   const [isModalVisible, setIsModalVisible] = useState({
     show: false,
     data: {} as any,
   });
 
-  useEffect(() => {
-    if (isFocus) {
-      setShowBottomBar(true, 'HomeScreen');
-    }
-  }, [isFocus]);
+  useBottomBar(true, 'HomeScreen');
 
   useEffect(() => {
     dispatch(fetchAsyncProducts());

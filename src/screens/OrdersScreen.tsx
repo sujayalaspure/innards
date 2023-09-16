@@ -1,24 +1,23 @@
 import {View, StyleSheet, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import HeaderBar from '@app/components/atoms/HeaderBar';
 import {useAppSelector} from '@app/redux/reduxHook';
 import {useOrderSelector} from '@app/redux/reducers/orderSlice';
 import OrderCard from '@app/components/order/OrderCard';
 import {SpacerH70} from '@app/components/atoms/Separator';
-import {navigateToScreen, setShowBottomBar} from '@app/navigation';
+import {navigateToScreen} from '@app/navigation';
 import {Order} from '@app/types/order';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLOR from '@app/theme/COLOR';
 import {translate} from '@app/i18n/translate';
+import useBottomBar from '@app/hooks/useBottomBar';
 
 const OrdersScreen = () => {
   const [showSearch, setShowSearch] = useState(false);
   const {orders} = useAppSelector(useOrderSelector);
   const [filteredOrders, setFilteredOrders] = useState(orders);
 
-  useEffect(() => {
-    setShowBottomBar(false, 'OrdersScreen');
-  }, []);
+  useBottomBar(false, 'OrdersScreen');
 
   const onPressHandler = (order: Order) => {
     navigateToScreen('OrderSummaryScreen', order);

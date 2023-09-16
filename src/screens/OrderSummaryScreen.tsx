@@ -1,7 +1,7 @@
 import {View, Text, Image, ScrollView, Pressable} from 'react-native';
 import React, {useEffect, useRef} from 'react';
 import HeaderBar from '@app/components/atoms/HeaderBar';
-import {useRoute, RouteProp, useIsFocused} from '@react-navigation/native';
+import {useRoute, RouteProp} from '@react-navigation/native';
 import {Order} from '@app/types/order';
 import {StyleSheet} from 'react-native';
 import Card from '@app/components/atoms/Card';
@@ -10,7 +10,7 @@ import Separator, {SpacerH20, SpacerH70} from '@app/components/atoms/Separator';
 import {RenderAddress} from '@app/components/checkout/AddressView';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '@app/components/atoms/Button';
-import {navigateToScreen, setShowBottomBar} from '@app/navigation';
+import {navigateToScreen} from '@app/navigation';
 import {addProductToCart} from '@app/redux/reducers/productSlice';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {formatDate, getDifferenceInDays, toTitleCase} from '@app/utils/commonFunctions';
@@ -21,6 +21,7 @@ import HelpSheet from '@app/components/order/HelpSheet';
 import InfoText from '@app/components/order/InfoText';
 import BillingDetails from '@app/components/order/BillingDetails';
 import {translate} from '@app/i18n/translate';
+import useBottomBar from '@app/hooks/useBottomBar';
 
 type ParamList = {
   Params: Order;
@@ -32,15 +33,10 @@ const OrderSummaryScreen = () => {
 
   const {orders} = useAppSelector(useOrderSelector);
   const dispatch = useAppDispatch();
-  const isFocus = useIsFocused();
 
   const order = orders.find(item => item.id === params.id);
 
-  useEffect(() => {
-    if (isFocus) {
-      setShowBottomBar(false, 'OrderSummaryScreen');
-    }
-  }, [isFocus]);
+  useBottomBar(false, 'OrderSummaryScreen');
 
   useEffect(() => {
     if (order) {

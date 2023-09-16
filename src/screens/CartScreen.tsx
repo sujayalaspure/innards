@@ -1,5 +1,5 @@
 import {View, StyleSheet, FlatList} from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 
 import HeaderBar from '@app/components/atoms/HeaderBar';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
@@ -9,19 +9,19 @@ import {moderateScale, screenHeight} from '@app/utils/scaling_unit';
 import {SpacerH140, SpacerH20} from '@app/components/atoms/Separator';
 import EmptyCartView from '@app/components/cart/EmptyCartView';
 import BottomActions from '@app/components/cart/BottomActions';
-import {navigateToScreen, setShowBottomBar} from '@app/navigation';
-import {useIsFocused} from '@react-navigation/native';
+import {navigateToScreen} from '@app/navigation';
 import {addOrUpdateCurrentOrder} from '@app/redux/reducers/orderSlice';
 import {formatNumber, generateUUID} from '@app/utils/commonFunctions';
 import BottomSheet, {BottomSheetRef} from '@app/components/BottomSheet';
 import COLOR from '@app/theme/COLOR';
 import BillingDetails from '@app/components/order/BillingDetails';
+import useBottomBar from '@app/hooks/useBottomBar';
 
 const CartScreen = () => {
   const sheetRef = useRef<BottomSheetRef>(null);
 
   const {cart} = useAppSelector(useProductSelector);
-  const isFocus = useIsFocused();
+
   const dispatch = useAppDispatch();
 
   let billing = {
@@ -45,11 +45,7 @@ const CartScreen = () => {
     };
   }, billing);
 
-  useEffect(() => {
-    if (isFocus) {
-      setShowBottomBar(true, 'CartScreen');
-    }
-  }, [isFocus]);
+  useBottomBar(true, 'CartScreen');
 
   const onPlaceOrder = async () => {
     console.log('onPlaceOrder', cart);

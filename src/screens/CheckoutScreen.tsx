@@ -4,7 +4,6 @@ import {HeaderBar, Separator} from '@app/components/atoms';
 import {StyleSheet} from 'react-native';
 import BottomActions from '@app/components/cart/BottomActions';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {setShowBottomBar} from '@app/navigation';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {addOrUpdateCurrentOrder, addOrder, useOrderSelector} from '@app/redux/reducers/orderSlice';
 import {userSelector} from '@app/redux/reducers/userSlice';
@@ -16,6 +15,7 @@ import {screenHeight} from '@app/utils/scaling_unit';
 import {AddressView, OrderSuccessView, PaymentView, StepsHorizontal} from '@app/components/checkout';
 import {translate} from '@app/i18n/translate';
 import COLOR from '@app/theme/COLOR';
+import useBottomBar from '@app/hooks/useBottomBar';
 
 type ParamList = {
   Params: {
@@ -35,9 +35,7 @@ const CheckoutScreen = () => {
   const {currentOrder} = useAppSelector(useOrderSelector);
   const {user} = useAppSelector(userSelector);
 
-  useEffect(() => {
-    setShowBottomBar(false, 'CheckoutScreen');
-  }, []);
+  useBottomBar(false, 'CheckoutScreen');
 
   const stepsView = [
     {

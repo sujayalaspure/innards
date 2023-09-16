@@ -17,6 +17,7 @@ export function navigateToScreen(screen: screenNameTypes, params?: object | unde
 }
 
 export function pushToScreen(screen: screenNameTypes, params?: object | undefined): void {
+  store.dispatch(setCurrentScreen(screen));
   navigatorRef.current.dispatch(StackActions.push(screen, params));
 }
 
@@ -35,7 +36,7 @@ export const goBack = (): void => {
 
 export const setShowBottomBar = (show: boolean, screen?: screenNameTypes): void => {
   store.dispatch(toggleBottomBar(show));
-  if (screen) {
+  if (screen && store.getState().userReducer.currentScreen !== screen) {
     store.dispatch(setCurrentScreen(screen));
   }
 };

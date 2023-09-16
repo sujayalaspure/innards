@@ -21,10 +21,11 @@ import Button from '@app/components/atoms/Button';
 import LinkText from '@app/components/atoms/LinkText';
 import {StackActions, useRoute} from '@react-navigation/native';
 import {RootRouteProps} from '@app/utils/types';
-import {getNavigator, setShowBottomBar} from '@app/navigation';
+import {getNavigator} from '@app/navigation';
 import {translate} from '@app/i18n/translate';
 import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
 import {fetchUser, userSelector} from '@app/redux/reducers/userSlice';
+import useBottomBar from '@app/hooks/useBottomBar';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -54,10 +55,10 @@ const LoginScreen = () => {
     [],
   );
 
+  useBottomBar(false, 'LoginScreen');
   useEffect(() => {
     imagePosition.value = 0;
     setCurrentScene(params.currentScreen);
-    setShowBottomBar(false);
   }, []);
 
   const handleLogin = async () => {
