@@ -8,6 +8,7 @@ import COLOR from '@app/theme/COLOR';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Video from 'react-native-video';
+import {Logger} from '@app/utils/Logger';
 
 type Props = {
   heading?: string;
@@ -62,10 +63,10 @@ const InfluencerCard = ({heading, link, onPress}: Props) => {
           <View style={styles.videoPlayerContainer}>
             <Video
               onBuffer={() => {
-                console.log('buffering');
+                Logger.log('buffering');
               }}
               onError={e => {
-                console.log('error', e);
+                Logger.log('error', e);
               }}
               source={{uri: link}}
               style={styles.backgroundVideo}

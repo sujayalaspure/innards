@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {goBack} from '@app/navigation';
 import SIZE from '@app/theme/SIZE';
 import SearchBar from '@app/components/SearchBar';
+import {Logger} from '@app/utils/Logger';
 type Props = {
   title?: string;
   onBackPress?: () => void;
@@ -116,9 +117,9 @@ const HeaderBar = ({
                     setIsSearchExpanded(false);
                     setTimeout(() => {
                       if (isExp) {
-                        console.log('onMicPress');
+                        Logger.log('onMicPress');
                       } else {
-                        console.log('onClear');
+                        Logger.log('onClear');
                         onSearchEnd && onSearchEnd();
                       }
                     }, 200);

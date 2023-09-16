@@ -3,6 +3,7 @@ import React, {useRef, useState} from 'react';
 import AdCard from '@app/components/AdCard';
 import {moderateScale, screenWidth} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
+import {Logger} from '@app/utils/Logger';
 
 const banners = [1, 2, 3];
 
@@ -20,7 +21,7 @@ const AdBannerPlace = ({dotColor = COLOR.primary}: Props) => {
   }).current;
 
   const scrollTo = (i: number) => {
-    console.log('scrollTo', i);
+    Logger.log('scrollTo', i);
     setCurrentIndex(i);
     slideRef.current?.scrollToIndex({index: i});
   };

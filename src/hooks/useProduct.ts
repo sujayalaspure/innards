@@ -29,7 +29,6 @@ const useProduct = (product: Product) => {
 
   const deboucedFunc = debounce(
     () => {
-      console.log('deboucedFunc');
       pushToScreen('ProductDetailsScreen', product);
     },
     1000,

@@ -8,6 +8,7 @@ import {navigateToScreen} from '@app/navigation';
 import Animated, {useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import {screenWidth} from '@app/utils/scaling_unit';
 import {BlurView} from '@react-native-community/blur';
+import {Logger} from '@app/utils/Logger';
 
 const bottomBarItems = [
   {
@@ -80,7 +81,7 @@ const BottomBar = () => {
     }
     activeBar.value = (screenWidth / 5) * index;
 
-    console.log('currentScreenName', currentScreenName, index);
+    Logger.log('currentScreenName', currentScreenName, index);
   }, [currentScreenName]);
 
   const onPressHandler = (id: string) => {

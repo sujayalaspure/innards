@@ -17,6 +17,7 @@ import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import {persistor, store} from '@app/redux/store';
 import {isDarkMode} from '@app/theme';
+import {Logger} from '@app/utils/Logger';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -27,10 +28,10 @@ function App(): JSX.Element {
   // @ts-ignore
   isDarkMode.current = isDark;
 
-  console.log('isDarkMode.current', isDarkMode.current, isDark);
+  Logger.log('isDarkMode.current', isDarkMode.current, isDark);
 
   const handleNavigationReady = () => {
-    console.log('Navigation is ready!');
+    Logger.log('Navigation is ready!');
     SplashScreen.hide();
     navigatorRef.current?.addListener('beforeRemove', (e: any) => {
       if (e.data.action.type === 'GO_BACK') {

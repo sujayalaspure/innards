@@ -19,6 +19,7 @@ import {influencerVideos} from '@app/utils/constants';
 import {translate} from '@app/i18n/translate';
 import {isDarkMode} from '@app/theme';
 import useBottomBar from '@app/hooks/useBottomBar';
+import {Logger} from '@app/utils/Logger';
 
 const topBar = [
   {id: '1', title: 'Seeds', iconName: 'flower-tulip'},
@@ -115,7 +116,7 @@ const HomeScreen = () => {
           </Section>
           <Section id={'influencer'} numColumns={1} scrollEnabled title={translate('watch_our_influencer')}>
             {influencerVideos.map((item, i) => (
-              <InfluencerCard onPress={() => console.log('onPress')} key={i} {...item} />
+              <InfluencerCard onPress={() => Logger.log('onPress')} key={i} {...item} />
             ))}
           </Section>
         </View>

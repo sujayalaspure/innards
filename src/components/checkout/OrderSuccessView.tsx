@@ -26,7 +26,6 @@ const OrderSuccessView = ({isFocused}: Props) => {
   }));
 
   useEffect(() => {
-    console.log('isFocused', isFocused);
     if (isFocused) {
       theta.value = 1;
     } else {

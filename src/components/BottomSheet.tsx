@@ -9,6 +9,7 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import {screenHeight} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
@@ -133,8 +134,8 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     });
 
     const rBackDropStyle = useAnimatedStyle(() => ({
-      opacity: isSheetVisible.value ? 1 : 0,
-      // backgroundColor: 'rgba(0,0,0,0.5)',
+      opacity: withTiming(isSheetVisible.value ? 1 : 0, {duration: 200}),
+      backgroundColor: 'rgba(0,0,0,0.5)',
     }));
     const rBackdropProps = useAnimatedProps(() => ({pointerEvents: isSheetVisible.value ? 'auto' : 'none'} as any));
 
@@ -177,7 +178,6 @@ const styles = StyleSheet.create({
     backgroundColor: COLOR.white,
     position: 'absolute',
     top: screenHeight,
-    // overflow: 'hidden',
   },
   line: {
     height: 5,

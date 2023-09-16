@@ -16,6 +16,7 @@ import {AddressView, OrderSuccessView, PaymentView, StepsHorizontal} from '@app/
 import {translate} from '@app/i18n/translate';
 import COLOR from '@app/theme/COLOR';
 import useBottomBar from '@app/hooks/useBottomBar';
+import {Logger} from '@app/utils/Logger';
 
 type ParamList = {
   Params: {
@@ -59,7 +60,7 @@ const CheckoutScreen = () => {
   ];
 
   const onSuccessOrder = () => {
-    console.log('onSuccessOrder', currentOrder);
+    Logger.log('onSuccessOrder', currentOrder);
     dispatch(
       addOrder({
         ...currentOrder,
@@ -75,7 +76,7 @@ const CheckoutScreen = () => {
   };
 
   const onProceed = () => {
-    console.log('onProceed', currentActiveStep);
+    Logger.log('onProceed', currentActiveStep);
     switch (currentActiveStep) {
       case '1':
         dispatch(

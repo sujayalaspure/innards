@@ -1,3 +1,5 @@
+import {Logger} from '@app/utils/Logger';
+
 const BASE_URL = 'https://dummyjson.com/';
 
 interface Response<T = any> {
@@ -7,9 +9,9 @@ interface Response<T = any> {
 }
 
 const fetchData = async (url: string, options: object): Promise<Response> => {
-  console.log('fetchData_req', url, options);
+  Logger.log('fetchData_req', url, options);
   const res = await fetch(url, options);
-  console.log('fetchData_res', res);
+  Logger.log('fetchData_res', res);
   if (!res.ok) {
     return {
       status: res.status,
@@ -25,18 +27,12 @@ const fetchData = async (url: string, options: object): Promise<Response> => {
   };
 };
 
-const fetchProducts = async <T>(
-  url: string,
-  options: object,
-): Promise<Response<T>> => {
+const fetchProducts = async <T>(url: string, options: object): Promise<Response<T>> => {
   const data = await fetchData(BASE_URL + 'products/category/' + url, options);
   return data;
 };
 
-const fetchCarts = async (
-  userId: string,
-  options: object,
-): Promise<Response> => {
+const fetchCarts = async (userId: string, options: object): Promise<Response> => {
   const data = await fetchData(BASE_URL + 'carts/user/' + userId, options);
   return data;
 };

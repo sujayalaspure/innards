@@ -16,6 +16,7 @@ import BottomSheet, {BottomSheetRef} from '@app/components/BottomSheet';
 import COLOR from '@app/theme/COLOR';
 import BillingDetails from '@app/components/order/BillingDetails';
 import useBottomBar from '@app/hooks/useBottomBar';
+import {Logger} from '@app/utils/Logger';
 
 const CartScreen = () => {
   const sheetRef = useRef<BottomSheetRef>(null);
@@ -48,7 +49,7 @@ const CartScreen = () => {
   useBottomBar(true, 'CartScreen');
 
   const onPlaceOrder = async () => {
-    console.log('onPlaceOrder', cart);
+    Logger.log('onPlaceOrder', cart);
     await dispatch(
       addOrUpdateCurrentOrder({
         id: generateUUID(),

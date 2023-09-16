@@ -2,6 +2,7 @@ import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import PriceChart from '@app/assets/svg/PriceChart';
 import Slider from '@app/components/atoms/Slider';
+import {Logger} from '@app/utils/Logger';
 
 type Props = {
   onRangeChnage?: (min: number, max: number) => void;
@@ -12,7 +13,7 @@ type Props = {
 
 const ChartNSlider = ({min = 0, max = 100, unit = '₹'}: Props) => {
   const handleRangeChange = (min: number, max: number) => {
-    console.log(min, max);
+    Logger.log(min, max);
   };
   return (
     <View style={styles.container}>
