@@ -108,19 +108,18 @@ export default ProductCardHorizontal;
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowColor: '#000',
+    shadowColor: COLOR.black,
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.1,
     shadowRadius: 3.84,
-
     elevation: 5,
   },
   container: {
     width: '100%',
-    backgroundColor: 'white',
+    backgroundColor: COLOR.white,
     // padding: moderateScale(6),
     flexDirection: 'row',
     borderRadius: SIZE.radius,

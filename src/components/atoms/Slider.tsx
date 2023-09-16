@@ -2,11 +2,7 @@ import {View, TextInput} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import COLOR from '@app/theme/COLOR';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated, {useAnimatedStyle, useSharedValue, withTiming} from 'react-native-reanimated';
 import {Text} from 'react-native';
 
 type Props = {
@@ -62,20 +58,13 @@ const Slider = ({min = 0, max = 100}: Props) => {
         <Animated.View style={[styles.sliderDot, leftDot]} />
         <View style={[styles.sliderLine, styles.sliderLineBackground]} />
 
-        <Animated.View
-          style={[
-            styles.sliderLine,
-            styles.sliderLineForeground,
-            animatedStyle,
-          ]}
-        />
+        <Animated.View style={[styles.sliderLine, styles.sliderLineForeground, animatedStyle]} />
         <Animated.View style={[styles.sliderDot, rightDot]} />
-        {currentRange.min - currentRange.max > 0 && (
-          <Text style={styles.errorMsg}>Error</Text>
-        )}
+        {currentRange.min - currentRange.max > 0 && <Text style={styles.errorMsg}>Error</Text>}
       </View>
       <View style={styles.inputWrapper}>
         <TextInput
+          placeholderTextColor={COLOR.gray}
           style={styles.textinput}
           value={currentRange.min.toString()}
           enablesReturnKeyAutomatically
@@ -88,6 +77,7 @@ const Slider = ({min = 0, max = 100}: Props) => {
           }}
         />
         <TextInput
+          placeholderTextColor={COLOR.gray}
           defaultValue="0"
           style={styles.textinput}
           value={currentRange.max.toString()}
@@ -159,6 +149,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLOR.gray,
     fontSize: 16,
+    color: COLOR.black,
   },
   errorMsg: {
     color: COLOR.accent,

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   View,
   Text,
@@ -178,6 +179,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-end',
+    backgroundColor: COLOR.white,
   },
   image: {
     width: screenWidth,
@@ -202,11 +204,6 @@ const styles = StyleSheet.create({
     marginTop: moderateScale(8),
     marginBottom: moderateScale(30),
     color: COLOR.gray,
-  },
-  buttonWrapper: {
-    flexDirection: 'row',
-    gap: moderateScale(8),
-    marginBottom: moderateScale(24),
   },
   formWrapper: {
     flexDirection: 'column',

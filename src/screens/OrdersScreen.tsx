@@ -47,7 +47,7 @@ const OrdersScreen = () => {
         onSearch={onSearch}
       />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         {/* <Button title="clear" onPress={() => dispatch(clearOrders())} /> */}
         <View style={styles.content}>
           {filteredOrders.map(order => (
@@ -63,7 +63,9 @@ const OrdersScreen = () => {
 export default OrdersScreen;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: COLOR.white,
+  },
   content: {
     paddingVertical: 10,
     paddingHorizontal: 20,

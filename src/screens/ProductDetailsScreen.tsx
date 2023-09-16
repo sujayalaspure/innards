@@ -241,6 +241,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: moderateScale(20),
     fontWeight: '500',
+    color: COLOR.black,
   },
   description: {
     fontSize: moderateScale(14),

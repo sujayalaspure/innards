@@ -6,9 +6,7 @@ import React, {FC, useEffect, useState} from 'react';
 
 const ProductCard = (Component: FC<any>) => {
   const {cart} = useAppSelector(useProductSelector);
-  const [isAddedToCart, setIsAddedToCart] = useState<CartItem | undefined>(
-    undefined,
-  );
+  const [isAddedToCart, setIsAddedToCart] = useState<CartItem | undefined>(undefined);
   let id = 0;
   useEffect(() => {
     const isInCart = cart.find(item => item.id === id);
@@ -20,13 +18,7 @@ const ProductCard = (Component: FC<any>) => {
   };
   return (props: any) => {
     id = props?.product?.id;
-    return (
-      <Component
-        {...props}
-        onCardPress={cardPressHandler}
-        isAddedToCart={isAddedToCart}
-      />
-    );
+    return <Component {...props} onCardPress={cardPressHandler} isAddedToCart={isAddedToCart} />;
   };
 };
 

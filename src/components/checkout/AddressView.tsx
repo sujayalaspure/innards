@@ -17,6 +17,7 @@ const AddressView = () => {
     name: {first, last},
     location,
   } = user as UserInerface;
+
   return (
     <View style={styles.container}>
       <View style={styles.section}>
@@ -24,11 +25,7 @@ const AddressView = () => {
         <Card chipText="DEFAULT">
           <View style={styles.addressWrapper}>
             <View style={styles.iconWrapper}>
-              <Icon
-                name="check-underline-circle"
-                size={30}
-                color={COLOR.primary}
-              />
+              <Icon name="check-underline-circle" size={30} color={COLOR.primary} />
             </View>
             <View style={styles.content}>
               <Text style={styles.name}>{`${first} ${last}`}</Text>
@@ -60,9 +57,7 @@ const AddressView = () => {
       <Separator height={20} />
       <View style={styles.optionRow}>
         <Icon name="checkbox-marked" size={30} color={COLOR.primary} />
-        <Text style={styles.address}>
-          My Billing and Delivery Information are the same.
-        </Text>
+        <Text style={styles.address}>My Billing and Delivery Information are the same.</Text>
       </View>
       <View style={styles.optionRow}>
         <Icon name="checkbox-marked" size={30} color={COLOR.primary} />

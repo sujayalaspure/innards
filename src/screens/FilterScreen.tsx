@@ -119,6 +119,8 @@ export default FilterScreen;
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: moderateScale(16),
+    backgroundColor: COLOR.white,
+    flex: 1,
   },
   sectionHeader: {
     flexDirection: 'row',

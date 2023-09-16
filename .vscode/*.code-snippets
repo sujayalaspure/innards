@@ -1,0 +1,117 @@
+{
+  "React Native Component TS": {
+    "prefix": "tsfc",
+    "body": [
+      "import * as React from 'react';",
+      "import { View, Text } from 'react-native';",
+      "",
+      "interface ${1:$TM_FILENAME_BASE}Props {",
+      "}",
+      "",
+      "function ${1:} (props: ${1:}Props) {",
+      "    return (",
+      "      <View>",
+      "         ${1:}",
+      "      </View>",
+      "    );",
+      "}",
+      "",
+      "export default ${1:$TM_FILENAME_BASE};"
+    ],
+    "description": "Create a React Stateless Component.",
+    "scope": "typescriptreact"
+  },
+  "Print to console": {
+    "prefix": "log",
+    "body": ["console.log('[${TM_FILENAME}_$1] - ', $2)"],
+    "description": "Log output to console with fileName"
+  },
+
+  "Print Object": {
+    "prefix": "logobj",
+    "body": ["console.log('[${TM_FILENAME}_$1] -  ', JSON.stringify($2, null, 2) )"],
+    "description": "Log Object output to console with fileName"
+  },
+
+  "useAppDispatchFunction": {
+    "prefix": "usedispatchSnippet",
+    "body": ["const dispatch = useAppDispatch($2);"]
+  },
+
+  "useAppSelectorFunction": {
+    "prefix": "useAppSelectorSnippet",
+    "body": ["const $1 = useAppSelector($2);"]
+  },
+
+  "Create Slice redux Toolkit": {
+    "prefix": "rtkslice",
+    "body": [
+      "import {RootState} from '@app/redux/store';",
+      "import {createSlice} from '@reduxjs/toolkit';",
+      "import type {PayloadAction} from '@reduxjs/toolkit';",
+      "",
+      "interface ${1/(.*)/${1:/capitalize}/}State {",
+      "  ",
+      "}",
+      "",
+      "const initialState: ${1/(.*)/${1:/capitalize}/}State = {",
+      "  ",
+      "};",
+      "",
+      "export const ${1:$TM_FILENAME_BASE} = createSlice({",
+      "  name: '${1:example}Reducer',",
+      "  initialState,",
+      "  reducers: {",
+      "    ${2:reducerName}: (state, action: PayloadAction<${3:stateType}>) => {",
+      "      ${4}",
+      "    },",
+      "  },",
+      "});",
+      "",
+      "export const {${2:reducerName}} = ${1:example}.actions;",
+      "",
+      "export const ${1:example}Selector = (state: RootState) => state.${1:example}Reducer;",
+      "export default ${1:example}.reducer;",
+      ""
+    ],
+    "description": "Create Slice redux Toolkit"
+  },
+
+  "Create RTK Async Thunk": {
+    "prefix": "rtkthunk",
+    "body": [
+      "export const ${1:name} = createAsyncThunk('asyncThunk/${1:name}', async () => {",
+      "  ${2}",
+      "  return ${3:returnValue} as ${4:returnType};",
+      "});"
+    ],
+    "description": "Create RTK Async Thunk"
+  },
+
+  "Create RTK Extra reducer": {
+    "prefix": "rtkextrareducer",
+    "body": [
+      "extraReducers: builder => {",
+      "    builder.addCase(${1:functionName}.pending, state => {",
+      "      state.isLoading = true;",
+      "    });",
+      "    builder.addCase(${1:functionName}.fulfilled, (state, action) => {",
+      "      state.isLoading = false;",
+      "      state.${2:example} = action.payload;",
+      "    });",
+      "    builder.addCase(${1:functionName}.rejected, (state, action) => {",
+      "      state.isLoading = false;",
+      "      state.error = action.error.message;",
+      "    });",
+      "  },"
+    ],
+    "description": "Create RTK Extra reducer"
+  },
+
+  "test Snippet": {
+    "prefix": ["header", "stub", "copyright"],
+    "body": "const [ ${1}, set${1/(.*)/${1:/capitalize}/} ] = useState()",
+    "description": "Adds copyright...",
+    "scope": "javascript,typescript,typescriptreact"
+  }
+}

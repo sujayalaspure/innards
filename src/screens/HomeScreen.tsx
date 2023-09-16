@@ -18,6 +18,7 @@ import {userSelector} from '@app/redux/reducers/userSlice';
 import {useIsFocused} from '@react-navigation/native';
 import {influencerVideos} from '@app/utils/constants';
 import {translate} from '@app/i18n/translate';
+import {isDarkMode} from '@app/theme';
 
 const topBar = [
   {id: '1', title: 'Seeds', iconName: 'flower-tulip'},
@@ -92,7 +93,7 @@ const HomeScreen = () => {
                 }}
                 {...item}
                 bgColor={COLOR.primary}
-                iconColor={COLOR.white}
+                iconColor={isDarkMode.current ? COLOR.black : COLOR.white}
               />
               <Text style={styles.topBarIconText}>{item.title}</Text>
             </View>

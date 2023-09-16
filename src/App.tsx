@@ -16,17 +16,23 @@ import DrawerNavigator from '@app/navigation/DrawerNavigator';
 import SplashScreen from 'react-native-splash-screen';
 import {Provider} from 'react-redux';
 import {persistor, store} from '@app/redux/store';
+import {isDarkMode} from '@app/theme';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const isDark = useColorScheme() === 'dark';
+
+  // @ts-ignore
+  isDarkMode.current = isDark;
+
+  console.log('isDarkMode.current', isDarkMode.current, isDark);
 
   const handleNavigationReady = () => {
     console.log('Navigation is ready!');
     SplashScreen.hide();
-    navigatorRef.current?.addListener('beforeRemove', e => {
+    navigatorRef.current?.addListener('beforeRemove', (e: any) => {
       if (e.data.action.type === 'GO_BACK') {
         e.preventDefault();
       }
@@ -37,12 +43,8 @@ function App(): JSX.Element {
     <>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <NavigationContainer
-            ref={navigatorRef}
-            onReady={handleNavigationReady}>
-            <StatusBar
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
+          <NavigationContainer ref={navigatorRef} onReady={handleNavigationReady}>
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
             <DrawerNavigator />
           </NavigationContainer>
         </PersistGate>

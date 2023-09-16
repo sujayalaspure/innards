@@ -1,10 +1,4 @@
-import {
-  View,
-  TextInput as Input,
-  StyleSheet,
-  Pressable,
-  TextInputProps,
-} from 'react-native';
+import {View, TextInput as Input, StyleSheet, Pressable, TextInputProps} from 'react-native';
 import React, {useState} from 'react';
 import COLOR from '@app/theme/COLOR';
 import SIZE from '@app/theme/SIZE';
@@ -16,12 +10,7 @@ interface Props extends TextInputProps {
   secureTextEntry?: boolean;
 }
 
-const TextInput = ({
-  placeholder,
-  secureTextEntry,
-  onChangeText,
-  ...props
-}: Props) => {
+const TextInput = ({placeholder, secureTextEntry, onChangeText, ...props}: Props) => {
   const [isSecureEntry, setIsSecureEntry] = useState(secureTextEntry);
   const handleChangeText = debounce((text: string) => {
     if (onChangeText) {
@@ -41,11 +30,7 @@ const TextInput = ({
       />
       {secureTextEntry && (
         <Pressable onPress={() => setIsSecureEntry(prev => !prev)}>
-          <Icon
-            name={isSecureEntry ? 'eye-outline' : 'eye-off-outline'}
-            size={20}
-            color={COLOR.gray}
-          />
+          <Icon name={isSecureEntry ? 'eye-outline' : 'eye-off-outline'} size={20} color={COLOR.gray} />
         </Pressable>
       )}
     </View>

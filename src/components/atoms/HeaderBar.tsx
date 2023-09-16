@@ -83,55 +83,57 @@ const HeaderBar = ({
       <View style={[styles.statusBar, {height: statusBarHeight}]} />
 
       {!hideHeader && (
-        <View
-          style={[
-            styles.container,
-            {
-              marginTop: statusBarHeight,
-            },
-          ]}>
-          <View style={[styles.content]}>
-            {showInfos.showBackButton && (
-              <View style={styles.icon}>
-                <Pressable testID="back_button" onPress={onBackPressHandler}>
-                  <Icon name="arrow-left" size={25} color={COLOR.white} />
+        <View style={{backgroundColor: COLOR.white}}>
+          <View
+            style={[
+              styles.container,
+              {
+                marginTop: statusBarHeight,
+              },
+            ]}>
+            <View style={[styles.content]}>
+              {showInfos.showBackButton && (
+                <View style={styles.icon}>
+                  <Pressable testID="back_button" onPress={onBackPressHandler}>
+                    <Icon name="arrow-left" size={25} color={COLOR.white} />
+                  </Pressable>
+                </View>
+              )}
+              {!showInfos.showBackButton && showInfos.showRightElement && !showSearch && <View style={styles.dummy} />}
+              {!showSearch && <Text style={styles.title}>{title}</Text>}
+              {showSearch && (
+                <SearchBar
+                  testID="header_search_bar"
+                  placeholder={searchPlaceholder}
+                  isFocused={autoFocusSearch || isSearchExpanded}
+                  onFocus={() => {
+                    setIsSearchExpanded(true);
+                  }}
+                  showMic
+                  onSearch={onSearch}
+                  onMicPress={() => {
+                    const isExp = !isSearchExpanded;
+                    setIsSearchExpanded(false);
+                    setTimeout(() => {
+                      if (isExp) {
+                        console.log('onMicPress');
+                      } else {
+                        console.log('onClear');
+                        onSearchEnd && onSearchEnd();
+                      }
+                    }, 200);
+                  }}
+                />
+              )}
+              {showInfos.showRightElement && (
+                <Pressable testID="header_right" onPress={onRightElementPressed}>
+                  {RightSideElement}
                 </Pressable>
-              </View>
-            )}
-            {!showInfos.showBackButton && showInfos.showRightElement && !showSearch && <View style={styles.dummy} />}
-            {!showSearch && <Text style={styles.title}>{title}</Text>}
-            {showSearch && (
-              <SearchBar
-                testID="header_search_bar"
-                placeholder={searchPlaceholder}
-                isFocused={autoFocusSearch || isSearchExpanded}
-                onFocus={() => {
-                  setIsSearchExpanded(true);
-                }}
-                showMic
-                onSearch={onSearch}
-                onMicPress={() => {
-                  const isExp = !isSearchExpanded;
-                  setIsSearchExpanded(false);
-                  setTimeout(() => {
-                    if (isExp) {
-                      console.log('onMicPress');
-                    } else {
-                      console.log('onClear');
-                      onSearchEnd && onSearchEnd();
-                    }
-                  }, 200);
-                }}
-              />
-            )}
-            {showInfos.showRightElement && (
-              <Pressable testID="header_right" onPress={onRightElementPressed}>
-                {RightSideElement}
-              </Pressable>
-            )}
-            {showInfos.showBackButton && !showInfos.showRightElement && !showSearch && <View style={styles.dummy} />}
+              )}
+              {showInfos.showBackButton && !showInfos.showRightElement && !showSearch && <View style={styles.dummy} />}
+            </View>
+            {showAdBanner && React.isValidElement(AdBanner) && AdBanner}
           </View>
-          {showAdBanner && React.isValidElement(AdBanner) && AdBanner}
         </View>
       )}
     </>

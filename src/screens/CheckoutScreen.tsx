@@ -15,6 +15,7 @@ import BillingDetails from '@app/components/order/BillingDetails';
 import {screenHeight} from '@app/utils/scaling_unit';
 import {AddressView, OrderSuccessView, PaymentView, StepsHorizontal} from '@app/components/checkout';
 import {translate} from '@app/i18n/translate';
+import COLOR from '@app/theme/COLOR';
 
 type ParamList = {
   Params: {
@@ -169,7 +170,7 @@ export default CheckoutScreen;
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: COLOR.white,
+    backgroundColor: COLOR.white,
     // flex: 1,
   },
   billingDetails: {

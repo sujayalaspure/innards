@@ -24,10 +24,10 @@ const OrderCard = ({products, status, total, createdAt, onPress, rating}: Props)
             <Icon name="check" size={30} color={COLOR.primary} />
           </View>
           <View style={styles.flex1}>
-            <Text>
+            <Text style={styles.text}>
               Status: <Text style={styles.textBold}>{status?.toUpperCase()}</Text>
             </Text>
-            <Text>
+            <Text style={styles.text}>
               {total.toFixed(2)} • {new Date(createdAt).toLocaleString()}
             </Text>
           </View>
@@ -49,7 +49,7 @@ const OrderCard = ({products, status, total, createdAt, onPress, rating}: Props)
           )}
         </View>
         <View style={styles.ratingWrapper}>
-          <Text>Rate your Order</Text>
+          <Text style={styles.text}>Rate your Order</Text>
           <StarRating rating={rating} />
         </View>
         <View style={styles.reorderLink}>
@@ -72,6 +72,7 @@ export default OrderCard;
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 5,
+    backgroundColor: COLOR.white,
   },
   headerWrapper: {
     flexDirection: 'row',
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 8,
-    backgroundColor: COLOR.gradientColor2 + '55',
+    backgroundColor: COLOR.gradientColor2,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
   },
   textBold: {
     fontWeight: 'bold',
+    color: COLOR.black,
   },
   reorderLink: {
     justifyContent: 'center',
@@ -120,5 +122,8 @@ const styles = StyleSheet.create({
   },
   flex1: {
     flex: 1,
+  },
+  text: {
+    color: COLOR.black,
   },
 });

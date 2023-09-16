@@ -10,12 +10,7 @@ type Props = {
 };
 const barHeight = 1;
 
-const Separator = ({
-  height = '100%',
-  width = '100%',
-  isBar,
-  bgColor = COLOR.transparent,
-}: Props) => {
+const Separator = ({height = '100%', width = '100%', isBar, bgColor = COLOR.transparent}: Props) => {
   return (
     <View
       style={[

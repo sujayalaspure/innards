@@ -153,6 +153,7 @@ export default ProductListScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLOR.white,
   },
   filterIcon: {
     backgroundColor: COLOR.white,

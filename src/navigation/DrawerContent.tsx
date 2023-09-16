@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {DrawerContentComponentProps} from '@react-navigation/drawer';
 import DrawerItem from '@app/components/Drawer/DrawerItem';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, Linking, StyleSheet, View} from 'react-native';
 import Separator from '@app/components/atoms/Separator';
 import ProfileCard from '@app/components/ProfileCard';
 import COLOR from '@app/theme/COLOR';
@@ -40,7 +40,14 @@ const DrawerContent = (props: Props) => {
     },
     {id: 'about', title: 'About', iconName: 'information-outline'},
     {id: 'help', title: 'Help', iconName: 'help-circle-outline'},
-    {id: 'settings', title: 'Settings', iconName: 'cog-outline'},
+    {
+      id: 'settings',
+      title: 'Settings',
+      iconName: 'cog-outline',
+      onPress: () => {
+        Linking.openSettings();
+      },
+    },
   ];
   const SeparatorBar = useCallback(() => <Separator isBar={true} />, []);
   return (

@@ -6,7 +6,7 @@ import {Order} from '@app/types/order';
 import {StyleSheet} from 'react-native';
 import Card from '@app/components/atoms/Card';
 import COLOR from '@app/theme/COLOR';
-import Separator, {SpacerH20} from '@app/components/atoms/Separator';
+import Separator, {SpacerH20, SpacerH70} from '@app/components/atoms/Separator';
 import {RenderAddress} from '@app/components/checkout/AddressView';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Button from '@app/components/atoms/Button';
@@ -62,8 +62,8 @@ const OrderSummaryScreen = () => {
   return (
     <>
       <HeaderBar showBackButton title={translate('order_summary')} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           <Card isShadow>
             <Text style={styles.sectionTitle}>{translate('items_summary')}</Text>
 
@@ -79,7 +79,7 @@ const OrderSummaryScreen = () => {
                   </Text>
                 </View>
                 <View>
-                  <Text>₹ {product.finalPrice * product.quantity}</Text>
+                  <Text style={styles.productSubTitle}>₹ {product.finalPrice * product.quantity}</Text>
                 </View>
               </View>
             ))}
@@ -136,8 +136,9 @@ const OrderSummaryScreen = () => {
             <InfoText title="Payment" value={toTitleCase(order?.payment?.paymentMethod)} />
             <InfoText title="Deliver To" value={<RenderAddress address={order?.address} />} />
           </Card>
-        </View>
-      </ScrollView>
+          <SpacerH70 />
+        </ScrollView>
+      </View>
       <BottomSheet
         ref={sheetRef}
         showBackdrop
@@ -155,8 +156,10 @@ export default OrderSummaryScreen;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
+    backgroundColor: COLOR.white,
   },
+  scrollView: {padding: 20},
   productsWrapper: {},
   order: {},
   sectionTitle: {

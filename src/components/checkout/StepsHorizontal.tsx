@@ -85,6 +85,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 16,
     paddingBottom: 26,
+    shadowColor: COLOR.black,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   stepMarker: {
     // backgroundColor: 'cyan',

@@ -59,14 +59,11 @@ const userSlice = createSlice({
   },
 });
 
-export const {addUser, removeUser, toggleBottomBar, setCurrentScreen} =
-  userSlice.actions;
+export const {addUser, removeUser, toggleBottomBar, setCurrentScreen} = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const userSelector = (state: RootState) => state.userReducer;
-export const isShowBottomBar = (state: RootState) =>
-  state.userReducer.showBottomBar;
-export const currentScreen = (state: RootState) =>
-  state.userReducer.currentScreen;
+export const isShowBottomBar = (state: RootState) => state.userReducer.showBottomBar;
+export const currentScreen = (state: RootState) => state.userReducer.currentScreen;
 
 export default userSlice.reducer;

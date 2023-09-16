@@ -8,18 +8,18 @@ import Button from '@app/components/atoms/Button';
 
 const EmptyCartView = () => {
   return (
-    <View style={styles.emptyCartImage}>
-      <Image source={emptyCartImage} resizeMode="cover" style={styles.image} />
-      <Text style={styles.emptyCartTitle}>Looks like your cart is Empty</Text>
-      <Text style={styles.emptyCartSubText}>
-        Check our bestsellers and find something for you
-      </Text>
-      <Button
-        variant="secondary"
-        onPress={() => navigateToScreen('HomeScreen')}
-        style={styles.button}
-        title="Shop Now"
-      />
+    <View style={styles.container}>
+      <View style={[styles.emptyCartImage]}>
+        <Image source={emptyCartImage} resizeMode="cover" style={styles.image} />
+        <Text style={styles.emptyCartTitle}>Looks like your cart is Empty</Text>
+        <Text style={styles.emptyCartSubText}>Check our bestsellers and find something for you</Text>
+        <Button
+          variant="secondary"
+          onPress={() => navigateToScreen('HomeScreen')}
+          style={styles.button}
+          title="Shop Now"
+        />
+      </View>
     </View>
   );
 };
@@ -29,6 +29,7 @@ export default EmptyCartView;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: COLOR.white,
   },
   emptyCartImage: {
     alignItems: 'center',

@@ -1,0 +1,38 @@
+{
+  "files.autoSave": "onFocusChange",
+  "editor.tabSize": 2,
+  "errorLens.followCursor": "closestProblem",
+  "editor.inlineSuggest.enabled": true,
+  "editor.rulers": [120],
+  "editor.suggestSelection": "recentlyUsed",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.linkedEditing": true,
+  "editor.codeLens": true,
+
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.referencesCodeLens.enabled": true,
+  "javascript.autoClosingTags": true,
+  "javascript.suggest.autoImports": true,
+
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.autoClosingTags": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.referencesCodeLens.enabled": true,
+
+  "workbench.editor.highlightModifiedTabs": true,
+  "prettier.printWidth": 120,
+  "prettier.tabWidth": 2,
+  "prettier.singleQuote": true,
+  "errorLens.exclude": ["Parsing error: Unexpected token .", "props validation"],
+
+  "html.autoClosingTags": true
+}
