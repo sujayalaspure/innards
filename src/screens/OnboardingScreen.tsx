@@ -6,20 +6,21 @@ import {moderateScale} from '@app/utils/scaling_unit';
 import {getNavigator} from '@app/navigation';
 import {StackActions} from '@react-navigation/native';
 import COLOR from '@app/theme/COLOR';
+import {translate} from '@app/i18n/translate';
 
 const {width, height} = Dimensions.get('window');
 
 const OnBoardingData = [
   {
-    title: 'There is a magic growing with plants.',
+    title: translate('onboarding_1'),
     image: image4,
   },
   {
-    title: 'Happiness is turning your space into a garden.',
+    title: translate('onboarding_2'),
     image: image3,
   },
   {
-    title: 'Happiness is growing your own food.',
+    title: translate('onboarding_3'),
     image: image2,
   },
 ];

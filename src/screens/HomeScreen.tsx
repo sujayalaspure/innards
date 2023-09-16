@@ -22,10 +22,10 @@ import useBottomBar from '@app/hooks/useBottomBar';
 import {Logger} from '@app/utils/Logger';
 
 const topBar = [
-  {id: '1', title: 'Seeds', iconName: 'flower-tulip'},
-  {id: '2', title: 'Equipments', iconName: 'scissors-cutting'},
-  {id: '3', title: 'Plant Food', iconName: 'tree'},
-  {id: '4', title: 'Seasonal', iconName: 'calendar-text'},
+  {id: '1', title: translate('seeds'), iconName: 'flower-tulip'},
+  {id: '2', title: translate('equipments'), iconName: 'scissors-cutting'},
+  {id: '3', title: translate('plant_foods'), iconName: 'tree'},
+  {id: '4', title: translate('seasonal'), iconName: 'calendar-text'},
 ];
 
 const HomeScreen = () => {

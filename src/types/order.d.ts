@@ -16,16 +16,9 @@ export interface Order {
   rating?: number;
 }
 
-type OrderStatus =
-  | 'pending'
-  | 'in-transit'
-  | 'out-for-delivery'
-  | 'delivered'
-  | 'cancelled';
+type OrderStatus = 'pending' | 'in-transit' | 'out-for-delivery' | 'delivered' | 'cancelled';
 
-export interface OrderedProduct
-  extends CartItem,
-    Pick<Order, 'status' | 'payment'> {
+export interface OrderedProduct extends CartItem, Pick<Order, 'status' | 'payment'> {
   isDelivered: boolean;
   orderId: number | string;
 }

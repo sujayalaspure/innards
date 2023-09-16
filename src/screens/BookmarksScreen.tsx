@@ -10,6 +10,7 @@ import ProductCardHorizontal from '@app/components/ProductCardHorizontal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import COLOR from '@app/theme/COLOR';
 import useBottomBar from '@app/hooks/useBottomBar';
+import {translate} from '@app/i18n/translate';
 
 const Spacer = () => <Separator height={10} />;
 const FooterSpacer = () => <Separator height={80} />;
@@ -29,7 +30,7 @@ const BookmarksScreen = () => {
   return (
     <>
       <HeaderBar
-        title="Bookmarks"
+        title={translate('bookmarks')}
         showSearch={showSearch}
         onSearchEnd={() => {
           setFilteredBookmarks(bookmarks);

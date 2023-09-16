@@ -158,11 +158,15 @@ const LoginScreen = () => {
                   </Text>
                   <Button onPress={() => {}} variant="secondary" style={styles.metaBtn}>
                     <Image source={metaLogo} style={styles.icon} />
-                    <Text style={styles.metaBtnText}>{translate('connect_with')} META</Text>
+                    <Text style={styles.metaBtnText}>
+                      {translate('connect_with')} {translate('meta')}
+                    </Text>
                   </Button>
                   <Button onPress={() => {}} variant="secondary" style={styles.googleBtn}>
                     <Image source={googleLogo} style={styles.icon} />
-                    <Text style={styles.googleBtnText}>{translate('connect_with')} GOOGLE</Text>
+                    <Text style={styles.googleBtnText}>
+                      {translate('connect_with')} {translate('google')}
+                    </Text>
                   </Button>
                 </>
               )}

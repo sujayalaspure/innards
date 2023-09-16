@@ -21,6 +21,7 @@ import {StarRating, Separator, BottomActions} from '@app/components/atoms';
 import FavButton from '@app/components/product-details/FavButton';
 import useBottomBar from '@app/hooks/useBottomBar';
 import Animated, {AnimatedRef, useAnimatedStyle, useSharedValue, withDelay, withTiming} from 'react-native-reanimated';
+import {translate} from '@app/i18n/translate';
 
 type ParamList = {
   Params: Product;
@@ -156,7 +157,7 @@ const ProductDetailsScreen = () => {
                 renderItem={({item}) => <FeatureCard {...item} />}
               />
             </View>
-            <Section id={'related'} title="Related Products">
+            <Section id={'related'} title={translate('related_products')}>
               {products?.slice(0, 4)?.map((item, i) => (
                 <ProductCardVerticle key={i} product={item} />
               ))}
@@ -169,12 +170,16 @@ const ProductDetailsScreen = () => {
             primaryButton: 'buy_now',
             secondaryButton: 'add_to_cart',
           }}
-          primaryText={isAddedToCart ? 'Go to Cart' : 'Buy Now'}
+          primaryText={isAddedToCart ? translate('go_to_cart') : translate('buy_now')}
           onPrimaryPress={async () => {
             dispatch(addProductToCart({...params, quantity: Number(!isAddedToCart)}));
             navigateToScreen('CartScreen');
           }}
-          secondaryText={isAddedToCart ? `Added ${isAddedToCart.quantity} items` : 'Add to Cart'}
+          secondaryText={
+            isAddedToCart
+              ? translate('added_items').replace('%n', isAddedToCart.quantity.toString())
+              : translate('add_to_cart')
+          }
           onSecondaryPress={() => {
             dispatch(addProductToCart({...params, quantity: 1}));
           }}

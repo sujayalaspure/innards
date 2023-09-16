@@ -17,6 +17,7 @@ import COLOR from '@app/theme/COLOR';
 import BillingDetails from '@app/components/order/BillingDetails';
 import useBottomBar from '@app/hooks/useBottomBar';
 import {Logger} from '@app/utils/Logger';
+import {translate} from '@app/i18n/translate';
 
 const CartScreen = () => {
   const sheetRef = useRef<BottomSheetRef>(null);
@@ -68,7 +69,7 @@ const CartScreen = () => {
 
   return (
     <>
-      <HeaderBar showBackButton title={'Cart'} />
+      <HeaderBar showBackButton title={translate('cart')} />
       {cart.length === 0 && <EmptyCartView />}
       {cart.length > 0 && (
         <View style={styles.container}>

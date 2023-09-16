@@ -4,7 +4,7 @@ import {screenNameTypes, setShowBottomBar} from '@app/navigation';
 import {isShowBottomBar} from '@app/redux/reducers/userSlice';
 import {useAppSelector} from '@app/redux/reduxHook';
 
-const useBottomBar = (value: boolean, screenName: screenNameTypes) => {
+const useBottomBar = (value: boolean, screenName?: screenNameTypes) => {
   const isFocus = useIsFocused();
   const isBottombarVisible = useAppSelector(isShowBottomBar);
 

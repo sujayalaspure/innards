@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {removeProductFromCart} from '@app/redux/reducers/productSlice';
 import useProduct from '@app/hooks/useProduct';
 import Animated, {useAnimatedStyle, useSharedValue, withDelay, withTiming} from 'react-native-reanimated';
+import {translate} from '@app/i18n/translate';
 
 type Props = {
   product: Product;
@@ -66,13 +67,16 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen', index = 1}: Prop
             <View style={styles.row}>
               <Text style={styles.strikedPrice}>₹ {product.price}</Text>
               <Text style={styles.savings}>
-                You save ₹{(differenceAmount * (isAddedToCart?.quantity ?? 1)).toFixed(2)}
+                {translate('you_save').replace(
+                  '%n',
+                  (differenceAmount * (isAddedToCart?.quantity ?? 1)).toFixed(2).toString(),
+                )}
               </Text>
             </View>
           )}
           <View style={styles.row}>
             <Text style={styles.price}>₹ {discountedPrice}</Text>
-            <Text style={styles.subHeading}>Deliver in 10 Days</Text>
+            <Text style={styles.subHeading}>{translate('deliver_in_days').replace('%n', '10')}</Text>
           </View>
           <View style={styles.buttonWrapper}>
             {isAddedToCart ? (
@@ -89,7 +93,7 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen', index = 1}: Prop
             )}
             {inView === 'cartScreen' && (
               <LinkNIcon
-                text="Remove"
+                text={translate('remove')}
                 iconName="trash-can"
                 onPress={() => {
                   dispatch(removeProductFromCart(product.id));

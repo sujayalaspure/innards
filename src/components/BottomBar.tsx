@@ -9,35 +9,36 @@ import Animated, {useAnimatedStyle, useSharedValue, withTiming} from 'react-nati
 import {screenWidth} from '@app/utils/scaling_unit';
 import {BlurView} from '@react-native-community/blur';
 import {Logger} from '@app/utils/Logger';
+import {translate} from '@app/i18n/translate';
 
 const bottomBarItems = [
   {
     id: '1',
-    title: 'Home',
+    title: translate('bottom_bar_home'),
     iconName: 'view-dashboard',
     screenName: 'HomeScreen',
   },
   {
     id: '2',
-    title: 'My Plants',
+    title: translate('bottom_bar_my_plants'),
     iconName: 'leaf',
     screenName: 'MyPlantsScreen',
   },
   {
     id: '3',
-    title: 'Scanner',
+    title: translate('bottom_bar_scanner'),
     iconName: 'line-scan',
     screenName: 'ScannerScreen',
   },
   {
     id: '4',
-    title: 'Bookmarks',
+    title: translate('bottom_bar_bookmarks'),
     iconName: 'bookmark',
     screenName: 'BookmarksScreen',
   },
   {
     id: '5',
-    title: 'Cart',
+    title: translate('bottom_bar_cart'),
     iconName: 'cart',
     screenName: 'CartScreen',
   },

@@ -5,6 +5,7 @@ import COLOR from '@app/theme/COLOR';
 import SIZE from '@app/theme/SIZE';
 import {adCardimage} from '@app/assets/images';
 import {moderateScale, screenWidth} from '@app/utils/scaling_unit';
+import {translate} from '@app/i18n/translate';
 
 type Props = {
   heading?: string;
@@ -25,9 +26,7 @@ const AdCard = ({heading, subHeading, promoCode = '', actionText}: Props) => {
         <Text style={styles.heading}>{heading}</Text>
         <Text style={styles.subHeading}>{subHeading}</Text>
         <View style={styles.promoCode}>
-          {promoCode?.length < 10 && (
-            <Text style={styles.promoCodeText}>PROMO CODE -</Text>
-          )}
+          {promoCode?.length < 10 && <Text style={styles.promoCodeText}>{translate('promo_code')} -</Text>}
           <Text style={styles.promoCodeText}>{promoCode}</Text>
         </View>
         <Pressable style={styles.actionbutton}>
@@ -35,11 +34,7 @@ const AdCard = ({heading, subHeading, promoCode = '', actionText}: Props) => {
         </Pressable>
       </View>
       <View style={styles.image}>
-        <Image
-          style={styles.adCardImage}
-          resizeMode="stretch"
-          source={adCardimage}
-        />
+        <Image style={styles.adCardImage} resizeMode="stretch" source={adCardimage} />
       </View>
     </View>
   );

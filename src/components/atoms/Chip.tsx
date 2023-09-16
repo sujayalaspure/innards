@@ -21,9 +21,7 @@ const Chip = ({title, onPress, isSelected, index, style, textStyle}: Props) => {
     }
   };
   return (
-    <Pressable
-      style={[styles.container, {backgroundColor}, style]}
-      onPress={onPressHandler}>
+    <Pressable style={[styles.container, {backgroundColor}, style]} onPress={onPressHandler}>
       <Text style={[styles.text, {color: textColor}, textStyle]}>{title}</Text>
     </Pressable>
   );

@@ -117,7 +117,7 @@ const OrderSummaryScreen = () => {
             ) : (
               <InfoText
                 justifyContent="space-between"
-                title="Total Amount"
+                title={translate('total_amount')}
                 value={`₹ ${order?.total}`}
                 fontWeight="bold"
               />
@@ -126,11 +126,11 @@ const OrderSummaryScreen = () => {
           <SpacerH20 />
           <Card>
             <Text style={styles.sectionTitle}>Order Details</Text>
-            <InfoText title="Order ID" value={order?.id} />
-            <InfoText title="Order Date" value={formatDate(order?.createdAt)} />
-            <InfoText title="Order Status" value={toTitleCase(order?.status)} />
-            <InfoText title="Payment" value={toTitleCase(order?.payment?.paymentMethod)} />
-            <InfoText title="Deliver To" value={<RenderAddress address={order?.address} />} />
+            <InfoText title={translate('order_id')} value={order?.id} />
+            <InfoText title={translate('order_date')} value={formatDate(order?.createdAt)} />
+            <InfoText title={translate('order_status')} value={toTitleCase(order?.status)} />
+            <InfoText title={translate('payment')} value={toTitleCase(order?.payment?.paymentMethod)} />
+            <InfoText title={translate('deliver_to')} value={<RenderAddress address={order?.address} />} />
           </Card>
           <SpacerH70 />
         </ScrollView>
