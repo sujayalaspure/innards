@@ -23,14 +23,12 @@ const middleware = [logger] as const;
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware => [
-    ...middleware,
-    ...getDefaultMiddleware({
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
-  ],
+    }).concat(middleware),
 });
 
 export const persistor = persistStore(store);

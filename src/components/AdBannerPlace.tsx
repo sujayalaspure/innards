@@ -1,17 +1,18 @@
 import {View, FlatList, StyleSheet, Pressable} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {ReactNode, useRef, useState} from 'react';
 import AdCard from '@app/components/AdCard';
 import {moderateScale, screenWidth} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
 import {Logger} from '@app/utils/Logger';
 
-const banners = [1, 2, 3];
+const banners = [1, 2];
 
 type Props = {
   dotColor?: string;
+  cards?: ReactNode[];
 };
 
-const AdBannerPlace = ({dotColor = COLOR.primary}: Props) => {
+const AdBannerPlace = ({dotColor = COLOR.primary, cards = []}: Props) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const slideRef = useRef<FlatList>(null);
@@ -26,17 +27,28 @@ const AdBannerPlace = ({dotColor = COLOR.primary}: Props) => {
     slideRef.current?.scrollToIndex({index: i});
   };
 
+  const finalBannerItems = [...cards, ...banners];
+
   return (
     <View style={styles.container}>
       <FlatList
         style={styles.flatlist}
         ref={slideRef}
-        data={banners}
-        renderItem={_ => (
-          <View style={styles.card}>
-            <AdCard heading="20% OFF" subHeading="Make your first Purchase" actionText="GET NOW" promoCode="FIRST20" />
-          </View>
-        )}
+        data={finalBannerItems}
+        renderItem={({item}) =>
+          React.isValidElement(item) ? (
+            item
+          ) : (
+            <View style={styles.card}>
+              <AdCard
+                heading="20% OFF"
+                subHeading="Make your first Purchase"
+                actionText="GET NOW"
+                promoCode="FIRST20"
+              />
+            </View>
+          )
+        }
         keyExtractor={item => item.toString()}
         horizontal
         pagingEnabled
@@ -45,7 +57,7 @@ const AdBannerPlace = ({dotColor = COLOR.primary}: Props) => {
         scrollEventThrottle={32}
       />
       <View style={styles.dotWrapper}>
-        {banners.map((_, i) => (
+        {finalBannerItems.map((_, i) => (
           <Pressable key={i} onPress={() => scrollTo(i)}>
             <View style={[styles.dot, i === currentIndex && styles.currentDot, {backgroundColor: dotColor}]} />
           </Pressable>

@@ -8,11 +8,12 @@ import {goBack} from '@app/navigation';
 import SIZE from '@app/theme/SIZE';
 import SearchBar from '@app/components/SearchBar';
 import {Logger} from '@app/utils/Logger';
+import {useAppSelector} from '@app/redux/reduxHook';
+import {settingsSliceSelector} from '@app/redux/reducers/settingsSlice';
 type Props = {
   title?: string;
   onBackPress?: () => void;
   showBackButton?: boolean;
-  hideHeader?: boolean;
   showSearch?: boolean;
   onSearch?: (text: string) => void;
   onSearchEnd?: () => void;
@@ -28,7 +29,6 @@ const HeaderBar = ({
   title,
   onBackPress,
   showBackButton,
-  hideHeader = false,
   showSearch,
   onSearch,
   AdBanner,
@@ -45,6 +45,10 @@ const HeaderBar = ({
     showRightElement: !!RightSideElement,
   });
   const insets = useSafeAreaInsets();
+  const {isHeaderVisible} = useAppSelector(settingsSliceSelector);
+
+  console.log({isHeaderVisible});
+
   const statusBarHeight = insets.top;
 
   const onBackPressHandler = () => {
@@ -66,7 +70,7 @@ const HeaderBar = ({
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  }, [hideHeader, showSearch, showAdBanner]);
+  }, [showSearch, showAdBanner]);
 
   useEffect(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -82,8 +86,9 @@ const HeaderBar = ({
   return (
     <>
       <View style={[styles.statusBar, {height: statusBarHeight}]} />
+      {!isHeaderVisible && <View style={{height: statusBarHeight}} />}
 
-      {!hideHeader && (
+      {isHeaderVisible && (
         <View style={{backgroundColor: COLOR.white}}>
           <View
             style={[

@@ -17,9 +17,10 @@ import {Image} from 'react-native';
 import {userSelector} from '@app/redux/reducers/userSlice';
 import {influencerVideos} from '@app/utils/constants';
 import {translate} from '@app/i18n/translate';
-import {isDarkMode} from '@app/theme';
 import useBottomBar from '@app/hooks/useBottomBar';
 import {Logger} from '@app/utils/Logger';
+import {DeliveryCard} from '@app/components/atoms';
+import {useOrderSelector} from '@app/redux/reducers/orderSlice';
 
 const topBar = [
   {id: '1', title: translate('seeds'), iconName: 'flower-tulip'},
@@ -33,7 +34,8 @@ const HomeScreen = () => {
 
   const [showAd, setShowAd] = useState(false);
   const dispatch = useAppDispatch();
-  const {products} = useAppSelector(useProductSelector);
+  const {products, isLoading} = useAppSelector(useProductSelector);
+  const {orders} = useAppSelector(useOrderSelector);
 
   const [isModalVisible, setIsModalVisible] = useState({
     show: false,
@@ -70,12 +72,18 @@ const HomeScreen = () => {
         onRightElementPressed={openDrawer}
         title={translate('homescreen')}
         showAdBanner={showAd}
-        // AdBanner={
-        //   <DeliveryCard
-        //     title={products[0].title}
-        //     image={products[0].thumbnail}
-        //   />
-        // }
+        AdBanner={
+          <AdBannerPlace
+            cards={[
+              <DeliveryCard
+                orderStatus={orders[0]?.status}
+                image={orders[0]?.products[0]?.thumbnail}
+                title={orders[0]?.products[0]?.title}
+              />,
+            ]}
+            dotColor={COLOR.white}
+          />
+        }
       />
 
       <ScrollView style={styles.container}>
@@ -89,7 +97,7 @@ const HomeScreen = () => {
                 }}
                 {...item}
                 bgColor={COLOR.primary}
-                iconColor={isDarkMode.current ? COLOR.black : COLOR.white}
+                iconColor={COLOR.white}
               />
               <Text style={styles.topBarIconText}>{item.title}</Text>
             </View>
@@ -98,6 +106,7 @@ const HomeScreen = () => {
         <AdBannerPlace />
         <View style={styles.content}>
           <Section
+            isLoading={isLoading}
             id={'trending'}
             scrollEnabled
             title={translate('tranding_today')}
@@ -109,7 +118,11 @@ const HomeScreen = () => {
               <ProductCardVerticle key={i} product={item} />
             ))}
           </Section>
-          <Section id={'valueforMoney'} title={translate('value_for_money')} actionText={translate('see_all')}>
+          <Section
+            isLoading={isLoading}
+            id={'valueforMoney'}
+            title={translate('value_for_money')}
+            actionText={translate('see_all')}>
             {products?.slice(5, 9)?.map((item, i) => (
               <ProductCardVerticle key={i} product={item} />
             ))}

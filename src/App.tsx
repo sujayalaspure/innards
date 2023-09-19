@@ -28,8 +28,6 @@ function App(): JSX.Element {
   // @ts-ignore
   isDarkMode.current = isDark;
 
-  Logger.log('isDarkMode.current', isDarkMode.current, isDark);
-
   const handleNavigationReady = () => {
     Logger.log('Navigation is ready!');
     SplashScreen.hide();

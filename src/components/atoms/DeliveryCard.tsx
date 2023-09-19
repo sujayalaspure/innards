@@ -6,14 +6,20 @@ import COLOR from '@app/theme/COLOR';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Separator from '@app/components/atoms/Separator';
+import {OrderStatus} from '@app/types/order';
+import {translate} from '@app/i18n/translate';
 
 type Props = {
   title: string;
   image: string;
+  orderStatus?: OrderStatus;
 };
 
-const DeliveryCard = ({title, image}: Props) => {
+const DeliveryCard = ({title, image, orderStatus}: Props) => {
   const contWidth = screenWidth < 400 ? screenWidth - 32 : 390;
+
+  // @ts-ignore
+  let orderStatusText = translate(orderStatus?.replace('-', '_'));
 
   return (
     <View style={[styles.container, {width: contWidth}]}>
@@ -23,22 +29,14 @@ const DeliveryCard = ({title, image}: Props) => {
         start={{x: 0, y: 0.1}}
         end={{x: 0.9, y: 0.9}}
         locations={[0, 0.6, 1]}
-        colors={[
-          COLOR.primary + 'ff',
-          COLOR.primary + '88',
-          COLOR.primary + '33',
-        ]}
+        colors={[COLOR.primary + 'ff', COLOR.primary + '88', COLOR.primary + '33']}
         style={styles.absolute}
       />
       <View style={styles.content}>
         <View style={styles.leftSide}>
-          <Text style={styles.heading}>Your Order Out for Delivery</Text>
+          <Text style={styles.heading}>Your Order is {orderStatusText}</Text>
           <View style={styles.productInfo}>
-            <Image
-              style={styles.productImage}
-              source={{uri: image}}
-              resizeMode="cover"
-            />
+            <Image style={styles.productImage} source={{uri: image}} resizeMode="cover" />
             <Text style={styles.productTitle} numberOfLines={3}>
               {title}
             </Text>

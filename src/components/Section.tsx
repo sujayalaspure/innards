@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Pressable, FlatList} from 'react-native';
+import {View, Text, StyleSheet, Pressable, FlatList, ActivityIndicator} from 'react-native';
 import React from 'react';
 import {moderateScale} from '@app/utils/scaling_unit';
 import COLOR from '@app/theme/COLOR';
@@ -11,9 +11,19 @@ type Props = {
   children?: React.ReactNode;
   scrollEnabled?: boolean;
   numColumns?: number;
+  isLoading?: boolean;
 };
 
-const Section = ({id, title, onActionPress, actionText, children, scrollEnabled = false, numColumns = 2}: Props) => {
+const Section = ({
+  id,
+  title,
+  onActionPress,
+  actionText,
+  children,
+  scrollEnabled = false,
+  numColumns = 2,
+  isLoading = false,
+}: Props) => {
   const flatlistProps = {
     ...(scrollEnabled && {horizontal: true}),
     scrollEnabled,
@@ -24,7 +34,10 @@ const Section = ({id, title, onActionPress, actionText, children, scrollEnabled 
   return (
     <View style={styles.container}>
       <View style={styles.headingWrapper}>
-        <Text style={styles.heading}>{title}</Text>
+        <View style={styles.headingNIndicator}>
+          <Text style={styles.heading}>{title}</Text>
+          {isLoading && <ActivityIndicator style={styles.indicator} color={COLOR.primary} size={'small'} />}
+        </View>
         {actionText && (
           <Pressable testID="section_action" onPress={() => onActionPress && onActionPress(id)}>
             <Text style={styles.actionText}>{actionText}</Text>
@@ -62,10 +75,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: moderateScale(8),
   },
+  headingNIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   heading: {
     fontSize: moderateScale(22),
     fontWeight: '500',
     color: COLOR.black,
+    marginRight: 10,
+  },
+  indicator: {
+    marginBottom: -4,
   },
   actionText: {
     fontSize: moderateScale(14),

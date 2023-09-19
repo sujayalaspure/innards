@@ -22,6 +22,8 @@ const initialState: ProductSliceState = {
   test: [],
 };
 
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 export const fetchAsyncProducts = createAsyncThunk('asyncThunk/fetchProducts', async () => {
   // const data = await fetchProducts<ProductResponse>('womens-dresses', {});
   // console.log('Producst   ', data);
@@ -29,11 +31,13 @@ export const fetchAsyncProducts = createAsyncThunk('asyncThunk/fetchProducts', a
   //   throw new Error(data.message);
   // }
 
-  const data = mockProducts.map((product: any, i: number) => {
-    return {
-      ...product,
-      id: i,
-    };
+  const data = await delay(1000).then(() => {
+    return mockProducts.map((product: any, i: number) => {
+      return {
+        ...product,
+        id: i,
+      };
+    });
   });
 
   return data as Product[];
@@ -48,7 +52,7 @@ export const productSlice = createSlice({
     },
     addProductToCart: (state, action: PayloadAction<Omit<CartItem, 'finalPrice'>>) => {
       const item = action.payload;
-      state.cart = [...state.cart] || [];
+      state.cart ??= [];
       const num = parseFloat(item?.price?.toString().replace(/,/g, ''));
       const discountedPrice = num - (num * parseFloat(item?.discountPercentage?.toString() || '0')) / 100;
 
@@ -64,7 +68,7 @@ export const productSlice = createSlice({
         }
       }
     },
-    addQuantityToCart: (state, action: PayloadAction<CartItem>) => {
+    addQuantityToCart: (state, action: PayloadAction<Pick<CartItem, 'id' | 'quantity'>>) => {
       const item = action.payload;
       const index = state.cart.findIndex(cartItem => cartItem.id === item.id);
       if (index !== -1) {
@@ -91,6 +95,7 @@ export const productSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(fetchAsyncProducts.pending, state => {
+      state.products = [];
       state.isLoading = true;
     });
     builder.addCase(fetchAsyncProducts.fulfilled, (state, action) => {

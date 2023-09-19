@@ -15,10 +15,10 @@ import {ProductCardVerticle, ProductCardHorizontal} from '@app/components';
 import {navigateToScreen} from '@app/navigation';
 import {Product} from '@app/types/product';
 import useBottomBar from '@app/hooks/useBottomBar';
+import useHeader from '@app/hooks/useHeader';
+
 type Props = {title: string; category: string};
-
 type ParamList = {Params: Props};
-
 type activeViewType = 'horizontal' | 'vertical';
 
 const categoryTags = ['All', 'Seeds', 'Equipments', 'Plant Food', 'Seasonal'];
@@ -28,7 +28,7 @@ const ProductListScreen = () => {
   const [selectedTagIndex, setSelectedTagIndex] = useState(0);
   const tagsListRef = useRef<FlatList>(null);
   const [activeView, setActiveView] = useState<activeViewType>('vertical');
-
+  const {onScroll} = useHeader();
   const {products} = useAppSelector(useProductSelector);
   useBottomBar(true);
 
@@ -42,22 +42,15 @@ const ProductListScreen = () => {
   };
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateX: withSpring(activeView === 'vertical' ? 1 : 31, {
-          damping: 14,
-          stiffness: 90,
-        }),
-      },
-    ],
+    transform: [{translateX: withSpring(activeView === 'vertical' ? 1 : 31, {damping: 14, stiffness: 90})}],
   }));
 
   const renderItems = ({item, index}: {item: Product; index: number}) => {
-    if (activeView === 'vertical') {
-      return <ProductCardVerticle key={index} product={item} index={index} />;
-    } else {
-      return <ProductCardHorizontal inView="listScreen" key={index} product={item} index={index} />;
-    }
+    return activeView === 'vertical' ? (
+      <ProductCardVerticle key={index} product={item} index={index} />
+    ) : (
+      <ProductCardHorizontal inView="listScreen" key={index} product={item} index={index} />
+    );
   };
 
   const RenderProduct = useCallback(() => {
@@ -68,6 +61,8 @@ const ProductListScreen = () => {
       horizontal: false,
       renderItem: renderItems,
       ListFooterComponent: SpacerH70,
+      onScroll: onScroll,
+      scrollEventThrottle: 20,
     };
 
     if (activeView === 'vertical') {
