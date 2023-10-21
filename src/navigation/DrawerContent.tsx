@@ -31,6 +31,9 @@ const DrawerContent = (props: Props) => {
       id: 'edit_profile',
       title: 'Edit Profile',
       iconName: 'pencil-outline',
+      onPress: () => {
+        navigateToScreen('ProfileScreen');
+      },
     },
     {id: 'notifications', title: 'Notifications', iconName: 'bell-outline'},
     {

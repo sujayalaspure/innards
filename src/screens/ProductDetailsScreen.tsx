@@ -22,6 +22,7 @@ import FavButton from '@app/components/product-details/FavButton';
 import useBottomBar from '@app/hooks/useBottomBar';
 import Animated, {AnimatedRef, useAnimatedStyle, useSharedValue, withDelay, withTiming} from 'react-native-reanimated';
 import {translate} from '@app/i18n/translate';
+import {showToast} from '@app/components/atoms/Toast';
 
 type ParamList = {
   Params: Product;
@@ -182,6 +183,7 @@ const ProductDetailsScreen = () => {
           }
           onSecondaryPress={() => {
             dispatch(addProductToCart({...params, quantity: 1}));
+            showToast(((isAddedToCart?.quantity ?? 0) + 1).toString() + ' ' + translate('product_added_toast'));
           }}
         />
       </BottomSheet>

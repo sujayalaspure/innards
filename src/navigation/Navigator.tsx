@@ -13,6 +13,7 @@ import {
   OrdersScreen,
   ProductDetailsScreen,
   ProductListScreen,
+  ProfileScreen,
   TrackOrderScreen,
 } from '@app/screens';
 import AuthOverviewScreen from '@app/screens/Auth/OverviewScreen';
@@ -44,6 +45,7 @@ function Navigator(): JSX.Element {
         <Stack.Screen name="OrdersScreen" component={OrdersScreen} />
         <Stack.Screen name="TrackOrderScreen" component={TrackOrderScreen} />
         <Stack.Screen name="OrderSummaryScreen" component={OrderSummaryScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen
           name="ProductListScreen"
           component={ProductListScreen}

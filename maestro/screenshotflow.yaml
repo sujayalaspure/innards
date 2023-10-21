@@ -1,0 +1,84 @@
+appId: org.sujay.plantif
+---
+- launchApp
+- assertVisible: 'Create your Innards Account'
+- takeScreenshot: maestro/screenshots/Loginscreen
+- tapOn:
+    id: 'full_name'
+- inputText: 'Hello, Maestro!'
+- tapOn:
+    id: 'email'
+- inputText: 'hey@email.com'
+- tapOn:
+    id: 'password'
+- inputText: 'password'
+- tapOn:
+    id: 'pressable_cta_button'
+- assertVisible: 'Enter your OTP'
+- takeScreenshot: maestro/screenshots/OtpScreen
+- tapOn:
+    id: 'otp'
+- inputText: '1234'
+- tapOn:
+    id: 'pressable_cta_button'
+- assertVisible: 'Trending Today'
+- takeScreenshot: maestro/screenshots/HomeScreen
+- tapOn:
+    id: 'section_action'
+- assertVisible: 'Trending Today'
+- assertVisible: 'All'
+- assertVisible: 'Seeds'
+- takeScreenshot: maestro/screenshots/ProductListScreen
+- tapOn:
+    id: 'verticle_card_0'
+- assertVisible:
+    id: 'product_title'
+- takeScreenshot: maestro/screenshots/ProductDetailsScreen
+- tapOn:
+    id: 'pressable_fav_button'
+- assertVisible:
+    id: 'pressable_button_buy_now'
+    text: 'BUY NOW'
+- tapOn:
+    id: 'pressable_button_add_to_cart'
+- assertVisible: 'ADDED 1 ITEMS'
+- assertVisible: 'GO TO CART'
+- repeat:
+    times: 2
+    commands:
+      - scroll
+- tapOn:
+    id: 'pressable_button_buy_now'
+- assertVisible: 'Cart'
+- takeScreenshot: maestro/screenshots/CartScreen
+- assertVisible:
+    id: 'amount_cart_bottom_actions'
+- assertVisible:
+    id: 'pressable_button_cart_bottom_actions'
+    text: 'PLACE ORDER'
+- tapOn:
+    id: 'pressable_button_cart_bottom_actions'
+- assertVisible: 'Checkout'
+- takeScreenshot: maestro/screenshots/CheckoutScreen
+- assertVisible: 'Address'
+- tapOn:
+    id: 'pressable_button_checkout_bottom_actions'
+- assertVisible:
+    id: 'pressable_button_checkout_bottom_actions'
+    text: 'PAY'
+- assertVisible: 'Credit/Debit Card'
+- assertVisible: 'Net Banking'
+- assertVisible: 'UPI'
+- assertVisible: 'Cash on Delivery'
+- takeScreenshot: maestro/screenshots/PaymentScreen
+- tapOn:
+    id: 'pressable_button_checkout_bottom_actions'
+- assertVisible: 'Your order placed successfully!'
+- takeScreenshot: maestro/screenshots/OrderSuccessScreen
+- tapOn:
+    id: 'pressable_continue_shopping'
+- tapOn:
+    id: 'header_right'
+- takeScreenshot: maestro/screenshots/DrawerMenu
+- tapOn:
+    id: 'pressable_logout'

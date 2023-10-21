@@ -19,7 +19,7 @@ const DeliveryCard = ({title, image, orderStatus}: Props) => {
   const contWidth = screenWidth < 400 ? screenWidth - 32 : 390;
 
   // @ts-ignore
-  let orderStatusText = translate(orderStatus?.replace('-', '_'));
+  let orderStatusText = translate(orderStatus?.replaceAll('-', '_'));
 
   return (
     <View style={[styles.container, {width: contWidth}]}>

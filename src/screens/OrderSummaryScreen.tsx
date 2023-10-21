@@ -22,6 +22,7 @@ import InfoText from '@app/components/order/InfoText';
 import BillingDetails from '@app/components/order/BillingDetails';
 import {translate} from '@app/i18n/translate';
 import useBottomBar from '@app/hooks/useBottomBar';
+import useHeader from '@app/hooks/useHeader';
 
 type ParamList = {
   Params: Order;
@@ -37,6 +38,7 @@ const OrderSummaryScreen = () => {
   const order = orders.find(item => item.id === params.id);
 
   useBottomBar(false, 'OrderSummaryScreen');
+  // useHeader(true);
 
   useEffect(() => {
     if (order) {

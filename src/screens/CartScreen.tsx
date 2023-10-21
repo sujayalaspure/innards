@@ -88,13 +88,13 @@ const CartScreen = () => {
             price={billing.total + billing.tax + billing.shipping}
             onPlaceOrder={onPlaceOrder}
             onDetailsPressed={() => {
-              sheetRef.current?.scrollTo(screenHeight / 3);
+              sheetRef.current?.open();
             }}
           />
           <View />
         </View>
       )}
-      <BottomSheet showBackdrop ref={sheetRef}>
+      <BottomSheet snapPoints={{top: screenHeight / 2}} showBackdrop ref={sheetRef}>
         <View style={styles.billingDetails}>
           <BillingDetails billing={billing} />
         </View>

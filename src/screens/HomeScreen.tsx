@@ -21,11 +21,33 @@ import useBottomBar from '@app/hooks/useBottomBar';
 import {Logger} from '@app/utils/Logger';
 import {DeliveryCard} from '@app/components/atoms';
 import {useOrderSelector} from '@app/redux/reducers/orderSlice';
+import {showToast} from '@app/components/atoms/Toast';
 
 const topBar = [
-  {id: '1', title: translate('seeds'), iconName: 'flower-tulip'},
-  {id: '2', title: translate('equipments'), iconName: 'scissors-cutting'},
-  {id: '3', title: translate('plant_foods'), iconName: 'tree'},
+  {
+    id: '1',
+    title: translate('seeds'),
+    iconName: 'flower-tulip',
+    onPress: () => {
+      showToast('Hellow', {type: 'info', subHeading: 'Very good Flowers Seeds', autoHide: false, position: 'bottom'});
+    },
+  },
+  {
+    id: '2',
+    title: translate('equipments'),
+    iconName: 'scissors-cutting',
+    onPress: () => {
+      showToast('Hellow', {type: 'error', position: 'top'});
+    },
+  },
+  {
+    id: '3',
+    title: translate('plant_foods'),
+    iconName: 'tree',
+    onPress: () => {
+      showToast('Hellow', {type: 'success'});
+    },
+  },
   {id: '4', title: translate('seasonal'), iconName: 'calendar-text'},
 ];
 
@@ -76,7 +98,7 @@ const HomeScreen = () => {
           <AdBannerPlace
             cards={[
               <DeliveryCard
-                orderStatus={orders[0]?.status}
+                orderStatus={'out-for-delivery'}
                 image={orders[0]?.products[0]?.thumbnail}
                 title={orders[0]?.products[0]?.title}
               />,
@@ -92,9 +114,12 @@ const HomeScreen = () => {
           {topBar.map(item => (
             <View style={styles.topBarButton} key={item.id}>
               <CircularButton
-                onPress={() => {
-                  setShowAd(!showAd);
-                }}
+                onPress={
+                  item?.onPress ??
+                  (() => {
+                    setShowAd(!showAd);
+                  })
+                }
                 {...item}
                 bgColor={COLOR.primary}
                 iconColor={COLOR.white}

@@ -1,8 +1,8 @@
 import {View, StyleSheet, ScrollView} from 'react-native';
 import React, {useState} from 'react';
 import HeaderBar from '@app/components/atoms/HeaderBar';
-import {useAppSelector} from '@app/redux/reduxHook';
-import {useOrderSelector} from '@app/redux/reducers/orderSlice';
+import {useAppDispatch, useAppSelector} from '@app/redux/reduxHook';
+import {clearOrders, useOrderSelector} from '@app/redux/reducers/orderSlice';
 import OrderCard from '@app/components/order/OrderCard';
 import {SpacerH70} from '@app/components/atoms/Separator';
 import {navigateToScreen} from '@app/navigation';
@@ -16,6 +16,7 @@ const OrdersScreen = () => {
   const [showSearch, setShowSearch] = useState(false);
   const {orders} = useAppSelector(useOrderSelector);
   const [filteredOrders, setFilteredOrders] = useState(orders);
+  const dispatch = useAppDispatch();
 
   useBottomBar(false, 'OrdersScreen');
 
@@ -24,6 +25,11 @@ const OrdersScreen = () => {
   };
 
   const onSearch = (text: string) => {
+    if (text.toLowerCase() === 'clear') {
+      dispatch(clearOrders());
+      setFilteredOrders([]);
+      return;
+    }
     const filtered = orders.filter(item =>
       item.products.some(product => product.title.toLowerCase().includes(text.toLowerCase())),
     );

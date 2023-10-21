@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(40),
     position: 'absolute',
     right: 30,
-    top: -20,
+    top: -55,
     zIndex: 100,
   },
 });

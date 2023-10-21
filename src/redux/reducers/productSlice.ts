@@ -31,13 +31,20 @@ export const fetchAsyncProducts = createAsyncThunk('asyncThunk/fetchProducts', a
   //   throw new Error(data.message);
   // }
 
-  const data = await delay(1000).then(() => {
-    return mockProducts.map((product: any, i: number) => {
-      return {
-        ...product,
-        id: i,
-      };
-    });
+  // const data = await delay(0).then(() => {
+  //   return mockProducts.map((product: any, i: number) => {
+  //     return {
+  //       ...product,
+  //       id: i,
+  //     };
+  //   });
+  // });
+
+  const data = mockProducts.map((product: any, i: number) => {
+    return {
+      ...product,
+      id: i,
+    };
   });
 
   return data as Product[];

@@ -18,6 +18,8 @@ import {Provider} from 'react-redux';
 import {persistor, store} from '@app/redux/store';
 import {isDarkMode} from '@app/theme';
 import {Logger} from '@app/utils/Logger';
+import Toast, {toastRef} from '@app/components/atoms/Toast';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -40,14 +42,17 @@ function App(): JSX.Element {
 
   return (
     <>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          <NavigationContainer ref={navigatorRef} onReady={handleNavigationReady}>
-            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-            <DrawerNavigator />
-          </NavigationContainer>
-        </PersistGate>
-      </Provider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <NavigationContainer ref={navigatorRef} onReady={handleNavigationReady}>
+              <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+              <DrawerNavigator />
+              <Toast ref={toastRef} />
+            </NavigationContainer>
+          </PersistGate>
+        </Provider>
+      </GestureHandlerRootView>
     </>
   );
 }

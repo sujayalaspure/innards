@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Pressable, LayoutAnimation} from 'react-native';
+import {View, Text, StyleSheet, Pressable, LayoutAnimation, StatusBar} from 'react-native';
 import React, {ReactNode, useEffect, useState} from 'react';
 import COLOR from '@app/theme/COLOR';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -85,6 +85,7 @@ const HeaderBar = ({
   }, [isSearchExpanded]);
   return (
     <>
+      <StatusBar barStyle="dark-content" backgroundColor={COLOR.transparent} />
       <View style={[styles.statusBar, {height: statusBarHeight}]} />
       {!isHeaderVisible && <View style={{height: statusBarHeight}} />}
 

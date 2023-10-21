@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     position: 'absolute',
-    bottom: 0,
+    bottom: 34,
     margin: 26,
     borderRadius: SIZE.radius_md,
     borderWidth: 1,

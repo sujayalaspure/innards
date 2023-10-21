@@ -11,3 +11,4 @@ export {default as BookmarksScreen} from './BookmarksScreen';
 export {default as OrdersScreen} from './OrdersScreen';
 export {default as TrackOrderScreen} from './TrackOrderScreen';
 export {default as OrderSummaryScreen} from './OrderSummaryScreen';
+export {default as ProfileScreen} from './ProfileScreen';
