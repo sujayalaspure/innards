@@ -14,7 +14,7 @@ const IMAGE_SIZE = 160;
 
 const ProfileImage = () => {
   const {user} = useAppSelector(userSelector);
-  const fullName = `${user?.name.first ?? 'NA'} ${user?.name.last ?? ''}`;
+  const fullName = `${user?.name.first || 'NA'} ${user?.name.last || ''}`;
   return (
     <View style={styles.container}>
       <Image source={{uri: user?.picture.medium}} style={styles.image} />

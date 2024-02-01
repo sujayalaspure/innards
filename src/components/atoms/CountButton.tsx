@@ -56,9 +56,9 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
     fontWeight: 'bold',
     textAlign: 'center',
-    minWidth: moderateScale(20),
+    minWidth: moderateScale(18),
   },
   icon: {
-    padding: moderateScale(4),
+    padding: moderateScale(2),
   },
 });

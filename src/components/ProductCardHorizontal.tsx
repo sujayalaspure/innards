@@ -69,7 +69,7 @@ const ProductCardHorizontal = ({product, inView = 'cartScreen', index = 1}: Prop
               <Text style={styles.savings}>
                 {translate('you_save').replace(
                   '%n',
-                  (differenceAmount * (isAddedToCart?.quantity ?? 1)).toFixed(2).toString(),
+                  (differenceAmount * (isAddedToCart?.quantity || 1)).toFixed(2).toString(),
                 )}
               </Text>
             </View>

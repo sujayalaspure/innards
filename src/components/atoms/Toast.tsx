@@ -59,7 +59,7 @@ const Toast = forwardRef<ToastRefProps, ToastProps>(({config}, ref) => {
   const show = (msg: string, config?: Partial<ToastConfig>) => {
     console.log('sjow');
     toastConfig = {...toastConfig, ...config};
-    setMessage(prev => ({text1: msg, text2: toastConfig.subHeading ?? prev.text2}));
+    setMessage(prev => ({text1: msg, text2: toastConfig.subHeading || prev.text2}));
     if (toastConfig.type) {
       setToastType(toastConfig.type);
     }

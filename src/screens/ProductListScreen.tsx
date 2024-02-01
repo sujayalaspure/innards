@@ -16,6 +16,7 @@ import {navigateToScreen} from '@app/navigation';
 import {Product} from '@app/types/product';
 import useBottomBar from '@app/hooks/useBottomBar';
 import useHeader from '@app/hooks/useHeader';
+import ProductCard from '@app/components/productCard';
 
 type Props = {title: string; category: string};
 type ParamList = {Params: Props};
@@ -47,7 +48,17 @@ const ProductListScreen = () => {
 
   const renderItems = ({item, index}: {item: Product; index: number}) => {
     return activeView === 'vertical' ? (
-      <ProductCardVerticle key={index} product={item} index={index} />
+      <ProductCard product={item} index={index}>
+        <ProductCard.Image />
+        <ProductCard.Content>
+          <ProductCard.Title />
+          <ProductCard.Rating />
+          <ProductCard.Actions>
+            <ProductCard.Price />
+            <ProductCard.AddButton />
+          </ProductCard.Actions>
+        </ProductCard.Content>
+      </ProductCard>
     ) : (
       <ProductCardHorizontal inView="listScreen" key={index} product={item} index={index} />
     );

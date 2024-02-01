@@ -49,7 +49,7 @@ const CheckoutScreen = () => {
       id: '2',
       title: translate('payment'),
       icon: 'credit-card',
-      component: <PaymentView onUpdatePayment={value => setPayment(value.paymentMethod ?? 'card')} />,
+      component: <PaymentView onUpdatePayment={value => setPayment(value.paymentMethod || 'card')} />,
     },
     {
       id: '3',

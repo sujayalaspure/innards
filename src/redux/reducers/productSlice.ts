@@ -59,7 +59,7 @@ export const productSlice = createSlice({
     },
     addProductToCart: (state, action: PayloadAction<Omit<CartItem, 'finalPrice'>>) => {
       const item = action.payload;
-      state.cart ??= [];
+      state.cart = state?.cart || [];
       const num = parseFloat(item?.price?.toString().replace(/,/g, ''));
       const discountedPrice = num - (num * parseFloat(item?.discountPercentage?.toString() || '0')) / 100;
 

@@ -115,7 +115,7 @@ const HomeScreen = () => {
             <View style={styles.topBarButton} key={item.id}>
               <CircularButton
                 onPress={
-                  item?.onPress ??
+                  item?.onPress ||
                   (() => {
                     setShowAd(!showAd);
                   })
@@ -140,7 +140,7 @@ const HomeScreen = () => {
               navigateToScreen('ProductListScreen', {title: translate('tranding_today')});
             }}>
             {products?.slice(0, 5)?.map((item, i) => (
-              <ProductCardVerticle key={i} product={item} />
+              <ProductCardVerticle key={i} product={item} index={i} />
             ))}
           </Section>
           <Section

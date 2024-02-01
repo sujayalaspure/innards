@@ -183,7 +183,7 @@ const ProductDetailsScreen = () => {
           }
           onSecondaryPress={() => {
             dispatch(addProductToCart({...params, quantity: 1}));
-            showToast(((isAddedToCart?.quantity ?? 0) + 1).toString() + ' ' + translate('product_added_toast'));
+            showToast(((isAddedToCart?.quantity || 0) + 1).toString() + ' ' + translate('product_added_toast'));
           }}
         />
       </BottomSheet>

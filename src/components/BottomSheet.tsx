@@ -58,8 +58,8 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
     const isSheetVisible = useSharedValue(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    maxTopPosition = -1 * (snapPoints?.top ?? screenHeight + 50);
-    maxBottomPosition = -1 * (snapPoints.bottom ?? 1);
+    maxTopPosition = -1 * (snapPoints?.top || screenHeight + 50);
+    maxBottomPosition = -1 * (snapPoints.bottom || 1);
     sheetHeight = sheetHeight * -1;
 
     const scrollTo = useCallback((y: number) => {
@@ -101,8 +101,8 @@ const BottomSheet = forwardRef<BottomSheetRef, BottomSheetProps>(
       .onUpdate(({translationY}: GestureUpdateEvent<PanGestureHandlerEventPayload>) => {
         const Yvalue = translationY + context.value.y;
         if (
-          Math.abs(Yvalue) > (snapPoints.bottom ?? maxBottomPosition) &&
-          Math.abs(Yvalue) <= (snapPoints.top ?? maxTopPosition)
+          Math.abs(Yvalue) > (snapPoints.bottom || maxBottomPosition) &&
+          Math.abs(Yvalue) <= (snapPoints.top || maxTopPosition)
         ) {
           translateY.value = translationY + context.value.y;
           translateY.value = Math.max(maxTopPosition, translateY.value);
