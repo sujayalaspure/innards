@@ -24,6 +24,10 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
+if (__DEV__) {
+  import('./utils/ReactotronConfig').then(() => console.log('Reactotron Configured'));
+}
+
 function App(): JSX.Element {
   const isDark = useColorScheme() === 'dark';
 
